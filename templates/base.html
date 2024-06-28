@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+
+    <!-- favicon-->
+    <link rel="shortcut icon" href="{% static 'img/logocootep.png' %}">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="{% static 'lib/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
+
+    <!-- jQuery (necesario para algunos componentes de Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+
+    <!-- Bootstrap 5 JS y dependencias -->
+    <script src="{% static 'lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body>
+    <div class="container">
+
+         {% block breadcrumb %}
+         {% endblock %}
+ 
+         <div class="">
+             <br>
+             {% block content %}
+             
+             {% endblock %}
+             
+         </div>
+     </div> 
+    
+</body>
+</html>
