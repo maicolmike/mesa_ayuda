@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mesa_ayuda.urls'
+AUTH_USER_MODEL = 'users.User' #con esto ya no utilizamos el user del sistema sino el nuestro
 
 TEMPLATES = [
     {
