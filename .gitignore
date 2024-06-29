@@ -21,8 +21,8 @@ __pycache__/
 */migrations/*
 
 # Ignorar archivos estáticos generados
-staticfiles/
-static/
+#staticfiles/
+#static/
 
 # Ignorar archivos de medios subidos
 media/

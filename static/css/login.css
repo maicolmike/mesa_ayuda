@@ -1,0 +1,48 @@
+asasddshtml,
+body {
+  height: 100%;
+}
+
+body {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #fdf9f9;
+}
+
+label {
+  font-size: 24px; /* Tamaño de la letra */
+  /*font-weight: bold; /* Negrita */
+}
+/* formulario se le puso la clase form-signin*/
+.form-signin {
+  width: 100%;
+  max-width: 530px;
+  padding: 45px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  width: 330px;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 20px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
