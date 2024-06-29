@@ -29,3 +29,10 @@ def login_view(request):
         'title': "Login",
         'form': form
     })
+
+@login_required(login_url='login') 
+def logout_view(request):
+    logout(request)
+    messages.error(request,'Sesion cerrada')
+    #messages.success(request,'Sesion cerrada')
+    return redirect('login')

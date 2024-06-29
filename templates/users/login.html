@@ -2,13 +2,16 @@
 {% load static %}
 
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/login-.css' %}">
+
 <div class="container mt-3">
   <form class="form-signin" action="" method="post">
     {% csrf_token %}  <!--para que no genere error-->
     <img class="mb-4" src="{% static 'img/logoCootep.png' %}" alt="" width="300">
     <h1 class="h3 mb-3 font-weight-normal">Login mesa de ayuda</h1>
     {% for field in form %}
-        <div class="form-group">
+        <div class="mb-3 mt-3">
     
           {{ field.label_tag }}
           {{ field }}
@@ -35,6 +38,6 @@
             </div>
         </footer>  
   </form>
-
+  <script src="{% static 'js/anio.js' %}"></script>
 </div>
 {% endblock %}
