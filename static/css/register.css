@@ -1,0 +1,12 @@
+
+.form-create input[type="text"], input[type="password"], input[type="email"], input[type="checkbox"]{
+    margin-bottom: 20px;  /*espacio entre el input y el boton consultar */
+    font-size: 16px;      /* para el tamaño de la letra del input*/
+    max-width: 330px;     /* tamaño del input a lo largo*/
+  }
+
+  .form-create select{
+    margin-bottom: 20px;  /*espacio entre el input y el boton consultar */
+    font-size: 16px;      /* para el tamaño de la letra del input*/
+    max-width: 330px;     /* tamaño del input a lo largo*/
+  }  

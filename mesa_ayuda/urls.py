@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from django.urls import include
-from users.views import login_view,logout_view
+from users.views import login_view,logout_view,register
 
 
 urlpatterns = [
@@ -12,5 +12,6 @@ urlpatterns = [
     #path('users/login',views.login_view, name='login'),
     path('users/login', login_view, name='login'),
     path('users/logout', logout_view, name='logout'),
+    path('users/registro',register, name='register'),
     
 ]
