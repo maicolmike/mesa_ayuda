@@ -1,0 +1,50 @@
+<!-- Funcione la carpeta static -->
+{% load static %}
+<!-- poder activar los li -->
+{% url 'login' as login %}
+{% url 'register' as register %}
+
+
+{% if user.is_authenticated %}
+<a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'img/logoCootep.png' %}" width="250" height="" alt="COOTEP LTDA" title="COOTEP LTDA"></a>
+
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:rgb(4,105,4);"> 
+  <a class="navbar-brand" href="{% url 'index' %}">Inicio</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="">Crear requerimiento</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="">Consultar requerimiento</a>
+      </li>
+      
+     {% if user.is_superuser == 1 %}
+      <li class="nav-item">
+        <a class="nav-link" href="">Crear usuario</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="">Listar usuarios</a>
+      </li>
+    {% endif %}
+    </ul>
+    <!-- Tomar usuario actual-->
+    <span>  <!-- <span class="navbar-light">-->
+     <!-- <strong>{{ user.username }} </strong> ( {{ user.is_superuser }} ) -->
+     {% if user.is_superuser == 1 %}  
+     <h5 style="color:white">{{ user.username }} ( Administrador )</h5>
+     {% else %}
+     <h5 style="color:white">{{ user.username }} ( Cliente )</h5>
+     {% endif %}
+    </span>
+    <span class="navbar-nav">
+      <strong ><a class="nav-link" href="">Cambiar clave</a></strong>
+      <strong ><a class="nav-link" href="{% url 'logout' %}">Cerrar sesion</a></strong>
+    </span>
+  </div>
+</nav>
+
+{% endif %}
