@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+{% if user.is_superuser == 1 %} <!-- valido que el usuario que ingresa a esta ruta sea un administrador tipo= 1-->
+
+
+<h3>{{ message }}</h3>
+
+<div class="container">  <!-- div inicial-->
+  <div class="card shadow table-responsive">
+      <div class="card-body table-responsive">
+          <!-- Tabla -->
+          <table class="table table-bordered table-hover"> <!-- table-striped-->
+            <!-- columnas de la tabla table-light thead-light table-secondary-->
+              <thead class="table-secondary">
+                  <tr>
+                      <th scope="col">Id</th>
+                      <th scope="col">Identificacion</th>
+                      <th scope="col">Nombres</th>
+                      <th scope="col">usuario</th>
+                      <th scope="col">Agencia</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Tipo de usuario</th>
+                      <th scope="col">Editar</th>
+                      <th scope="col">Clave</th>
+                      <th scope="col">Borrar</th>
+                  </tr>
+              </thead>
+          <!-- columnas de la tabla-->
+          <tbody>
+            <!-- inicio for -->
+              {% for usuarios in user_list %}
+                  <tr>
+                      <td>{{ usuarios.id }}</td> <!-- id-->
+                      <td>{{ usuarios.identificacion }}</td> <!--identificacion-->
+                      <td>{{ usuarios.nombres }}</td> <!--nombres-->
+                      <td>{{ usuarios.username }}</td> <!--username-->
+                      <td>{{ usuarios.agencia }}</td> <!--agencia-->
+                      <td>{{ usuarios.email }}</td> <!-- email-->
+                      <!-- valido si el tipo de usuario es 1 me muestre administrador sino cliente-->
+                      {% if usuarios.is_superuser == 1 %}
+                      <td>Administrador</td>
+                      {% else %}
+                      <td>Cliente</td>
+                      {% endif %}
+                      <td><a href="" class="btn btn-info fa-solid fa-pen-to-square" id="btn-edit{{ usuarios.id }}" data-toggle="modal" data-target="#modal{{ usuarios.id }}"></a></td>
+                      <td><a href="" class="btn btn-success fa-solid fa-calendar-check" id="btn-cambiar{{ usuarios.id }}" data-toggle="modal" data-target="#modal2{{ usuarios.id }}"></a></td>
+                      <td><a href="" class="btn btn-danger fa-solid fa-trash-can" id="btn-eliminar{{ usuarios.id }}" data-toggle="modal" data-target="#modal3{{ usuarios.id }}"></a></td>
+                     
+                  </tr>
+
+                  
+
+              {% endfor %}
+              <!-- Final for -->
+          </tbody>
+
+      </table>
+
+     
+
+<!-- final Tabla -->
+      </div>
+  </div>
+</div>  <!-- div final-->
+
+{% else %}  <!-- aqui pongo el final del condicional para saber si el que accede es un administrador-->
+
+{% include 'accesoRestringido.html' %}    <!--  Dentro de este archivo configuro las paginas -->
+
+{% endif %}  <!-- aqui pongo el final del condicional para saber si el que accede es un administrador-->
+
+{% endblock %}

@@ -3,6 +3,9 @@ from .forms import LoginUser, RegistroUsuario
 from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required # vista basada en funciones que no permita acceder a paginas donde no se ha logeado
+from .models import User
+from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin # vista basada en clases que no permita acceder a paginas donde no se ha logeado
 
 # Create your views here.
 #Inicio de sesion login
@@ -59,3 +62,31 @@ def register(request):
         'form': form,
         'title': "Registro",
         })
+
+#Listar usuarios
+@login_required(login_url='login')
+def usersList(request):
+    #return HttpResponse('Hola mundo')
+    lista_usuarios = User.objects.all()
+    return render(request, 'users/listUsers.html',{ 
+        'title': "Listado Usuarios",
+        'lista_usuarios': lista_usuarios,
+    })
+
+# esta Clase sirve para listar los usuarios que se obtienen de la vista listar usuarios
+# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py  
+class UsersListView(LoginRequiredMixin,ListView):
+    login_url = 'login'
+    template_name = 'users/listUsers2.html'
+    queryset = User.objects.all().order_by('id')
+    #print(queryset)
+    paginate_by = 7
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['message'] = 'Listado de Usuarios'
+        context['title'] = 'Listado de Usuarios'
+        #print(context) # para saber que variable debe tener en este caso son object_list o user_list
+        #context['usersList']=context['user_list']
+        
+        return context

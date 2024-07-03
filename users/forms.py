@@ -79,15 +79,30 @@ class RegistroUsuario(forms.Form):
         
         if cleaned_data.get('password2') != cleaned_data.get('password'):
             self.add_error('password2', 'Las contraseñas no coinciden')  '''
-    
+    #identificacion no se repita y no genere error
+    def clean_identificacion(self):
+        identificacion = self.cleaned_data.get('identificacion')
+        
+        if User.objects.filter(identificacion=identificacion).exists() :
+            raise forms.ValidationError("El numero de identificacion ya se encuentra creado")
+        
+        return identificacion
     #Guardar  
     def save(self):
-        return User.objects.create_user(
-        self.cleaned_data.get('identificacion'),
-        self.cleaned_data.get('nombres'),
-        self.cleaned_data.get('username'),
-        self.cleaned_data.get('password'),
-        #self.cleaned_data.get('agencia'),
-        self.cleaned_data.get('email'),
+        username = self.cleaned_data['username']
+        password = self.cleaned_data['password']
+        email = self.cleaned_data['email']
+        identificacion = self.cleaned_data['identificacion']
+        nombres = self.cleaned_data['nombres']
+        agencia = self.cleaned_data['agencia']
         
-        )
+        user = User.objects.create_user(username=username, email=email, password=password,
+                                        identificacion=identificacion, nombres=nombres, agencia=agencia)
+        
+        # Si deseas asignar el campo `is_admin` dependiendo de la opción seleccionada en el formulario, hazlo aquí
+        #is_admin_value = self.cleaned_data['is_admin']
+        #user.is_admin = is_admin_value
+        
+        #user.save()
+        
+        return user

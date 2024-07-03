@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from django.urls import include
-from users.views import login_view,logout_view,register
+from users.views import login_view,logout_view,register,usersList,UsersListView
 
 
 urlpatterns = [
@@ -13,5 +13,7 @@ urlpatterns = [
     path('users/login', login_view, name='login'),
     path('users/logout', logout_view, name='logout'),
     path('users/registro',register, name='register'),
+    path('users/listadoUsuarios',usersList, name='usersList'),
+    path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'),
     
 ]

@@ -18,18 +18,20 @@
     <!-- Bootstrap 5 JS y dependencias -->
     <script src="{% static 'lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
 
-    <!-- Codigo para libreria adminLte-->
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.2.0/dist/css/adminlte.min.css' %}">
-    <script src="{% static 'lib/adminlte-3.2.0/dist/js/adminlte.min.js' %}"></script>
+    <!-- fontawesome library -->
+    <script src="https://kit.fontawesome.com/8c8b2bc594.js" crossorigin="anonymous"></script>
 
-    <!-- Codigo para libreria adminLte tome los datatables-->
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.2.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.2.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.2.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+    <!-- Data tables -->
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
+  
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 
 </head>
 <body>
-    {% include 'navbar.html' %}
+    {% include 'navbar2.html' %}
+    <br>
+    <br>
     <div class="container">
 
          {% block breadcrumb %}
@@ -45,23 +47,7 @@
 
      {% block javascript %}
     <!-- Codigo para libreria adminLte-->
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/jszip/jszip.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/pdfmake/pdfmake.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/pdfmake/vfs_fonts.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
-    <script src="{% static 'lib/adminlte-3.2.0/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
-
-    <script src="{% static 'lib/adminlte-3.2.0/dist/js/adminlte.min.js?v=3.2.0' %}"></script>
+    
 
 {% endblock %}
     
