@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from django.urls import include
-from users.views import login_view,logout_view,register,usersList,UsersListView
+from users.views import login_view,logout_view,register,usersList,UsersListView,CambiarClave,UserUdpateView,UserUdpateClave,UserDelete
 
 
 urlpatterns = [
@@ -14,6 +14,10 @@ urlpatterns = [
     path('users/logout', logout_view, name='logout'),
     path('users/registro',register, name='register'),
     path('users/listadoUsuarios',usersList, name='usersList'),
-    path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'),
+    path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'), # ESTE NO LO ESTOY UTILIZANDO
+    path('users/cambiarClave', CambiarClave, name='CambiarClave'),
+    path('users/editar', UserUdpateView, name='updateusuarios'),
+    path('users/editarClave', UserUdpateClave, name='updateusuariosClave'),
+    path('users/eliminarUsuarios', UserDelete, name='deleteusuarios'),
     
 ]

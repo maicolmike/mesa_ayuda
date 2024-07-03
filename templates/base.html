@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="{% static 'lib/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}">
 
     <!-- jQuery (necesario para algunos componentes de Bootstrap) -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>-->  <!-- Aquí se incluye jQuery cdn -->
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script> <!-- Aquí se incluye jQuery localmente -->
 
     <!-- Bootstrap 5 JS y dependencias -->
     <script src="{% static 'lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
@@ -21,11 +22,10 @@
     <!-- fontawesome library -->
     <script src="https://kit.fontawesome.com/8c8b2bc594.js" crossorigin="anonymous"></script>
 
-    <!-- Data tables -->
-
+    <!-- Datatables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
-  
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+
 
 </head>
 <body>
