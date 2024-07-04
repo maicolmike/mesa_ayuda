@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .forms import LoginUser, RegistroUsuario,CambiarClaveForm
 from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
@@ -7,6 +7,7 @@ from .models import User
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin # vista basada en clases que no permita acceder a paginas donde no se ha logeado
 from django.contrib.auth import update_session_auth_hash
+from django.http import JsonResponse
 import time # módulo time de Python, es parte de la biblioteca estándar de Python, y contiene la útil función sleep() que suspende o detiene un programa durante un número de determinado de segundos
 
 # Create your views here.
@@ -76,7 +77,8 @@ def usersList(request):
     })
 
 # esta Clase sirve para listar los usuarios que se obtienen de la vista listar usuarios
-# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py  
+# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py
+# no la estoy utilizando, no esta anexada a ninguna url todavia 
 class UsersListView(LoginRequiredMixin,ListView):
     login_url = 'login'
     template_name = 'users/listUsers2.html'
@@ -131,32 +133,78 @@ def CambiarClave(request):
 
 # esta funcion sirve para editar los usuarios que se obtienen de la vista listar usuarios
 # esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py      
-@login_required(login_url='login')    
+@login_required(login_url='login')
 def UserUdpateView(request):
+    AGENCIA_CHOICES = [
+        ('MOCOA', 'Mocoa'),
+        ('PUERTO ASIS', 'Puerto Asis'),
+        ('DORADA', 'Dorada'),
+        ('HORMIGA', 'Hormiga'),
+        ('ORITO', 'Orito'),
+        ('VILLA GARZON', 'Villa Garzon'),
+        ('PUERTO LEGUIZAMO', 'Puerto Leguizamo'),
+        ('SIBUNDOY', 'Sibundoy'),
+    ]
     
     if request.method == 'POST':
-        user_id =request.POST.get('id')
-        nombre = request.POST.get('username')
+        user_id = request.POST.get('id')
+        identificacion = request.POST.get('identificacion')
+        nombres = request.POST.get('nombres')
+        username = request.POST.get('username')
+        #agencia = request.POST.get('agencia')
         email = request.POST.get('userEmail')
         tipousuario = request.POST.get('tipousuario')
         
-    # Busca el usuario en la base de datos por su ID
+        # Busca el usuario en la base de datos por su ID
         try:
             user = User.objects.get(id=user_id)
 
+            # Verificar si el nuevo nombre de usuario ya existe y no es el del propio usuario
+            if User.objects.filter(username=username).exclude(id=user_id).exists():
+                messages.error(request, "Error el nombre de usuario ya existe.")
+                return redirect('usersList')
+            
+            # Verificar si identificacion ya existe y no es el del propio usuario
+            if User.objects.filter(identificacion=identificacion).exclude(id=user_id).exists():
+                messages.error(request, "Error identificacion ya existe.")
+                return redirect('usersList')
+            
             # Actualiza los campos con los nuevos valores
+            user.identificacion = identificacion
+            user.nombres = nombres
+            user.username = username
             user.email = email
             user.is_superuser = tipousuario
 
             # Guarda los cambios en la base de datos
             user.save()
+            messages.success(request, "Usuario actualizado exitosamente.")
 
-        except user.DoesNotExist:
-            resultado = "El usuario no existe."
+        except User.DoesNotExist:
+            messages.error(request, "El usuario no existe.")
 
-        time.sleep(1.5) #funcion para que se demore en redireccionar
+        #time.sleep(1.5)  # función para que se demore en redireccionar
         return redirect('usersList')
-
+    
+@login_required(login_url='login')
+def UserUdpateView2(request):
+    form = RegistroUsuario(request.POST or None)
+    
+    if request.method == 'POST' and form.is_valid():
+        user = form.save() #save () se encuentra en el archivo forms.py
+        if user:
+            if form.cleaned_data['is_admin'] == '1': #El campo en el formulario html es 1
+                #otorgar permisos de administrador
+                user.is_staff = True
+                user.is_superuser = True
+            user.save()
+            messages.success(request, 'usuario creado')
+            return redirect('register')
+    
+    return render(request, 'users/register.html', {
+        'form': form,
+        'title': "Registro",
+        })
 # esta funcion sirve para actualizar la clave los usuarios que se obtienen de la vista listar usuarios
 # esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py  
 @login_required(login_url='login')    

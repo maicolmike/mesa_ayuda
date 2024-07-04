@@ -1,18 +1,65 @@
-<!-- Modal Editar -->
-<div class="modal fade" id="modalEditar{{ usuario.id }}" tabindex="-1" aria-labelledby="modalEditarLabel{{ usuario.id }}" aria-hidden="true">
-  <div class="modal-dialog">
+<!-- Inicio Modal Editar -->
+<div class="modal fade" id="modalEditar{{ usuarios.id }}" tabindex="-1" aria-labelledby="modalEditarLabel{{ usuario.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
+      <!-- Inicio Modal Header -->
       <div class="modal-header">
-        <h5 class="modal-title" id="modalEditarLabel{{ usuario.id }}">Editar Usuario</h5>
+        <h5 class="modal-title" id="modalEditarLabel{{ usuario.id }}">Editar Usuarios</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <!-- Final Modal Header -->
+      <!-- Inicio Modal body -->
       <div class="modal-body">
         <!-- Formulario de edición -->
+        <form action="{% url 'updateusuarios' %}" method="post">
+          {% csrf_token %}
+          <div id="miDiv" class="form-inline col-sm-12 mt-3" style="display: none;">
+            <label class="control-label col-sm-4" for="id"><h5>id</h5></label>
+            <input readonly minlength="4" type="text" class="form-control col-sm-7" name="id" value="{{ usuarios.id }}">
+          </div>
+          <div class="form-inline col-sm-12 mt-3">
+            <label class="control-label col-sm-4" for="UserIdentifacacion"><h5>Identificacion</h5></label>
+            <input minlength="4" type="text" class="form-control col-sm-7" id="identificacion" name="identificacion" value="{{ usuarios.identificacion }}">
+            <div class="invalid-feedback" id="usernameError"></div>
+          </div>
+          <div class="form-inline col-sm-12 mt-3">
+            <label class="control-label col-sm-4" for="UserNombres"><h5>Nombres</h5></label>
+            <input minlength="4" type="text" class="form-control col-sm-7" id="nombres" name="nombres" value="{{ usuarios.nombres }}">
+            <div class="invalid-feedback" id="usernameError"></div>
+          </div>
+          <div class="form-inline col-sm-12 mt-3">
+            <label class="control-label col-sm-4" for="UserName"><h5>Usuario</h5></label>
+            <input minlength="4" type="text" class="form-control col-sm-7" id="username" name="username" value="{{ usuarios.username }}">
+            <div class="invalid-feedback" id="usernameError"></div>
+          </div>
+          <div class="form-inline col-sm-12 mt-3">
+            <label class="control-label col-sm-4" for="UserEmail"><h5>Email</h5></label>
+            <input id="idemail" minlength="6" type="email" class="form-control col-sm-7" name="userEmail" value="{{ usuarios.email }}" required>
+          </div>
+          <div class="form-inline col-sm-12 mt-3">
+            <label class="control-label col-sm-4" for="tipoUsuario"><h5>Tipo usuario</h5></label>
+            
+            <select name="tipousuario" id="tipoUsuario" value="{{ usuarios.is_superuser }}" class="form-control col-sm-7">
+              {% if usuarios.is_superuser == 1 %}
+              <option value="1"selected>Administrador</option>
+              <option value="0">Cliente</option>
+              {% else %}
+              <option value="1">Administrador</option>
+              <option value="0"selected>Cliente</option>
+              {% endif %}
+            </select>
+          </div>
       </div>
+      <!-- Final Modal body -->
+      <!-- Inicio Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar cambios</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
       </div>
+      <!-- Final Modal footer -->
+    </form>
+    <!-- Final Formulario de edición -->
     </div>
   </div>
 </div>
+<!-- Final modal editar-->
