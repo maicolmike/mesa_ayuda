@@ -134,57 +134,46 @@ def CambiarClave(request):
 # esta funcion sirve para editar los usuarios que se obtienen de la vista listar usuarios
 # esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py      
 @login_required(login_url='login')
-def UserUdpateView(request):
-    AGENCIA_CHOICES = [
-        ('MOCOA', 'Mocoa'),
-        ('PUERTO ASIS', 'Puerto Asis'),
-        ('DORADA', 'Dorada'),
-        ('HORMIGA', 'Hormiga'),
-        ('ORITO', 'Orito'),
-        ('VILLA GARZON', 'Villa Garzon'),
-        ('PUERTO LEGUIZAMO', 'Puerto Leguizamo'),
-        ('SIBUNDOY', 'Sibundoy'),
-    ]
-    
+def UserUpdateView(request):
+    """
+    Vista para actualizar la información de un usuario existente.
+    """
     if request.method == 'POST':
+        # Obtiene los datos del formulario
         user_id = request.POST.get('id')
         identificacion = request.POST.get('identificacion')
         nombres = request.POST.get('nombres')
         username = request.POST.get('username')
-        #agencia = request.POST.get('agencia')
         email = request.POST.get('userEmail')
         tipousuario = request.POST.get('tipousuario')
         
         # Busca el usuario en la base de datos por su ID
-        try:
-            user = User.objects.get(id=user_id)
+        user = get_object_or_404(User, id=user_id)
 
-            # Verificar si el nuevo nombre de usuario ya existe y no es el del propio usuario
-            if User.objects.filter(username=username).exclude(id=user_id).exists():
-                messages.error(request, "Error el nombre de usuario ya existe.")
-                return redirect('usersList')
-            
-            # Verificar si identificacion ya existe y no es el del propio usuario
-            if User.objects.filter(identificacion=identificacion).exclude(id=user_id).exists():
-                messages.error(request, "Error identificacion ya existe.")
-                return redirect('usersList')
-            
-            # Actualiza los campos con los nuevos valores
-            user.identificacion = identificacion
-            user.nombres = nombres
-            user.username = username
-            user.email = email
-            user.is_superuser = tipousuario
+        # Verificar si el nuevo nombre de usuario ya existe y no es el del propio usuario
+        if User.objects.filter(username=username).exclude(id=user_id).exists():
+            messages.error(request, "Error: el nombre de usuario ya existe.")
+            return redirect('usersList')
+        
+        # Verificar si la identificación ya existe y no es la del propio usuario
+        if User.objects.filter(identificacion=identificacion).exclude(id=user_id).exists():
+            messages.error(request, "Error: la identificación ya existe.")
+            return redirect('usersList')
+        
+        # Actualiza los campos con los nuevos valores
+        user.identificacion = identificacion
+        user.nombres = nombres
+        user.username = username
+        user.email = email
+        user.is_superuser = tipousuario
 
-            # Guarda los cambios en la base de datos
-            user.save()
-            messages.success(request, "Usuario actualizado exitosamente.")
-
-        except User.DoesNotExist:
-            messages.error(request, "El usuario no existe.")
-
-        #time.sleep(1.5)  # función para que se demore en redireccionar
+        # Guarda los cambios en la base de datos
+        user.save()
+        messages.success(request, "Usuario actualizado exitosamente.")
         return redirect('usersList')
+
+    return redirect('usersList')
+
 # esta funcion sirve para actualizar la clave los usuarios que se obtienen de la vista listar usuarios
 # esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py  
 @login_required(login_url='login')    
