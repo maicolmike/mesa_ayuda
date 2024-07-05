@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from django.urls import include
-from users.views import login_view,logout_view,register,usersList,UsersListView,CambiarClave,UserUdpateView,UserUdpateClave,UserDelete
+from users.views import login_view,logout_view,register,usersList,UsersListView,CambiarClave,UserUdpateView,UserUdpateClave,UserDelete,crear_usuario
 
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     path('users/login', login_view, name='login'),
     path('users/logout', logout_view, name='logout'),
     path('users/registro',register, name='register'),
+    path('users/registro2',crear_usuario, name='crear_usuario'),
     path('users/listadoUsuarios',usersList, name='usersList'),
     path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'), # ESTE NO LO ESTOY UTILIZANDO
     path('users/cambiarClave', CambiarClave, name='CambiarClave'),

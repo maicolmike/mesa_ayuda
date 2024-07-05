@@ -122,3 +122,49 @@ class CambiarClaveForm(forms.Form):
                                widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                              'id': 'passwordNewConfirm',
                                                              'placeholder': 'Confirmar contraseña'}))
+    
+
+
+class RegistroUsuario1(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'identificacion', 'nombres', 'username', 'password', 'agencia', 'email', 'is_superuser'
+        ]
+        labels = {
+            'identificacion': 'Identificación',
+            'nombres': 'Nombres',
+            'username': 'Nombre de usuario',
+            'password': 'Contraseña',
+            'agencia': 'Agencia',
+            'email': 'Correo electrónico',
+            'is_superuser': 'Tipo de usuario'
+        }
+        widgets = {
+            'identificacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Identificación'}),
+            'nombres': forms.TextInput(attrs={'class': 'form-control mb-2 mr-sm-2', 'placeholder': 'Nombres'}),
+            'username': forms.TextInput(attrs={'class': 'form-control mb-2 mr-sm-2', 'placeholder': 'Nombre de usuario'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control mb-2 mr-sm-2', 'placeholder': 'Contraseña'}),
+            'agencia': forms.Select(attrs={'class': 'form-control'}, choices=[('', 'Seleccionar'), ('MOCOA', 'Mocoa'), ('PUERTO ASIS', 'Puerto Asis'), ('DORADA', 'Dorada'), ('HORMIGA', 'Hormiga'), ('ORITO', 'Orito'), ('VILLA GARZON', 'Villa Garzon'), ('PUERTO LEGUIZAMO', 'Puerto Leguizamo'), ('SIBUNDOY', 'Sibundoy')]),
+            'email': forms.EmailInput(attrs={'class': 'form-control mb-2 mr-sm-2', 'placeholder': 'Correo electrónico'}),
+            'is_superuser': forms.Select(attrs={'class': 'form-control'}, choices=[('', 'Seleccionar'), (1, 'Administrador'), (2, 'Cliente')])
+        }
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("El nombre de usuario ya está en uso.")
+        return username
+
+    def clean_identificacion(self):
+        identificacion = self.cleaned_data.get('identificacion')
+        if User.objects.filter(identificacion=identificacion).exists():
+            raise forms.ValidationError("La identificación ya está en uso.")
+        return identificacion
+
+    def save(self, commit=True):
+        user = super(RegistroUsuario1, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import LoginUser, RegistroUsuario,CambiarClaveForm
+from .forms import LoginUser, RegistroUsuario,CambiarClaveForm,RegistroUsuario1
 from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required # vista basada en funciones que no permita acceder a paginas donde no se ha logeado
@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin # vista basada en clas
 from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 import time # módulo time de Python, es parte de la biblioteca estándar de Python, y contiene la útil función sleep() que suspende o detiene un programa durante un número de determinado de segundos
-
+from django.urls import reverse
 # Create your views here.
 #Inicio de sesion login
 def login_view(request):
@@ -234,3 +234,33 @@ def UserDelete(request):
         # Redirecciona a la lista de usuarios después de eliminar
         time.sleep(1.5) #funcion para que se demore en redireccionar
         return redirect('usersList')
+    
+
+@login_required(login_url='login')
+def crear_usuario(request):
+    form = RegistroUsuario1(request.POST or None)
+
+    if request.method == 'POST':
+        identificacion = request.POST.get('identificacion', None)
+
+        # Verificar si la identificación ya existe en la base de datos
+        if identificacion and User.objects.filter(identificacion=identificacion).exists():
+            # Si la identificación ya existe, mostrar un mensaje de error
+            messages.error(request, 'La identificación ya está registrada.')
+            return render(request, 'users/crear_usuario.html', {'title': "Crear Usuario", 'form': form})
+
+        # Si la identificación no existe, proceder con la validación del formulario
+        if form.is_valid():
+            user = form.save(commit=False)
+            if form.cleaned_data['is_superuser'] == 1:  # 1 representa al administrador
+                user.is_staff = True
+                user.is_superuser = True
+            user.save()
+
+            # Redireccionar a la lista de usuarios o alguna otra página
+            messages.success(request, 'Usuario creado con éxito')
+            return redirect('crear_usuario')
+            #return redirect('usersList')
+    
+    # Si la solicitud no es POST o el formulario no es válido, mostrar el formulario
+    return render(request, 'users/crear_usuario.html', {'title': "Crear Usuario", 'form': form})
