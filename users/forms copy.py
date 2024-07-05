@@ -59,7 +59,7 @@ class RegistroUsuario(forms.Form):
         (2, 'Cliente'),
     ]
     
-    is_superuser = forms.ChoiceField(label='Tipo de usuario',required=True,choices=TIPOS_USUARIO,
+    is_admin = forms.ChoiceField(label='Tipo de usuario',required=True,choices=TIPOS_USUARIO,
         widget=forms.Select(attrs={'class': 'form-control','id': 'tipousuario'})  # Personaliza el widget aquí
     )
         

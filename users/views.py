@@ -53,7 +53,7 @@ def register(request):
     if request.method == 'POST' and form.is_valid():
         user = form.save() #save () se encuentra en el archivo forms.py
         if user:
-            if form.cleaned_data['is_admin'] == '1': #El campo en el formulario html es 1
+            if form.cleaned_data['is_superuser'] == '1': #El campo en el formulario html es 1
                 #otorgar permisos de administrador
                 user.is_staff = True
                 user.is_superuser = True
@@ -185,26 +185,6 @@ def UserUdpateView(request):
 
         #time.sleep(1.5)  # función para que se demore en redireccionar
         return redirect('usersList')
-    
-@login_required(login_url='login')
-def UserUdpateView2(request):
-    form = RegistroUsuario(request.POST or None)
-    
-    if request.method == 'POST' and form.is_valid():
-        user = form.save() #save () se encuentra en el archivo forms.py
-        if user:
-            if form.cleaned_data['is_admin'] == '1': #El campo en el formulario html es 1
-                #otorgar permisos de administrador
-                user.is_staff = True
-                user.is_superuser = True
-            user.save()
-            messages.success(request, 'usuario creado')
-            return redirect('register')
-    
-    return render(request, 'users/register.html', {
-        'form': form,
-        'title': "Registro",
-        })
 # esta funcion sirve para actualizar la clave los usuarios que se obtienen de la vista listar usuarios
 # esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py  
 @login_required(login_url='login')    
