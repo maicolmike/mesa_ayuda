@@ -144,6 +144,7 @@ def UserUpdateView(request):
         identificacion = request.POST.get('identificacion')
         nombres = request.POST.get('nombres')
         username = request.POST.get('username')
+        agencia = request.POST.get('agencia')
         email = request.POST.get('userEmail')
         tipousuario = request.POST.get('tipousuario')
         
@@ -164,6 +165,7 @@ def UserUpdateView(request):
         user.identificacion = identificacion
         user.nombres = nombres
         user.username = username
+        user.agencia = agencia
         user.email = email
         user.is_superuser = tipousuario
 
