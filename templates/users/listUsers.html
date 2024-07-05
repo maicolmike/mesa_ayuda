@@ -38,7 +38,7 @@
                           <td>Cliente</td>
                         {% endif %}
                         <td>
-                          <a href="{% url 'editar_usuario' user_id=usuarios.pk %}" class="btn btn-info fa-solid fa-pen-to-square" id="btn-edit{{ usuarios.id }}"></a>
+                          <a href="#" class="btn btn-info fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#modalEditar{{ usuarios.id }}"></a>
                         </td>
                         <td>
                           <a href="#" class="btn btn-success fa-solid fa-calendar-check" data-bs-toggle="modal" data-bs-target="#modalClave{{ usuarios.id }}"></a>
