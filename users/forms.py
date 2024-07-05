@@ -147,7 +147,7 @@ class RegistroUsuario1(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'class': 'form-control mb-2 mr-sm-2', 'placeholder': 'Contraseña'}),
             'agencia': forms.Select(attrs={'class': 'form-control'}, choices=[('', 'Seleccionar'), ('MOCOA', 'Mocoa'), ('PUERTO ASIS', 'Puerto Asis'), ('DORADA', 'Dorada'), ('HORMIGA', 'Hormiga'), ('ORITO', 'Orito'), ('VILLA GARZON', 'Villa Garzon'), ('PUERTO LEGUIZAMO', 'Puerto Leguizamo'), ('SIBUNDOY', 'Sibundoy')]),
             'email': forms.EmailInput(attrs={'class': 'form-control mb-2 mr-sm-2', 'placeholder': 'Correo electrónico'}),
-            'is_superuser': forms.Select(attrs={'class': 'form-control'}, choices=[('', 'Seleccionar'), (1, 'Administrador'), (2, 'Cliente')])
+            'is_superuser': forms.Select(attrs={'class': 'form-control'}, choices=[('', 'Seleccionar'), ('MOCOA', 'Mocoa'), ('PUERTO ASIS', 'Puerto Asis'), ('DORADA', 'Dorada'), ('HORMIGA', 'Hormiga'), ('ORITO', 'Orito'), ('VILLA GARZON', 'Villa Garzon'), ('PUERTO LEGUIZAMO', 'Puerto Leguizamo'), ('SIBUNDOY', 'Sibundoy')]),
         }
 
     def clean_username(self):

@@ -264,3 +264,30 @@ def crear_usuario(request):
     
     # Si la solicitud no es POST o el formulario no es válido, mostrar el formulario
     return render(request, 'users/crearUsuario.html', {'title': "Crear Usuario", 'form': form})
+
+
+@login_required(login_url='login')
+def editar_usuario(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    form = RegistroUsuario1(request.POST or None, instance=user)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            user = form.save(commit=False)
+            if form.cleaned_data['is_superuser'] == 1:  # 1 representa al administrador
+                user.is_staff = True
+                user.is_superuser = True
+            else:
+                user.is_staff = False
+                user.is_superuser = False
+            user.save()
+
+            # Redireccionar a la lista de usuarios o alguna otra página
+            messages.success(request, 'Usuario editado con éxito')
+            return redirect('usersList')
+    
+    return render(request, 'users/editarUsuario.html', {
+        'title': "Editar Usuario",
+        'form': form,
+        'user': user
+    })
