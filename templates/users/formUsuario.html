@@ -3,17 +3,34 @@
     <form class="form-create" method="post">
         {% csrf_token %}
 
-        {% for field in form %}
+        
             <div class="form-group mb-2 mr-sm-2">
 
-                {{ field.label_tag }}
-                {{ field }}
-            
-                {% if field.errors %}
-                {{ field.errors }}
-                {% endif %}
+                {{ form.identificacion.label_tag }}
+                {{ form.identificacion }}
+
+                {{ form.nombres.label_tag }}
+                {{ form.nombres }}
+
+                {{ form.username.label_tag }}
+                {{ form.username }}
+
+                {% if message == 'Guardar'%}
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {% endif%}
+
+                {{ form.agencia.label_tag }}
+                {{ form.agencia }}
+
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                  
+                {{ form.is_superuser.label_tag }}
+                {{ form.is_superuser }}
+                
 
             </div>
-        {% endfor %}
+       
         <button type="submit" class="btn btn-success" style="background-color:rgb(4,105,4);">{{ message }}</button>
     </form>

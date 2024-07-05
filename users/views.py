@@ -273,14 +273,21 @@ def editar_usuario(request, user_id):
 
     if request.method == 'POST':
         if form.is_valid():
-            user = form.save(commit=False)
-            if form.cleaned_data['is_superuser'] == 1:  # 1 representa al administrador
-                user.is_staff = True
-                user.is_superuser = True
+            user_instance = form.save(commit=False)
+            
+            # Verificar si se proporcionó una nueva contraseña
+            new_password = form.cleaned_data.get('password')
+            if new_password:
+                user_instance.set_password(new_password)
+
+            if form.cleaned_data['is_superuser'] == '1':  # 1 representa al administrador
+                user_instance.is_staff = True
+                user_instance.is_superuser = True
             else:
-                user.is_staff = False
-                user.is_superuser = False
-            user.save()
+                user_instance.is_staff = False
+                user_instance.is_superuser = False
+
+            user_instance.save()
 
             # Redireccionar a la lista de usuarios o alguna otra página
             messages.success(request, 'Usuario editado con éxito')
