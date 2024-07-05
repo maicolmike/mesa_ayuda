@@ -247,7 +247,7 @@ def crear_usuario(request):
         if identificacion and User.objects.filter(identificacion=identificacion).exists():
             # Si la identificación ya existe, mostrar un mensaje de error
             messages.error(request, 'La identificación ya está registrada.')
-            return render(request, 'users/crear_usuario.html', {'title': "Crear Usuario", 'form': form})
+            return render(request, 'users/crearUsuario.html', {'title': "Crear Usuario", 'form': form})
 
         # Si la identificación no existe, proceder con la validación del formulario
         if form.is_valid():
@@ -263,4 +263,4 @@ def crear_usuario(request):
             #return redirect('usersList')
     
     # Si la solicitud no es POST o el formulario no es válido, mostrar el formulario
-    return render(request, 'users/crear_usuario.html', {'title': "Crear Usuario", 'form': form})
+    return render(request, 'users/crearUsuario.html', {'title': "Crear Usuario", 'form': form})

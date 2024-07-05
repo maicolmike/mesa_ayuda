@@ -1,0 +1,19 @@
+{% load static %}
+    <!-- Formulario -->
+    <form class="form-create" method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group mb-2 mr-sm-2">
+
+                {{ field.label_tag }}
+                {{ field }}
+            
+                {% if field.errors %}
+                {{ field.errors }}
+                {% endif %}
+
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success" style="background-color:rgb(4,105,4);">{{ message }}</button>
+    </form>
