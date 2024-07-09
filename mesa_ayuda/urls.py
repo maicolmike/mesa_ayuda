@@ -18,6 +18,7 @@ urlpatterns = [
     path('users/editar', UserUpdateView, name='updateusuarios'),
     path('users/editarClave', UserUdpateClave, name='updateusuariosClave'),
     path('users/eliminarUsuarios', UserDelete, name='deleteusuarios'),
+    path('requerimientos/', include('requerimientos.urls')),
 
     path('users/registro2',crear_usuario, name='crear_usuario'),
     path('users/editar/<int:user_id>/',editar_usuario, name='editar_usuario'),  
