@@ -98,13 +98,7 @@ class RegistroUsuario(forms.Form):
         
         user = User.objects.create_user(username=username, email=email, password=password,
                                         identificacion=identificacion, nombres=nombres, agencia=agencia)
-        
-        # Si deseas asignar el campo `is_admin` dependiendo de la opción seleccionada en el formulario, hazlo aquí
-        #is_admin_value = self.cleaned_data['is_admin']
-        #user.is_admin = is_admin_value
-        
-        #user.save()
-        
+
         return user
 # formulario con clases
 class CambiarClaveForm(forms.Form):
@@ -124,7 +118,7 @@ class CambiarClaveForm(forms.Form):
                                                              'placeholder': 'Confirmar contraseña'}))
     
 
-
+# pruebas con otra forma de hacerlos
 class RegistroUsuario1(forms.ModelForm):
     class Meta:
         model = User

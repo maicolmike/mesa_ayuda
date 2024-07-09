@@ -13,13 +13,13 @@ urlpatterns = [
     path('users/login', login_view, name='login'),
     path('users/logout', logout_view, name='logout'),
     path('users/registro',register, name='register'),
-    path('users/registro2',crear_usuario, name='crear_usuario'),
-    path('users/editar/<int:user_id>/',editar_usuario, name='editar_usuario'),
     path('users/listadoUsuarios',usersList, name='usersList'),
-    path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'), # ESTE NO LO ESTOY UTILIZANDO
     path('users/cambiarClave', CambiarClave, name='CambiarClave'),
     path('users/editar', UserUpdateView, name='updateusuarios'),
     path('users/editarClave', UserUdpateClave, name='updateusuariosClave'),
     path('users/eliminarUsuarios', UserDelete, name='deleteusuarios'),
-    
+
+    path('users/registro2',crear_usuario, name='crear_usuario'),
+    path('users/editar/<int:user_id>/',editar_usuario, name='editar_usuario'),  
+    path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'), # ESTE NO LO ESTOY UTILIZANDO
 ]

@@ -10,7 +10,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 import time # módulo time de Python, es parte de la biblioteca estándar de Python, y contiene la útil función sleep() que suspende o detiene un programa durante un número de determinado de segundos
 from django.urls import reverse
-# Create your views here.
+
+
+
+
+
 #Inicio de sesion login
 def login_view(request):
     if request.method == 'POST':
@@ -36,6 +40,7 @@ def login_view(request):
         'title': "Login",
         'form': form
     })
+
 #Cerrar de sesion login
 @login_required(login_url='login') 
 def logout_view(request):
@@ -76,25 +81,6 @@ def usersList(request):
         'lista_usuarios': lista_usuarios,
     })
 
-# esta Clase sirve para listar los usuarios que se obtienen de la vista listar usuarios
-# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py
-# no la estoy utilizando, no esta anexada a ninguna url todavia 
-class UsersListView(LoginRequiredMixin,ListView):
-    login_url = 'login'
-    template_name = 'users/listUsers2.html'
-    queryset = User.objects.all().order_by('id')
-    #print(queryset)
-    paginate_by = 7
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['message'] = 'Listado de Usuarios'
-        context['title'] = 'Listado de Usuarios'
-        #print(context) # para saber que variable debe tener en este caso son object_list o user_list
-        #context['usersList']=context['user_list']
-        
-        return context
-    
 @login_required(login_url='login')    
 def CambiarClave(request):
     
@@ -116,7 +102,7 @@ def CambiarClave(request):
         
         # Validar que la nueva contraseña y la confirmación coincidan
         if password_nueva != confirmar_password:
-            messages.error(request, 'Las contraseñas no coinciden.')
+            messages.error(request, 'La nueva contraseña y confirmacion de contraseña no coinciden.')
             return render(request, 'users/cambiarClave.html', {'form': form, 'title': 'Cambiar clave'})
 
         # Cambiar la contraseña del usuario
@@ -132,7 +118,7 @@ def CambiarClave(request):
 
 
 # esta funcion sirve para editar los usuarios que se obtienen de la vista listar usuarios
-# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py      
+# esta asociada a los siguiente: template/users/listUsers.html     mesa_ayuda/mesa_ayuda/urls.py path('users/editar', UserUpdateView, name='updateusuarios'),
 @login_required(login_url='login')
 def UserUpdateView(request):
     """
@@ -177,7 +163,7 @@ def UserUpdateView(request):
     return redirect('usersList')
 
 # esta funcion sirve para actualizar la clave los usuarios que se obtienen de la vista listar usuarios
-# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py  
+# esta asociada a los siguiente template/users/listUsers.html  mesa_ayuda/mesa_ayuda/urls.py path('users/editarClave', UserUdpateClave, name='updateusuariosClave'),
 @login_required(login_url='login')    
 def UserUdpateClave(request):
     
@@ -201,12 +187,12 @@ def UserUdpateClave(request):
         except User.DoesNotExist:
             resultado = "El usuario no existe."
             
-        time.sleep(1.5) #funcion para que se demore en redireccionar
+        #time.sleep(1.5) #funcion para que se demore en redireccionar
+        messages.success(request, "Clave actualizada exitosamente.")
         return redirect('usersList')
         
-    
 # esta funcion sirve para eliminar los usuarios que se obtienen de la vista listar usuarios
-# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py  
+# esta asociada a los siguiente template/users-listUsers.html mesa_ayuda/mesa_ayuda/urls.py  path('users/eliminarUsuarios', UserDelete, name='deleteusuarios'),
 @login_required(login_url='login')    
 def UserDelete(request):
     if request.method == 'POST':
@@ -223,10 +209,14 @@ def UserDelete(request):
             resultado = "El usuario no existe."
 
         # Redirecciona a la lista de usuarios después de eliminar
-        time.sleep(1.5) #funcion para que se demore en redireccionar
+        #time.sleep(1.5) #funcion para que se demore en redireccionar
+        messages.success(request, "Usuario eliminado exitosamente.")
         return redirect('usersList')
     
 
+
+
+# pruebas de otra manera de hacerlo
 @login_required(login_url='login')
 def crear_usuario(request):
     form = RegistroUsuario1(request.POST or None)
@@ -289,3 +279,23 @@ def editar_usuario(request, user_id):
         'form': form,
         'user': user
     })
+
+
+# esta Clase sirve para listar los usuarios que se obtienen de la vista listar usuarios
+# esta asociada a los siguiente template-usuarios-list.html peps-peps-urls.py
+# no la estoy utilizando, no esta anexada a ninguna url todavia 
+class UsersListView(LoginRequiredMixin,ListView):
+    login_url = 'login'
+    template_name = 'users/listUsers2.html'
+    queryset = User.objects.all().order_by('id')
+    #print(queryset)
+    paginate_by = 7
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['message'] = 'Listado de Usuarios'
+        context['title'] = 'Listado de Usuarios'
+        #print(context) # para saber que variable debe tener en este caso son object_list o user_list
+        #context['usersList']=context['user_list']
+        
+        return context
