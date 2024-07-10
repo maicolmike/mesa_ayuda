@@ -10,16 +10,16 @@ from .forms import RequerimientoForm, DetalleRequerimientoForm
 @login_required
 def crear_requerimiento(request):
     if request.method == 'POST':
-        form = RequerimientoForm(request.POST, request.FILES)
+        form = RequerimientoForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             requerimiento = form.save(commit=False)
             requerimiento.usuario = request.user
             requerimiento.save()
-
-            return redirect('detalle_requerimiento', id=requerimiento.id)
+            # Send notification email here
+            return redirect('detalle_requerimiento')
     else:
-        form = RequerimientoForm()
-    return render(request, 'requerimientos/crear_requerimiento.html', {'form': form})
+        form = RequerimientoForm(user=request.user)
+    return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento",'form': form})
 
 @login_required
 def detalle_requerimiento(request, id):
@@ -39,4 +39,4 @@ def detalle_requerimiento(request, id):
             return redirect('detalle_requerimiento', id=requerimiento.id)
     else:
         detalle_form = DetalleRequerimientoForm()
-    return render(request, 'requerimientos/detalle_requerimiento.html', {'requerimiento': requerimiento, 'detalles': detalles, 'detalle_form': detalle_form})
+    return render(request, 'requerimientos/detalle_requerimiento.html', {'title': "Detalle requerimiento",'requerimiento': requerimiento, 'detalles': detalles, 'detalle_form': detalle_form})

@@ -1,14 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Crear Requerimiento</title>
-</head>
-<body>
-    <h1>Crear Requerimiento</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Crear</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+    <div class="col">
+        {% include 'messages.html' %}
+        <h2>Crear Requerimiento</h2>
+        <!-- Formulario -->
+        <form class="form-create" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          
+            {# {{ form.as_p }} #}
+            <!-- Mostrar el formulario de una manera más rápida Inicio -->
+            {% for field in form %}
+            <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            
+            {% if field.errors %}
+            <div class="text-danger">{{ field.errors }}</div>
+            {% endif %}
+            </div>
+            {% endfor %}
+            <!-- Mostrar el formulario de una manera más rápida final -->
+          <button type="submit" class="btn btn-success" style="background-color:rgb(4,105,4);">Crear</button>
+        </form>
+      </div>
+
+{% endblock %}
