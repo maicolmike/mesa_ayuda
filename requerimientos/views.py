@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from .models import Requerimiento, DetalleRequerimiento
 from .forms import RequerimientoForm, DetalleRequerimientoForm
+from django.contrib import messages
 
 @login_required
 def crear_requerimiento(request):
@@ -16,7 +17,9 @@ def crear_requerimiento(request):
             requerimiento.usuario = request.user
             requerimiento.save()
             # Send notification email here
-            return redirect('detalle_requerimiento')
+            #return redirect('detalle_requerimiento')
+            messages.success(request, 'Requerimiento creado con éxito')
+            return redirect('crear_requerimiento')
     else:
         form = RequerimientoForm(user=request.user)
     return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento",'form': form})

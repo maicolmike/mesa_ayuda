@@ -8,7 +8,13 @@
     <p>{{ requerimiento.descripcion }}</p>
     <p>{{ requerimiento.clasificacion }} - {{ requerimiento.sub_clasificacion }}</p>
     <p>Estado: {{ requerimiento.estado }}</p>
-    <p>Adjunto: <a href="{{ requerimiento.adjunto.url }}">{{ requerimiento.adjunto.name }}</a></p>
+    <p>Adjunto:
+        {% if requerimiento.adjunto %}
+            <a href="{{ requerimiento.adjunto.url }}" download>{{ requerimiento.adjunto.name }}</a>
+        {% else %}
+            No hay adjunto disponible
+        {% endif %}
+    </p>
     <h2>Comentarios</h2>
     <ul>
         {% for detalle in detalles %}
