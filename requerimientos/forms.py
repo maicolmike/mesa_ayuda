@@ -11,11 +11,11 @@ class RequerimientoForm(forms.ModelForm):
         }
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título', 'id': 'titulo'}),
-            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción', 'id': 'descripcion'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción', 'id': 'descripcion','style': 'resize: none;'}),
             'clasificacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Clasificación', 'id': 'clasificacion'}),
             'sub_clasificacion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Sub Clasificación', 'id': 'sub_clasificacion'}),
             'adjunto': forms.ClearableFileInput(attrs={'class': 'form-control', 'id': 'adjunto'}),
-            'estado': forms.Select(attrs={'id': 'estado', 'class': 'form-control'}, choices=[('', 'Seleccionar'), ('ACTIVO', 'ACTIVO'), ('CERRADO', 'CERRADO')]),
+            'estado': forms.Select(attrs={'id': 'estado', 'class': 'form-control'}, choices=[('ACTIVO', 'ACTIVO'), ('CERRADO', 'CERRADO')]),
         }
 
     def __init__(self, *args, **kwargs):
