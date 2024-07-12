@@ -7,6 +7,8 @@ from django.core.mail import send_mail
 from .models import Requerimiento, DetalleRequerimiento
 from .forms import RequerimientoForm, DetalleRequerimientoForm
 from django.contrib import messages
+import os
+from django.conf import settings
 
 @login_required
 def crear_requerimiento(request):
@@ -28,6 +30,11 @@ def crear_requerimiento(request):
 def detalle_requerimiento(request, id):
     requerimiento = get_object_or_404(Requerimiento, id=id)
     detalles = requerimiento.detalles.all()
+
+    # Imprimir la ruta del archivo adjunto para depuración
+    if requerimiento.adjunto:
+        print("Adjunto URL:", requerimiento.adjunto.url)
+        print("Adjunto Path:", os.path.join(settings.MEDIA_ROOT, requerimiento.adjunto.name))
 
     if request.method == 'POST':
         detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)

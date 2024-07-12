@@ -3,6 +3,8 @@ from django.urls import path
 from . import views
 from django.urls import include
 from users.views import login_view,logout_view,register,usersList,UsersListView,CambiarClave,UserUpdateView,UserUdpateClave,UserDelete,crear_usuario,editar_usuario
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -24,3 +26,6 @@ urlpatterns = [
     path('users/editar/<int:user_id>/',editar_usuario, name='editar_usuario'),  
     path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'), # ESTE NO LO ESTOY UTILIZANDO
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
