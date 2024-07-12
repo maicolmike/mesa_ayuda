@@ -18,7 +18,12 @@
     <h2>Comentarios</h2>
     <ul>
         {% for detalle in detalles %}
-        <li>{{ detalle.usuario.username }}: {{ detalle.comentario }}  {{ detalle.adjunto }} ({{ detalle.fecha }})</li>
+        <li>{{ detalle.usuario.username }}: {{ detalle.comentario }}
+            {% if detalle.adjunto %}
+                <a href="{{ detalle.adjunto.url }}" download>{{ detalle.adjunto.name }}</a>
+            {% endif %}
+            ({{ detalle.fecha }})
+        </li>
         {% endfor %}
     </ul>
     <h3>Agregar Comentario</h3>

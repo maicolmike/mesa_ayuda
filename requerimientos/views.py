@@ -28,6 +28,7 @@ def crear_requerimiento(request):
 def detalle_requerimiento(request, id):
     requerimiento = get_object_or_404(Requerimiento, id=id)
     detalles = requerimiento.detalles.all()
+
     if request.method == 'POST':
         detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)
         if detalle_form.is_valid():
@@ -35,11 +36,13 @@ def detalle_requerimiento(request, id):
             detalle.requerimiento = requerimiento
             detalle.usuario = request.user
             detalle.save()
-
-            # Enviar correo electrónico
-            
-
             return redirect('detalle_requerimiento', id=requerimiento.id)
     else:
         detalle_form = DetalleRequerimientoForm()
-    return render(request, 'requerimientos/detalle_requerimiento.html', {'title': "Detalle requerimiento",'requerimiento': requerimiento, 'detalles': detalles, 'detalle_form': detalle_form})
+
+    return render(request, 'requerimientos/detalle_requerimiento.html', {
+        'title': "Detalle requerimiento",
+        'requerimiento': requerimiento,
+        'detalles': detalles,
+        'detalle_form': detalle_form
+    })
