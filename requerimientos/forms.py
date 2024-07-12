@@ -35,27 +35,11 @@ class RequerimientoForm(forms.ModelForm):
         if user and not user.is_superuser:
             self.fields['estado'].disabled = True
         
-        # Definir opción por defecto para sub_clasificacion
-        self.fields['sub_clasificacion'].choices = [('', 'Seleccionar 1')]
-
-
-    def clean(self):
-        cleaned_data = super().clean()
-        clasificacion = cleaned_data.get('clasificacion')
-        sub_clasificacion = cleaned_data.get('sub_clasificacion')
-
-        # Validar que sub_clasificacion esté seleccionada si clasificacion lo requiere
-        if clasificacion and not sub_clasificacion:
-            self.add_error('sub_clasificacion', 'requerido')
-
-            # Guardar el estado de validación para ser utilizado en el template
-            self.is_subclasificacion_required = True
-        else:
-            self.is_subclasificacion_required = False
-
-        return cleaned_data
-
 class DetalleRequerimientoForm(forms.ModelForm):
     class Meta:
         model = DetalleRequerimiento
         fields = ['comentario', 'adjunto']
+        widgets = {
+            'comentario': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Comentario'}),
+            'adjunto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }

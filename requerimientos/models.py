@@ -9,7 +9,7 @@ class Requerimiento(models.Model):
     titulo = models.CharField(max_length=255)
     descripcion = models.TextField()
     clasificacion = models.CharField(max_length=100)
-    sub_clasificacion = models.CharField(max_length=100,null=True,blank=True)
+    sub_clasificacion = models.CharField(max_length=100, null=True, blank=True)
     adjunto = models.FileField(upload_to='adjuntos/', null=True, blank=True)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     estado = models.CharField(max_length=50)
