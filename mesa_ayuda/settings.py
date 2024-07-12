@@ -20,6 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# ir a consola y darle privilegios a estos archivos chmod -R 755 /home/maicol/Documents/mesa_ayuda/media/adjuntos
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
