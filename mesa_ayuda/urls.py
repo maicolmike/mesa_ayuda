@@ -26,6 +26,6 @@ urlpatterns = [
     path('users/editar/<int:user_id>/',editar_usuario, name='editar_usuario'),  
     path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'), # ESTE NO LO ESTOY UTILIZANDO
 ]
-
+# para que reconozca los archivos media adjuntos
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
