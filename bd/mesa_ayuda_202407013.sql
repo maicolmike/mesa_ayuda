@@ -177,7 +177,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2024-07-02 21:15:13.446758'),(2,'contenttypes','0002_remove_content_type_name','2024-07-02 21:15:13.535955'),(3,'auth','0001_initial','2024-07-02 21:15:13.834395'),(4,'auth','0002_alter_permission_name_max_length','2024-07-02 21:15:13.910331'),(5,'auth','0003_alter_user_email_max_length','2024-07-02 21:15:13.915452'),(6,'auth','0004_alter_user_username_opts','2024-07-02 21:15:13.921529'),(7,'auth','0005_alter_user_last_login_null','2024-07-02 21:15:13.927865'),(8,'auth','0006_require_contenttypes_0002','2024-07-02 21:15:13.931689'),(9,'auth','0007_alter_validators_add_error_messages','2024-07-02 21:15:13.937046'),(10,'auth','0008_alter_user_username_max_length','2024-07-02 21:15:13.944905'),(11,'auth','0009_alter_user_last_name_max_length','2024-07-02 21:15:13.952343'),(12,'auth','0010_alter_group_name_max_length','2024-07-02 21:15:13.969767'),(13,'auth','0011_update_proxy_permissions','2024-07-02 21:15:13.978367'),(14,'auth','0012_alter_user_first_name_max_length','2024-07-02 21:15:13.985997'),(15,'users','0001_initial','2024-07-02 21:15:14.253701'),(16,'admin','0001_initial','2024-07-02 21:15:14.369512'),(17,'admin','0002_logentry_remove_auto_add','2024-07-02 21:15:14.376349'),(18,'admin','0003_logentry_add_action_flag_choices','2024-07-02 21:15:14.383147'),(19,'sessions','0001_initial','2024-07-02 21:15:14.421938'),(20,'requerimientos','0001_initial','2024-07-12 22:15:59.383996');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2024-07-02 21:15:13.446758'),(2,'contenttypes','0002_remove_content_type_name','2024-07-02 21:15:13.535955'),(3,'auth','0001_initial','2024-07-02 21:15:13.834395'),(4,'auth','0002_alter_permission_name_max_length','2024-07-02 21:15:13.910331'),(5,'auth','0003_alter_user_email_max_length','2024-07-02 21:15:13.915452'),(6,'auth','0004_alter_user_username_opts','2024-07-02 21:15:13.921529'),(7,'auth','0005_alter_user_last_login_null','2024-07-02 21:15:13.927865'),(8,'auth','0006_require_contenttypes_0002','2024-07-02 21:15:13.931689'),(9,'auth','0007_alter_validators_add_error_messages','2024-07-02 21:15:13.937046'),(10,'auth','0008_alter_user_username_max_length','2024-07-02 21:15:13.944905'),(11,'auth','0009_alter_user_last_name_max_length','2024-07-02 21:15:13.952343'),(12,'auth','0010_alter_group_name_max_length','2024-07-02 21:15:13.969767'),(13,'auth','0011_update_proxy_permissions','2024-07-02 21:15:13.978367'),(14,'auth','0012_alter_user_first_name_max_length','2024-07-02 21:15:13.985997'),(15,'users','0001_initial','2024-07-02 21:15:14.253701'),(16,'admin','0001_initial','2024-07-02 21:15:14.369512'),(17,'admin','0002_logentry_remove_auto_add','2024-07-02 21:15:14.376349'),(18,'admin','0003_logentry_add_action_flag_choices','2024-07-02 21:15:14.383147'),(19,'sessions','0001_initial','2024-07-02 21:15:14.421938'),(20,'requerimientos','0001_initial','2024-07-13 16:44:20.435910');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +203,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('gdwomwnydwui1oqmhf64k6atd5fw4h3w','.eJxVjEEOwiAQRe_C2pAOTCl16b5nIAMzSNW0SWlXxrsbki50-997_60CHXsJR5UtzKyuCtTld4uUnrI0wA9a7qtO67Jvc9RN0SetelpZXrfT_TsoVEurGT0gEI8yIFKEbvSOsE999CxgkjcYTRqdz8Z2AoyQsxXjiAbO1qrPF-FpN_o:1sSOcE:poqguZYzo5gO5aRq6DlSKQVqEXriw5-Dz4h007IV6mQ','2024-07-26 22:19:46.203508');
+INSERT INTO `django_session` VALUES ('rzunnuzip3gwn15hutamte6ian9qymvy','.eJxVjE0OwiAYRO_C2hBAKMWl-56BfD8oVQNJaVfGu0uTLnQ5897MW0TY1hy3lpY4s7gII06_HQI9U9kBP6Dcq6Ra1mVGuSvyoE1OldPrerh_Bxla7utbYNA4sgpqJCA0mkGlgJpxYDTubBMqHXrSbH03jCLvXHI0WOMti88XD7Q4pg:1sSfsB:68qg1Bxim0gLcEM8YsQnBE9ADwqPrlQKZF2EzilfgmY','2024-07-27 16:45:23.585251'),('s80h4ch2nroiuw0q50fioj125kbyzv6c','.eJxVjEEOwiAQRe_C2pAOTCl16b5nIAMzSNW0SWlXxrsbki50-997_60CHXsJR5UtzKyuCtTld4uUnrI0wA9a7qtO67Jvc9RN0SetelpZXrfT_TsoVEurGT0gEI8yIFKEbvSOsE999CxgkjcYTRqdz8Z2AoyQsxXjiAbO1qrPF-FpN_o:1sSfSc:VBWk7_MVlF1un_4rUf7l9xiNiRTxFOT8WVchQRQ8VkY','2024-07-27 16:18:58.807748');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,7 +251,7 @@ CREATE TABLE `requerimientos_requerimiento` (
   `titulo` varchar(255) NOT NULL,
   `descripcion` longtext NOT NULL,
   `clasificacion` varchar(100) NOT NULL,
-  `sub_clasificacion` varchar(100) DEFAULT NULL,
+  `sub_clasificacion` varchar(100) NOT NULL,
   `adjunto` varchar(100) DEFAULT NULL,
   `estado` varchar(50) NOT NULL,
   `usuario_id` bigint NOT NULL,
@@ -304,7 +304,7 @@ CREATE TABLE `users_user` (
 
 LOCK TABLES `users_user` WRITE;
 /*!40000 ALTER TABLE `users_user` DISABLE KEYS */;
-INSERT INTO `users_user` VALUES (1,'pbkdf2_sha256$720000$OiVvrKHvUSl2J7KgpkaU1b$G91Lhgo9/k27U0xBst0XXtu5X2dE24x2aPhZ822Y0DQ=','2024-07-12 22:19:46.199854',1,'admin11','','','soportesistemas@cootep.com.co',1,1,'2024-07-02 21:18:21.986640','','',''),(2,'pbkdf2_sha256$720000$qYgm4jkgvZTgLZZD4iEGas$Wc33WxhtpOWaTMFLUN0W3J+OhWniEM3Lp7hYCnDEBmU=',NULL,0,'myela','','','soportesistemas@cootep.com.co',0,1,'2024-07-12 22:20:43.653030','1124857729','MICHAEL YELA VALENCIA','MOCOA');
+INSERT INTO `users_user` VALUES (1,'pbkdf2_sha256$720000$OiVvrKHvUSl2J7KgpkaU1b$G91Lhgo9/k27U0xBst0XXtu5X2dE24x2aPhZ822Y0DQ=','2024-07-13 16:18:58.800587',1,'admin11','','','soportesistemas@cootep.com.co',1,1,'2024-07-02 21:18:21.986640','','',''),(2,'pbkdf2_sha256$720000$2ENcbdf3pf2h5bf5Wbj5iu$4Vo4BBpULSxNeXtTqqEt5ql+qF/XPE4wqfjCAnORd0M=','2024-07-13 16:45:23.581614',0,'myela','','','soportesistemas@cootep.com.co',0,1,'2024-07-13 16:19:31.858072','1124857729','michael yela valencia','MOCOA');
 /*!40000 ALTER TABLE `users_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -373,4 +373,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-12 17:21:29
+-- Dump completed on 2024-07-13 11:45:54
