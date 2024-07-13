@@ -1,56 +1,42 @@
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('requerimiento-form');
 
-  form.addEventListener('submit', function(event) {
-      event.preventDefault(); // Previene el envío normal del formulario
+(function ()
+{
 
-      const formData = new FormData(form);
-
-      fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          headers: {
-              'X-Requested-With': 'XMLHttpRequest'
-          }
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.success) {
+    const btnsEditar = document.querySelectorAll('.btnEditar1'); // btnEditar hace referencia a un boton que se le puso una clase de nombre btnEditar
+    
+    //const csrf_token = document.querySelector("[name='csrf-token']").value;
+    
+    btnsEditar.forEach((btn) => 
+    {
+      
+        btn.addEventListener('click', function () 
+        {
               Swal.fire({
-                  title: 'Excelente',
-                  text: 'El tiquet es: ' + data.id,
-                  icon: 'success',
-                  showConfirmButton: true,
-                  confirmButtonText: 'Ok'
-              }).then((result) => {
-                  if (result.isConfirmed) {
-                      window.location.reload(); // Recarga la página solo cuando se haga clic en "Ok"
-                  }
-              });
-          } else {
-              // Maneja los errores de validación aquí
-              let errorMessages = '';
-              for (const [field, errors] of Object.entries(data.errors)) {
-                  errorMessages += `${field}: ${errors.join(', ')}\n`;
-              }
-              Swal.fire({
-                  title: 'Error',
-                  text: errorMessages,
-                  icon: 'error',
-                  showConfirmButton: true,
-                  confirmButtonText: 'Ok'
-              });
-          }
-      })
-      .catch(error => {
-          console.error('Error:', error);
-          Swal.fire({
-              title: 'Error',
-              text: 'Ocurrió un error al enviar el formulario.',
-              icon: 'error',
-              showConfirmButton: true,
-              confirmButtonText: 'Ok'
-          });
-      });
-  });
+                //position: 'top-end',
+                title: 'Excelente',
+                //titleText: 'Your work has been saved 2',
+                text: 'Los cambios fueron realizados',
+                icon: 'success',
+                showConfirmButton: true, // si se deja solo true por defecto aparece un boton que dice Ok para personalizarlo hay que utilizar confirmButtonText:
+                confirmButtonText: 'Ok',
+                //timer: 1700
+              })
+            //confirmarComprar();
+        });
+    });
+
+})();
+
+
+/*
+Swal.fire(
+    'Deleted!',
+    'Your file has been deleted.',
+    'success'
+  )
+*/ 
+
+// poner btn1 al id de un boton 
+$("#btn1").click(function(){
+    alert("prueba");
 });

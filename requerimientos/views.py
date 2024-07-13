@@ -9,6 +9,7 @@ from .forms import RequerimientoForm, DetalleRequerimientoForm
 from django.contrib import messages
 import os
 from django.conf import settings
+import time 
 
 @login_required
 def crear_requerimiento(request):
@@ -20,6 +21,7 @@ def crear_requerimiento(request):
             requerimiento.save()
             # Send notification email here
             #return redirect('detalle_requerimiento')
+            #time.sleep(5.5) #funcion para que se demore en redireccionar
             messages.success(request, 'Requerimiento creado con éxito')
             return redirect('crear_requerimiento')
     else:
