@@ -22,7 +22,8 @@ def crear_requerimiento(request):
             # Send notification email here
             #return redirect('detalle_requerimiento')
             #time.sleep(5.5) #funcion para que se demore en redireccionar
-            messages.success(request, 'Requerimiento creado con éxito')
+            #messages.success(request, 'Requerimiento creado con éxito')
+            messages.success(request, 'Registro Exitoso!  Su numero de radicado tiquet es: {}'.format(requerimiento.id))
             return redirect('crear_requerimiento')
     else:
         form = RequerimientoForm(user=request.user)
