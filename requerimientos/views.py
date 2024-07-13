@@ -30,6 +30,11 @@ def crear_requerimiento(request):
     return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento",'form': form})
 
 @login_required
+def listar_requerimientos(request):
+    requerimientos = Requerimiento.objects.all()
+    return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos})
+
+@login_required
 def detalle_requerimiento(request, id):
     requerimiento = get_object_or_404(Requerimiento, id=id)
     detalles = requerimiento.detalles.all()

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="col">
+    <h2>Listar Requerimientos</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Clasificación</th>
+                <th>Sub Clasificación</th>
+                <th>Estado</th>
+                <th>Usuario</th>
+                <th>fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for requerimiento in requerimientos %}
+            <tr>
+                <td>{{ requerimiento.id }}</td>
+                <td>{{ requerimiento.titulo }}</td>
+                <td>{{ requerimiento.descripcion }}</td>
+                <td>{{ requerimiento.clasificacion }}</td>
+                <td>{{ requerimiento.sub_clasificacion }}</td>
+                <td>{{ requerimiento.estado }}</td>
+                <td>{{ requerimiento.usuario.username }}</td>
+                <td>{{ requerimiento.fecha }}</td>
+                <td>
+                    <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-info">Ver Detalles</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
