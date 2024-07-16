@@ -21,7 +21,7 @@ class RequerimientoForm(forms.ModelForm):
         }
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título', 'id': 'titulo'}),  # Widget personalizado para el campo título
-            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción', 'id': 'descripcion'}),  # Widget personalizado para el campo descripción
+            'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción', 'id': 'descripcion','style': 'resize: none;'}),  # Widget personalizado para el campo descripción
             'clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'clasificacion'}, choices=CLASIFICACION_CHOICES),  # Widget select para el campo clasificación
             'sub_clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'sub_clasificacion'}),  # Widget select para el campo sub clasificación
             'adjunto': forms.ClearableFileInput(attrs={'class': 'form-control', 'id': 'adjunto'}),  # Widget para el campo adjunto
@@ -42,6 +42,6 @@ class DetalleRequerimientoForm(forms.ModelForm):
         model = DetalleRequerimiento  # Especifica el modelo asociado
         fields = ['comentario', 'adjunto']  # Campos a incluir en el formulario
         widgets = {
-            'comentario': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Comentario'}),  # Widget personalizado para el campo comentario
+            'comentario': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Comentario','style': 'resize: none;'}),  # Widget personalizado para el campo comentario
             'adjunto': forms.ClearableFileInput(attrs={'class': 'form-control'}),  # Widget para el campo adjunto
         }

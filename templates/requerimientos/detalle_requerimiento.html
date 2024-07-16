@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Detalle Requerimiento</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+
     <h1>{{ requerimiento.titulo }}</h1>
     <p>{{ requerimiento.descripcion }}</p>
     <p>{{ requerimiento.clasificacion }} - {{ requerimiento.sub_clasificacion }}</p>
@@ -27,10 +28,10 @@
         {% endfor %}
     </ul>
     <h3>Agregar Comentario</h3>
-    <form method="post" enctype="multipart/form-data">
+    <form class="form-create" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ detalle_form.as_p }}
-        <button type="submit">Agregar</button>
+        <button type="submit" class="btn btn-success btnEditar1_" style="background-color:rgb(4,105,4);">Crear</button>
     </form>
-</body>
-</html>
+
+{% endblock %}
