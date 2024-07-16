@@ -34,11 +34,12 @@
                         <td>{{ requerimiento.usuario.username }}</td>
                         <td>{{ requerimiento.fecha }}</td>
                         <td style="text-align: center;">
-                            <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success fa-solid fa-calendar-check"></a>
+                            <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success fa-solid fa-calendar-check" data-bs-toggle="modal" data-bs-target="#modalEditar{{ requerimiento.id }}"></a>
                         </td>
                         <td style="text-align: center;">
                             <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-info fa-solid fa-check"></a>
                         </td>
+                        {% include 'requerimientos/modalDetalleRequerimiento.html' %}
                     </tr>
                 {% endfor %}
                 </tbody>
