@@ -11,53 +11,55 @@ import os
 from django.conf import settings
 import time 
 
-@login_required
+# Vista para crear un nuevo requerimiento
+@login_required  # Requiere que el usuario esté autenticado
 def crear_requerimiento(request):
-    if request.method == 'POST':
-        form = RequerimientoForm(request.POST, request.FILES, user=request.user)
-        if form.is_valid():
-            requerimiento = form.save(commit=False)
-            requerimiento.usuario = request.user
-            requerimiento.save()
-            # Send notification email here
-            #return redirect('detalle_requerimiento')
-            #time.sleep(5.5) #funcion para que se demore en redireccionar
-            #messages.success(request, 'Requerimiento creado con éxito')
-            messages.success(request, 'Registro Exitoso!  Su numero de radicado tiquet es: {}'.format(requerimiento.id))
-            return redirect('crear_requerimiento')
+    if request.method == 'POST':  # Si el método de la solicitud es POST
+        form = RequerimientoForm(request.POST, request.FILES, user=request.user)  # Crear un formulario con los datos enviados
+        if form.is_valid():  # Validar el formulario
+            requerimiento = form.save(commit=False)  # Guardar el formulario sin comprometer los datos aún
+            requerimiento.usuario = request.user  # Asignar el usuario actual al requerimiento
+            requerimiento.save()  # Guardar el requerimiento en la base de datos
+            # Enviar correo de notificación aquí (comentado)
+            # time.sleep(5.5)  # Función para demorar la redirección (comentado)
+            # messages.success(request, 'Requerimiento creado con éxito')  # Mensaje de éxito (comentado)
+            messages.success(request, 'Registro Exitoso!  Su numero de radicado tiquet es: {}'.format(requerimiento.id))  # Mensaje de éxito con el ID del requerimiento
+            return redirect('crear_requerimiento')  # Redirigir al usuario a la página de creación de requerimiento
     else:
-        form = RequerimientoForm(user=request.user)
-    return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento",'form': form})
+        form = RequerimientoForm(user=request.user)  # Crear un formulario vacío
+    return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento", 'form': form})  # Renderizar la plantilla con el formulario
 
-@login_required
+# Vista para listar todos los requerimientos
+@login_required  # Requiere que el usuario esté autenticado
 def listar_requerimientos(request):
-    requerimientos = Requerimiento.objects.all()
-    return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos})
+    requerimientos = Requerimiento.objects.all()  # Obtener todos los requerimientos
+    return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos})  # Renderizar la plantilla con la lista de requerimientos
 
-@login_required
+# Vista para mostrar los detalles de un requerimiento específico
+@login_required  # Requiere que el usuario esté autenticado
 def detalle_requerimiento(request, id):
-    requerimiento = get_object_or_404(Requerimiento, id=id)
-    detalles = requerimiento.detalles.all()
+    requerimiento = get_object_or_404(Requerimiento, id=id)  # Obtener el requerimiento o devolver un 404 si no existe
+    detalles = requerimiento.detalles.all()  # Obtener todos los detalles del requerimiento
 
     # Imprimir la ruta del archivo adjunto para depuración
     if requerimiento.adjunto:
-        print("Adjunto URL:", requerimiento.adjunto.url)
-        print("Adjunto Path:", os.path.join(settings.MEDIA_ROOT, requerimiento.adjunto.name))
+        print("Adjunto URL:", requerimiento.adjunto.url)  # Imprimir la URL del adjunto
+        print("Adjunto Path:", os.path.join(settings.MEDIA_ROOT, requerimiento.adjunto.name))  # Imprimir la ruta del adjunto
 
-    if request.method == 'POST':
-        detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)
-        if detalle_form.is_valid():
-            detalle = detalle_form.save(commit=False)
-            detalle.requerimiento = requerimiento
-            detalle.usuario = request.user
-            detalle.save()
-            return redirect('detalle_requerimiento', id=requerimiento.id)
+    if request.method == 'POST':  # Si el método de la solicitud es POST
+        detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)  # Crear un formulario de detalle con los datos enviados
+        if detalle_form.is_valid():  # Validar el formulario de detalle
+            detalle = detalle_form.save(commit=False)  # Guardar el formulario sin comprometer los datos aún
+            detalle.requerimiento = requerimiento  # Asignar el requerimiento al detalle
+            detalle.usuario = request.user  # Asignar el usuario actual al detalle
+            detalle.save()  # Guardar el detalle en la base de datos
+            return redirect('detalle_requerimiento', id=requerimiento.id)  # Redirigir al usuario a la vista de detalles del requerimiento
     else:
-        detalle_form = DetalleRequerimientoForm()
+        detalle_form = DetalleRequerimientoForm()  # Crear un formulario de detalle vacío
 
     return render(request, 'requerimientos/detalle_requerimiento.html', {
         'title': "Detalle requerimiento",
         'requerimiento': requerimiento,
         'detalles': detalles,
         'detalle_form': detalle_form
-    })
+    })  # Renderizar la plantilla con el requerimiento, los detalles y el formulario de detalle

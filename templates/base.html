@@ -14,7 +14,7 @@
 
     <!-- jQuery (necesario para algunos componentes de Bootstrap) -->
     <!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>-->  <!-- Aquí se incluye jQuery cdn -->
-    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script> <!-- Aquí se incluye jQuery localmente -->
+    <script src="{% static 'lib/js/jquery-3.7.1.min.js' %}"></script> <!-- Aquí se incluye jQuery localmente -->
 
     <!-- Bootstrap 5 JS y dependencias -->
     <script src="{% static 'lib/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js' %}"></script>
@@ -51,6 +51,9 @@
         <script src="{% static 'js/notificacionSwal.js' %}"></script>
         <script src="{% static 'js/mensajeAlert.js' %}"></script>
         <script src="{% static 'js/mensajeAlertTiquet.js' %}"></script>
+
+        <!-- Codigo para libreria adminLte funcione el proceso de busqueda del datatable-->
+        <script src="{% static 'js/datatable.js' %}"></script>
         
 
         {% endblock %}
