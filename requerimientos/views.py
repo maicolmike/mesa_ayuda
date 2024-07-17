@@ -52,11 +52,13 @@ def detalle_requerimiento(request, id):
             detalle.requerimiento = requerimiento  # Asignar el requerimiento al detalle
             detalle.usuario = request.user  # Asignar el usuario actual al detalle
             detalle.save()  # Guardar el detalle en la base de datos
-            return redirect('detalle_requerimiento', id=requerimiento.id)  # Redirigir al usuario a la vista de detalles del requerimiento
+            messages.success(request, 'Novedad registrada con exitoso')  # Mensaje de éxito
+            return redirect('listar_requerimientos')  # Redirigir al usuario a la página de listar_requerimientos
+            #return redirect('detalle_requerimiento', id=requerimiento.id)  # Redirigir al usuario a la vista de detalles del requerimiento
     else:
         detalle_form = DetalleRequerimientoForm()  # Crear un formulario de detalle vacío
 
-    return render(request, 'requerimientos/detalle_requerimiento.html', {
+    return render(request, 'requerimientos/agregarNovedad.html', {
         'title': "Detalle requerimiento",
         'requerimiento': requerimiento,
         'detalles': detalles,

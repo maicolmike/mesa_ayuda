@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% include 'messages.html' %}
+
+    <h5>Numero de requerimiento:{{ requerimiento.id }}</h5>
+    <br>
+    
+    <form class="form-create" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {# {{ detalle_form.as_p }} #} <!-- manera de imprimri el formulario de manera rapida-->
+
+        <div class="form-group">
+            <label for="{{ detalle_form.comentario.id_for_label }}">Informacion complementaria al requerimiento :</label>
+            {{ detalle_form.comentario }}  <!-- Aquí puedes agregar atributos HTML adicionales -->
+            <span class="error">{{ detalle_form.field1.errors }}</span>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ detalle_form.adjunto.id_for_label }}">{{ detalle_form.adjunto.label }}</label>
+            {{ detalle_form.adjunto }}  <!-- Aquí puedes agregar atributos HTML adicionales -->
+            <span class="error">{{ detalle_form.adjunto.errors }}</span>
+        </div>
+        <button type="submit" class="btn btn-success btnEditar1_" style="background-color:rgb(4,105,4);">Crear</button>
+    </form>
+
+{% endblock %}
