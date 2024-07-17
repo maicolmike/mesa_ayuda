@@ -17,7 +17,7 @@
                         <th>Sub Clasificación</th>
                         <th>Estado</th>
                         <th>Usuario</th>
-                        <th>fecha</th>
+                        <th>Fecha</th>
                         <th>Detalles</th>
                         <th style="width: 205px;">Agregar novedad</th>
                     </tr>
@@ -34,7 +34,7 @@
                         <td>{{ requerimiento.usuario.username }}</td>
                         <td>{{ requerimiento.fecha }}</td>
                         <td style="text-align: center;">
-                            <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success fa-solid fa-calendar-check" data-bs-toggle="modal" data-bs-target="#modalEditar{{ requerimiento.id }}"></a>
+                            <a href="#" class="btn btn-success fa-solid fa-calendar-check" data-bs-toggle="modal" data-bs-target="#modalDetalleRequerimiento{{ requerimiento.id }}"></a>
                         </td>
                         <td style="text-align: center;">
                             <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-info fa-solid fa-check"></a>
@@ -47,5 +47,4 @@
         </div>
     </div>
 </div>
-
 {% endblock %}

@@ -22,7 +22,6 @@ def crear_requerimiento(request):
             requerimiento.save()  # Guardar el requerimiento en la base de datos
             # Enviar correo de notificación aquí (comentado)
             # time.sleep(5.5)  # Función para demorar la redirección (comentado)
-            # messages.success(request, 'Requerimiento creado con éxito')  # Mensaje de éxito (comentado)
             messages.success(request, 'Registro Exitoso!  Su numero de radicado tiquet es: {}'.format(requerimiento.id))  # Mensaje de éxito con el ID del requerimiento
             return redirect('crear_requerimiento')  # Redirigir al usuario a la página de creación de requerimiento
     else:
@@ -32,7 +31,7 @@ def crear_requerimiento(request):
 # Vista para listar todos los requerimientos
 @login_required  # Requiere que el usuario esté autenticado
 def listar_requerimientos(request):
-    requerimientos = Requerimiento.objects.all()  # Obtener todos los requerimientos
+    requerimientos = Requerimiento.objects.all().prefetch_related('detalles')  # Obtener todos los requerimientos Prefetch the related details
     return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos})  # Renderizar la plantilla con la lista de requerimientos
 
 # Vista para mostrar los detalles de un requerimiento específico
