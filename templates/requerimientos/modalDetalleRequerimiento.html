@@ -5,24 +5,34 @@
     border-collapse: collapse;
     width: 100%;
   }
-  
+
   .table-row {
     display: flex;
     width: 100%;
     border: 1px solid #ddd;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
   }
-  
+
   .table-cell {
     flex: 1;
     padding: 8px;
     border: 1px solid #ddd;
+    min-width: 100px; /* Minimum width for table cells */
+    word-wrap: break-word; /* Break long words to prevent overflow */
   }
-  
+
   .table-header {
     font-weight: bold;
     background-color: #f2f2f2;
   }
+
+  @media (max-width: 768px) {
+    .table-cell {
+      flex: 1 1 100%; /* Cells take full width on small screens */
+    }
+  }
 </style>
+
 <!-- Inicio Modal Editar -->
 <div class="modal fade" id="modalDetalleRequerimiento{{ requerimiento.id }}" tabindex="-1" aria-labelledby="modalEditarLabel{{ requerimiento.id }}" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -58,13 +68,13 @@
             <div class="table-cell">{{ requerimiento.usuario.username }}</div>
           </div>
 
-          <!-- Detalles del Requerimiento -->
-          <div class="table-row table-header mt-3">
+          <!-- Detalles del Requerimiento 
+          <div class="table-row table-header">
             <div class="table-cell">Fecha</div>
             <div class="table-cell">Descripcion</div>
             <div class="table-cell">Adjunto</div>
             <div class="table-cell">Usuario</div>
-          </div>
+          </div> -->
           {% for detalle in requerimiento.detalles.all %}
           <div class="table-row">
             <div class="table-cell">{{ detalle.fecha }}</div>
