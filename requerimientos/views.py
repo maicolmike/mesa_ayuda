@@ -17,27 +17,38 @@ from django.template.loader import render_to_string
 
 
 
+# Clase que hereda de threading.Thread para enviar correos en segundo plano
 class EmailThread(threading.Thread):
     def __init__(self, subject, template_name, context, recipient_list):
+        # Inicializa los atributos de la clase con los parámetros proporcionados
         self.subject = subject
         self.template_name = template_name
         self.context = context
         self.recipient_list = recipient_list
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self)  # Llama al inicializador de la clase base
 
     def run(self):
+        # Renderiza la plantilla HTML con el contexto proporcionado
         html_message = render_to_string(self.template_name, self.context)
+        # Crea el mensaje de correo electrónico
         email = EmailMessage(
-            self.subject,
-            html_message,
-            settings.DEFAULT_FROM_EMAIL,
-            self.recipient_list
+            self.subject,  # Asunto del correo
+            html_message,  # Contenido del correo en formato HTML
+            settings.DEFAULT_FROM_EMAIL,  # Dirección de correo del remitente
+            self.recipient_list  # Lista de destinatarios
         )
-        email.content_subtype = 'html'
-        email.send()
+        email.content_subtype = 'html'  # Establece el subtipo de contenido a 'html'
+        email.send()  # Envía el correo electrónico
 
+# Función para iniciar el envío del correo en un hilo separado
 def send_async_mail(subject, template_name, context, recipient_list):
     EmailThread(subject, template_name, context, recipient_list).start()
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import RequerimientoForm
+from .models import Requerimiento
+from django.contrib import messages
 
 # Vista para crear un nuevo requerimiento
 @login_required  # Requiere que el usuario esté autenticado
@@ -48,25 +59,26 @@ def crear_requerimiento(request):
             requerimiento = form.save(commit=False)  # Guardar el formulario sin comprometer los datos aún
             requerimiento.usuario = request.user  # Asignar el usuario actual al requerimiento
             requerimiento.save()  # Guardar el requerimiento en la base de datos
-            # Enviar correo de notificación aquí (comentado)
-            form.save_m2m()
+            #form.save_m2m()  # Guardar las relaciones ManyToMany del formulario
 
             # Enviar correo electrónico
-            subject = "Registro de Requerimiento No. " + str(requerimiento.id)
-            template_name = "emails/nuevo_requerimiento.html"
-            context = {
+            subject = "Registro de Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
+            template_name = "emails/nuevo_requerimiento.html"  # Plantilla HTML para el correo
+            context = {  # Contexto para renderizar la plantilla
                 'usuario': request.user,
                 'requerimiento': requerimiento,
             }
-            #recipient_list = [request.user.email]
-            recipient_list = ['maicol.yela@gmail.com','maicol-yela@hotmail.com']
-            send_async_mail(subject, template_name, context, recipient_list)
-            # time.sleep(5.5)  # Función para demorar la redirección (comentado)
-            messages.success(request, 'Registro Exitoso!  Su numero de radicado tiquet es: {}'.format(requerimiento.id))  # Mensaje de éxito con el ID del requerimiento
+            recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Lista de destinatarios del correo
+            send_async_mail(subject, template_name, context, recipient_list)  # Enviar el correo en segundo plano
+
+            # Mostrar un mensaje de éxito al usuario con el ID del requerimiento
+            messages.success(request, 'Registro Exitoso! Su numero de radicado tiquet es: {}'.format(requerimiento.id))
             return redirect('crear_requerimiento')  # Redirigir al usuario a la página de creación de requerimiento
     else:
         form = RequerimientoForm(user=request.user)  # Crear un formulario vacío
-    return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento", 'form': form})  # Renderizar la plantilla con el formulario
+
+    # Renderizar la plantilla con el formulario
+    return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento", 'form': form})
 
 # Vista para listar todos los requerimientos
 @login_required  # Requiere que el usuario esté autenticado
