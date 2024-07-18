@@ -92,6 +92,9 @@ def agregar_novedad(request, id):
     requerimiento = get_object_or_404(Requerimiento, id=id)  # Obtener el requerimiento o devolver un 404 si no existe
     detalles = requerimiento.detalles.all()  # Obtener todos los detalles del requerimiento
 
+    print(request.user.is_superuser)
+    print(requerimiento.usuario.email)
+
     # Imprimir la ruta del archivo adjunto para depuración
     if requerimiento.adjunto:
         print("Adjunto URL:", requerimiento.adjunto.url)  # Imprimir la URL del adjunto
@@ -104,6 +107,23 @@ def agregar_novedad(request, id):
             detalle.requerimiento = requerimiento  # Asignar el requerimiento al detalle
             detalle.usuario = request.user  # Asignar el usuario actual al detalle
             detalle.save()  # Guardar el detalle en la base de datos
+
+            # Enviar correo electrónico
+            subject = "Registro de Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
+            template_name = "emails/nuevo_requerimiento.html"  # Plantilla HTML para el correo
+            context = {  # Contexto para renderizar la plantilla
+                'usuario': request.user,
+                'requerimiento': requerimiento,
+            }
+             # Definir la lista de destinatarios en base al tipo de usuario
+            if request.user.is_superuser:
+                recipient_list = [requerimiento.usuario.email]
+            else:
+                recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']
+
+            recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Lista de destinatarios del correo
+            send_async_mail(subject, template_name, context, recipient_list)  # Enviar el correo en segundo plano
+
             messages.success(request, 'Novedad registrada con exitoso')  # Mensaje de éxito
             return redirect('listar_requerimientos')  # Redirigir al usuario a la página de listar_requerimientos
             #return redirect('detalle_requerimiento', id=requerimiento.id)  # Redirigir al usuario a la vista de detalles del requerimiento
