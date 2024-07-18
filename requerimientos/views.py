@@ -34,7 +34,7 @@ def listar_requerimientos(request):
     requerimientos = Requerimiento.objects.all().prefetch_related('detalles')  # Obtener todos los requerimientos Prefetch the related details
     return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos})  # Renderizar la plantilla con la lista de requerimientos
 
-# Vista para mostrar los detalles de un requerimiento específico
+# Vista para agregar una novedad a un requerimiento
 @login_required  # Requiere que el usuario esté autenticado
 def agregar_requerimiento(request, id):
     requerimiento = get_object_or_404(Requerimiento, id=id)  # Obtener el requerimiento o devolver un 404 si no existe
@@ -64,3 +64,37 @@ def agregar_requerimiento(request, id):
         'detalles': detalles,
         'detalle_form': detalle_form
     })  # Renderizar la plantilla con el requerimiento, los detalles y el formulario de detalle
+
+# Vista para mostrar los detalles de un requerimiento específico
+@login_required  # Requiere que el usuario esté autenticado
+def detalle_requerimiento(request, id):
+    # Obtener el requerimiento específico o devolver un error 404 si no existe
+    requerimiento = get_object_or_404(Requerimiento, id=id)
+    
+    # Obtener todos los detalles asociados al requerimiento
+    detalles = requerimiento.detalles.all()
+
+    # Imprimir la ruta del archivo adjunto para depuración, si existe
+    if requerimiento.adjunto:
+        print("Adjunto URL:", requerimiento.adjunto.url)
+        print("Adjunto Path:", os.path.join(settings.MEDIA_ROOT, requerimiento.adjunto.name))
+
+    if request.method == 'POST':  # Si la solicitud es un POST (es decir, se envió un formulario)
+        detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)  # Crear un formulario de detalle con los datos recibidos
+        if detalle_form.is_valid():  # Si el formulario es válido según las reglas definidas en forms.py
+            detalle = detalle_form.save(commit=False)  # Guardar el formulario sin comprometer los datos en la base de datos todavía
+            detalle.requerimiento = requerimiento  # Asignar el requerimiento actual al detalle
+            detalle.usuario = request.user  # Asignar el usuario actual al detalle
+            detalle.save()  # Guardar el detalle en la base de datos
+            messages.success(request, 'Novedad registrada con éxito')  # Mostrar un mensaje de éxito al usuario
+            return redirect('detalle_requerimiento', id=requerimiento.id)  # Redirigir al usuario a la página de detalles del requerimiento actualizado
+    else:
+        detalle_form = DetalleRequerimientoForm()  # Crear un formulario de detalle vacío si la solicitud no es un POST
+
+    # Renderizar la plantilla 'detalleRequerimiento.html' con los siguientes contextos
+    return render(request, 'requerimientos/detalleRequerimiento.html', {
+        'title': "Detalle Requerimiento",  # Título de la página
+        'requerimiento': requerimiento,  # Objeto del requerimiento actual
+        'detalles': detalles,  # QuerySet de detalles asociados al requerimiento
+        'detalle_form': detalle_form,  # Formulario para agregar nuevos detalles
+    })
