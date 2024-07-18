@@ -36,7 +36,7 @@ def listar_requerimientos(request):
 
 # Vista para agregar una novedad a un requerimiento
 @login_required  # Requiere que el usuario esté autenticado
-def agregar_requerimiento(request, id):
+def agregar_novedad(request, id):
     requerimiento = get_object_or_404(Requerimiento, id=id)  # Obtener el requerimiento o devolver un 404 si no existe
     detalles = requerimiento.detalles.all()  # Obtener todos los detalles del requerimiento
 
@@ -59,7 +59,7 @@ def agregar_requerimiento(request, id):
         detalle_form = DetalleRequerimientoForm()  # Crear un formulario de detalle vacío
 
     return render(request, 'requerimientos/agregarNovedad.html', {
-        'title': "Agregar requerimiento",
+        'title': "Agregar novedad",
         'requerimiento': requerimiento,
         'detalles': detalles,
         'detalle_form': detalle_form
