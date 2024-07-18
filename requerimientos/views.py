@@ -10,6 +10,34 @@ from django.contrib import messages
 import os
 from django.conf import settings
 import time 
+#para el envio de correos
+import threading
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+
+
+
+class EmailThread(threading.Thread):
+    def __init__(self, subject, template_name, context, recipient_list):
+        self.subject = subject
+        self.template_name = template_name
+        self.context = context
+        self.recipient_list = recipient_list
+        threading.Thread.__init__(self)
+
+    def run(self):
+        html_message = render_to_string(self.template_name, self.context)
+        email = EmailMessage(
+            self.subject,
+            html_message,
+            settings.DEFAULT_FROM_EMAIL,
+            self.recipient_list
+        )
+        email.content_subtype = 'html'
+        email.send()
+
+def send_async_mail(subject, template_name, context, recipient_list):
+    EmailThread(subject, template_name, context, recipient_list).start()
 
 # Vista para crear un nuevo requerimiento
 @login_required  # Requiere que el usuario esté autenticado
@@ -21,13 +49,18 @@ def crear_requerimiento(request):
             requerimiento.usuario = request.user  # Asignar el usuario actual al requerimiento
             requerimiento.save()  # Guardar el requerimiento en la base de datos
             # Enviar correo de notificación aquí (comentado)
-            send_mail(
-                'Nuevo Requerimiento Creado',
-                'Se ha creado un nuevo requerimiento con el ID: {}'.format(requerimiento.id),
-                'soportesistemas@cootep.com.co',  # Correo desde el cual se enviará el mensaje
-                ['maicol.yela@gmail.com','maicol-yela@hotmail.com'],  # Lista de correos a los que se enviará la notificación
-                fail_silently=False,
-            )
+            form.save_m2m()
+
+            # Enviar correo electrónico
+            subject = "Registro de Requerimiento No. " + str(requerimiento.id)
+            template_name = "emails/nuevo_requerimiento.html"
+            context = {
+                'usuario': request.user,
+                'requerimiento': requerimiento,
+            }
+            #recipient_list = [request.user.email]
+            recipient_list = ['maicol.yela@gmail.com','maicol-yela@hotmail.com']
+            send_async_mail(subject, template_name, context, recipient_list)
             # time.sleep(5.5)  # Función para demorar la redirección (comentado)
             messages.success(request, 'Registro Exitoso!  Su numero de radicado tiquet es: {}'.format(requerimiento.id))  # Mensaje de éxito con el ID del requerimiento
             return redirect('crear_requerimiento')  # Redirigir al usuario a la página de creación de requerimiento

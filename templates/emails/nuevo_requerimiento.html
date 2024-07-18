@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Requerimiento</title>
+</head>
+<body>
+    
+    <p>Estimado(a) {{ usuario.username }},</p>
+    <p>Se ha creado un nuevo requerimiento con los siguientes detalles:</p>
+    <ul>
+        <li><strong>Título:</strong> {{ requerimiento.titulo }}</li>
+        <li><strong>Descripción:</strong> {{ requerimiento.descripcion }}</li>
+        <li><strong>Clasificación:</strong> {{ requerimiento.clasificacion }}</li>
+        <li><strong>Sub-Clasificación:</strong> {{ requerimiento.sub_clasificacion }}</li>
+        <li><strong>Estado:</strong> {{ requerimiento.estado }}</li>
+    </ul>
+    <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
+</body>
+</html>
