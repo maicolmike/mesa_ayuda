@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>{{ title }}</title>
 
     <!-- favicon-->
@@ -26,37 +27,48 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 
+    <!-- Codigo para volver los div en tablas-->
+    <link rel="stylesheet" href="{% static 'css/modalTabla.css' %}">
+
 
 </head>
+
 <body>
+
     {% include 'navbar.html' %}
+
     <br>
     <br>
+
     <div class="container">
-
-         {% block breadcrumb %}
-         {% endblock %}
- 
-         <div class="">
-             <br>
-             {% block content %}
-             
-             {% endblock %}
-         </div>
-     </div> 
-
-        {% block javascript %}
-        <!-- Codigo para los mensajes con la libreria sweetalert-->
-        <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
-        <script src="{% static 'js/notificacionSwal.js' %}"></script>
-        <script src="{% static 'js/mensajeAlert.js' %}"></script>
-        <script src="{% static 'js/mensajeAlertTiquet.js' %}"></script>
-
-        <!-- Codigo para libreria adminLte funcione el proceso de busqueda del datatable-->
-        <script src="{% static 'js/datatable.js' %}"></script>
         
-
+        {% block breadcrumb %}
         {% endblock %}
+        
+        <div class="">
+            <br>
+
+            {% block content %}
+            {% endblock %}
+
+        </div>
+
+    </div> 
+    
+    {% block javascript %}
+    <!-- Codigo para los mensajes con la libreria sweetalert-->
+     <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
+     <script src="{% static 'js/notificacionSwal.js' %}"></script>
+     <script src="{% static 'js/mensajeAlert.js' %}"></script>
+     <script src="{% static 'js/mensajeAlertTiquet.js' %}"></script>
+     
+    <!-- Codigo para libreria adminLte funcione el proceso de busqueda del datatable-->
+     <script src="{% static 'js/datatable.js' %}"></script>
+    
+     <!-- Codigo para hacer los botones itemes -->
+      <script src="{% static 'js/modalBotones.js' %}"></script>
+        
+    {% endblock %}
     
 </body>
 </html>
