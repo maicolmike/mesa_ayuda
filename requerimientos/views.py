@@ -21,6 +21,13 @@ def crear_requerimiento(request):
             requerimiento.usuario = request.user  # Asignar el usuario actual al requerimiento
             requerimiento.save()  # Guardar el requerimiento en la base de datos
             # Enviar correo de notificación aquí (comentado)
+            send_mail(
+                'Nuevo Requerimiento Creado',
+                'Se ha creado un nuevo requerimiento con el ID: {}'.format(requerimiento.id),
+                'soportesistemas@cootep.com.co',  # Correo desde el cual se enviará el mensaje
+                ['maicol.yela@gmail.com','maicol-yela@hotmail.com'],  # Lista de correos a los que se enviará la notificación
+                fail_silently=False,
+            )
             # time.sleep(5.5)  # Función para demorar la redirección (comentado)
             messages.success(request, 'Registro Exitoso!  Su numero de radicado tiquet es: {}'.format(requerimiento.id))  # Mensaje de éxito con el ID del requerimiento
             return redirect('crear_requerimiento')  # Redirigir al usuario a la página de creación de requerimiento
