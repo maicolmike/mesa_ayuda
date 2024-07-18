@@ -121,7 +121,7 @@ def agregar_novedad(request, id):
             else:
                 recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']
 
-            recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Lista de destinatarios del correo
+            #recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Lista de destinatarios del correo
             send_async_mail(subject, template_name, context, recipient_list)  # Enviar el correo en segundo plano
 
             messages.success(request, 'Novedad registrada con exitoso')  # Mensaje de éxito
