@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificación de Novedad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Notificación de Nueva Novedad</h1>
+        {% if request.user.is_superuser %}
+        <p>Estimados <b>colaboradores</b>,</p>
+        {% else %}
+        <p>Estimado <b>{{ requerimiento.usuario.nombres }}</b>,</p>
+        {% endif %}
+        <p>Se ha agregado una nueva novedad al requerimiento No. {{ requerimiento.id }}.</p>
+        <p><strong>Detalle:</strong></p>
+        <p>{{ detalle.comentario }}</p>
+
+        {% if detalle.adjunto %}
+        <p><strong>Archivo Adjunto:</strong> <a href="{{ detalle.adjunto.url }}" download>{{ detalle.adjunto.name }}</a> </p>
+        {% endif %}
+
+        <p>Para ver los detalles completos del requerimiento, por favor visita el siguiente enlace:</p>
+        <p><a href="{{ request.build_absolute_uri }}">Ver detalles del requerimiento</a></p>
+
+        <div class="footer">
+            <p>Gracias por tu atención.</p>
+            <p>El equipo de soporte</p>
+        </div>
+    </div>
+</body>
+</html>

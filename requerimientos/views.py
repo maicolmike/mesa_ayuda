@@ -109,22 +109,24 @@ def agregar_novedad(request, id):
             detalle.save()  # Guardar el detalle en la base de datos
 
             # Enviar correo electrónico
-            subject = "Registro de Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
-            template_name = "emails/nuevo_requerimiento.html"  # Plantilla HTML para el correo
+            subject = "Nueva novedad en el Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
+            template_name = "emails/nueva_novedad.html"  # Plantilla HTML para el correo
             context = {  # Contexto para renderizar la plantilla
                 'usuario': request.user,
                 'requerimiento': requerimiento,
+                'detalle': detalle,
             }
-             # Definir la lista de destinatarios en base al tipo de usuario
+
+            # Definir la lista de destinatarios en base al tipo de usuario
             if request.user.is_superuser:
                 recipient_list = [requerimiento.usuario.email]
             else:
                 recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']
 
-            #recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Lista de destinatarios del correo
-            send_async_mail(subject, template_name, context, recipient_list)  # Enviar el correo en segundo plano
+            # Enviar el correo electrónico de manera asíncrona
+            send_async_mail(subject, template_name, context, recipient_list)
 
-            messages.success(request, 'Novedad registrada con exitoso')  # Mensaje de éxito
+            messages.success(request, 'Novedad registrada con éxito')  # Mensaje de éxito
             return redirect('listar_requerimientos')  # Redirigir al usuario a la página de listar_requerimientos
             #return redirect('detalle_requerimiento', id=requerimiento.id)  # Redirigir al usuario a la vista de detalles del requerimiento
     else:
