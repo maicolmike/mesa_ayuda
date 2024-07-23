@@ -173,3 +173,15 @@ def detalle_requerimiento(request, id):
         'detalles': detalles,  # QuerySet de detalles asociados al requerimiento
         'detalle_form': detalle_form,  # Formulario para agregar nuevos detalles
     })
+
+@login_required
+def cerrar_requerimiento(request, id):
+    if request.method == 'POST':
+        requerimiento = get_object_or_404(Requerimiento, id=id)
+        requerimiento.estado = 'CERRADO'
+        requerimiento.save()
+        messages.success(request, f"Requerimiento {requerimiento.id} cerrado exitosamente.")
+        return redirect('listar_requerimientos')
+    else:
+        messages.error(request, "Método no permitido.")
+        return redirect('listar_requerimientos')

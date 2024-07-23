@@ -10,4 +10,5 @@ urlpatterns = [
     path('listar_requerimientos/', views.listar_requerimientos, name='listar_requerimientos'),
     path('requerimiento/<int:id>/', views.agregar_novedad, name='agregar_novedad'),
     path('detalle_requerimiento/<int:id>/', views.detalle_requerimiento, name='detalle_requerimiento'),
+    path('cerrar_requerimiento/<int:id>/', views.cerrar_requerimiento, name='cerrar_requerimiento'),
 ]#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
