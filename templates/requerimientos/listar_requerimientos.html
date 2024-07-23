@@ -19,7 +19,8 @@
                         <th>Usuario</th>
                         <th>Fecha</th>
                         <th>Detalles</th>
-                        <th style="width: 205px;">Agregar novedad</th>
+                        <th>Agregar novedad</th>
+                        <th>Cerrar caso</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,10 @@
                         </td>
                         <td style="text-align: center;">
                             <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info fa-solid fa-check"></a>
+                            <!-- <a href="#" class="btn btn-info fa-solid fa-check" data-bs-toggle="modal" data-bs-target="#modalAgregarNovedad{{ requerimiento.id }}"></a> -->
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="#" class="btn btn-danger fa-solid fa-xmark"></a>
                             <!-- <a href="#" class="btn btn-info fa-solid fa-check" data-bs-toggle="modal" data-bs-target="#modalAgregarNovedad{{ requerimiento.id }}"></a> -->
                         </td>
 

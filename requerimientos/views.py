@@ -10,6 +10,7 @@ from django.contrib import messages
 import os
 from django.conf import settings
 import time 
+from django.http import JsonResponse
 #para el envio de correos
 import threading
 from django.core.mail import EmailMessage
