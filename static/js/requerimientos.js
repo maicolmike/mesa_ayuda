@@ -9,14 +9,34 @@ document.addEventListener('DOMContentLoaded', function () {
         '': [],
         'Software': [
             { value: '', text: 'Seleccionar' },
-            { value: 'Problemas con el sistema operativo', text: 'Problemas con el sistema operativo' },
-            { value: 'Problemas con aplicaciones específicas', text: 'Problemas con aplicaciones específicas' }
+            { value: 'linix', text: 'Linix' },
+            { value: 'adminweb', text: 'Adminweb' },
+            { value: 'multiportal', text: 'Multiportal' },
+            { value: 'convenios', text: 'Convenios' },
+            { value: 'PEPS', text: 'PEPS' },
+            { value: 'equipo lento', text: 'Equipo lento' },
+            { value: 'perdida de informacion', text: 'Perdida de información' },
+            { value: 'problemas con el sistema operativo', text: 'Problemas con el sistema operativo' },
+            { value: 'problemas con aplicaciones especificas', text: 'Problemas con aplicaciones específicas' }
         ],
         'Hardware': [
             { value: '', text: 'Seleccionar' },
+            { value: 'computadores', text: 'Computadores' },
+            { value: 'impresoras', text: 'Impresoras' },
+            { value: 'datafonos', text: 'Datafonos' },
+            { value: 'UPS', text: 'UPS' },
+            { value: 'Planta electrica', text: 'Planta eléctrica' },
+            { value: 'aire acondicionado', text: 'Aire acondicionado' },
+            { value: 'instalaciones electricas', text: 'Instalaciones eléctricas' },
             { value: 'Fallas de impresora', text: 'Fallas de impresora' },
             { value: 'Problemas con el monitor', text: 'Problemas con el monitor' },
             { value: 'Problemas con el teclado/mouse', text: 'Problemas con el teclado/mouse' }
+        ],
+        'Comunicaciones': [
+            { value: '', text: 'Seleccionar' },
+            { value: 'internet', text: 'Internet' },
+            { value: 'equipos de comunicacion', text: 'Equipos de comunicación' },
+            { value: 'conexion remota', text: 'Conexión remota' }
         ]
     };
 

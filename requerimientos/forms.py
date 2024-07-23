@@ -6,6 +6,7 @@ CLASIFICACION_CHOICES = [
     ('', 'Seleccionar'),
     ('Software', 'Software'),
     ('Hardware', 'Hardware'),
+    ('Comunicaciones', 'Comunicaciones'),
 ]
 
 # Formulario para el modelo Requerimiento
