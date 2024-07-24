@@ -35,8 +35,11 @@ class EmailThread(threading.Thread):
         email = EmailMessage(
             self.subject,  # Asunto del correo
             html_message,  # Contenido del correo en formato HTML
-            settings.DEFAULT_FROM_EMAIL,  # Dirección de correo del remitente
-            self.recipient_list  # Lista de destinatarios
+            #settings.DEFAULT_FROM_EMAIL,  # Dirección de correo del remitente
+            #self.recipient_list  # Lista de destinatarios
+            from_email="servicio de notificación <{}>".format(settings.DEFAULT_FROM_EMAIL),
+            to=self.recipient_list
+            
         )
         email.content_subtype = 'html'  # Establece el subtipo de contenido a 'html'
         email.send()  # Envía el correo electrónico

@@ -35,7 +35,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Notificación de Nueva Novedad</h1>
+        <h1>Notificación de Requerimiento</h1>
         {% if request.user.is_superuser %}
         <p>Estimados <b>colaboradores</b>,</p>
         {% else %}
@@ -48,9 +48,6 @@
         {% if detalle.adjunto %}
         <p><strong>Archivo Adjunto:</strong> <a href="{{ detalle.adjunto.url }}" download>{{ detalle.adjunto.name }}</a> </p>
         {% endif %}
-
-        <p>Para ver los detalles completos del requerimiento, por favor visita el siguiente enlace:</p>
-        <p><a href="{{ request.build_absolute_uri }}">Ver detalles del requerimiento</a></p>
 
         <div class="footer">
             <p>Gracias por tu atención.</p>
