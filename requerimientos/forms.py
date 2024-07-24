@@ -26,7 +26,8 @@ class RequerimientoForm(forms.ModelForm):
             'clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'clasificacion'}, choices=CLASIFICACION_CHOICES),  # Widget select para el campo clasificación
             'sub_clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'sub_clasificacion'}),  # Widget select para el campo sub clasificación
             'adjunto': forms.ClearableFileInput(attrs={'class': 'form-control', 'id': 'adjunto'}),  # Widget para el campo adjunto
-            'estado': forms.Select(attrs={'id': 'estado', 'class': 'form-control'}, choices=[('ACTIVO', 'ACTIVO'), ('CERRADO', 'CERRADO')]),  # Widget select para el campo estado
+            'estado': forms.HiddenInput(),  # Ocultar el campo estado
+            #'estado': forms.Select(attrs={'id': 'estado', 'class': 'form-control','type':'hidden'}, choices=[('ACTIVO', 'ACTIVO'), ('CERRADO', 'CERRADO')]),  # Widget select para el campo estado
         }
 
     def __init__(self, *args, **kwargs):
