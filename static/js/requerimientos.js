@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
         '': [],
         'Software': [
             { value: '', text: 'Seleccionar' },
-            { value: 'linix', text: 'Linix' },
-            { value: 'adminweb', text: 'Adminweb' },
-            { value: 'multiportal', text: 'Multiportal' },
-            { value: 'convenios', text: 'Convenios' },
-            { value: 'PEPS', text: 'PEPS' },
+            { value: 'falla linix', text: 'Falla Linix' },
+            { value: 'falla adminweb', text: 'Falla Adminweb' },
+            { value: 'falla multiportal', text: 'Falla Multiportal' },
+            { value: 'falla convenios', text: 'Falla Convenios' },
+            { value: 'falla PEPS', text: 'Falla PEPS' },
             { value: 'equipo lento', text: 'Equipo lento' },
             { value: 'perdida de informacion', text: 'Perdida de información' },
             { value: 'problemas con el sistema operativo', text: 'Problemas con el sistema operativo' },
@@ -21,22 +21,22 @@ document.addEventListener('DOMContentLoaded', function () {
         ],
         'Hardware': [
             { value: '', text: 'Seleccionar' },
-            { value: 'computadores', text: 'Computadores' },
-            { value: 'impresoras', text: 'Impresoras' },
-            { value: 'datafonos', text: 'Datafonos' },
-            { value: 'UPS', text: 'UPS' },
-            { value: 'Planta electrica', text: 'Planta eléctrica' },
-            { value: 'aire acondicionado', text: 'Aire acondicionado' },
-            { value: 'instalaciones electricas', text: 'Instalaciones eléctricas' },
-            { value: 'Fallas de impresora', text: 'Fallas de impresora' },
-            { value: 'Problemas con el monitor', text: 'Problemas con el monitor' },
-            { value: 'Problemas con el teclado/mouse', text: 'Problemas con el teclado/mouse' }
+            { value: 'falla computadores', text: 'Falla Computadores' },
+            { value: 'falla impresoras', text: 'Falla Impresoras' },
+            { value: 'falla datafonos', text: 'Falla Datafonos' },
+            { value: 'falla UPS', text: 'Falla UPS' },
+            { value: 'falla planta electrica', text: 'Falla Planta eléctrica' },
+            { value: 'falla aire acondicionado', text: 'Falla Aire acondicionado' },
+            { value: 'falla instalaciones electricas', text: 'Falla Instalaciones eléctricas' },
+            { value: 'fallas de impresora', text: 'Fallas de impresora' },
+            { value: 'problemas con el monitor', text: 'Problemas con el monitor' },
+            { value: 'problemas con el teclado/mouse', text: 'Problemas con el teclado/mouse' }
         ],
         'Comunicaciones': [
             { value: '', text: 'Seleccionar' },
-            { value: 'internet', text: 'Internet' },
-            { value: 'equipos de comunicacion', text: 'Equipos de comunicación' },
-            { value: 'conexion remota', text: 'Conexión remota' }
+            { value: 'falla internet', text: 'Falla Internet' },
+            { value: 'falla equipos de comunicacion', text: 'Falla Equipos de comunicación' },
+            { value: 'falla conexion remota', text: 'Falla Conexión remota' }
         ]
     };
 

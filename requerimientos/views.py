@@ -82,7 +82,7 @@ def crear_requerimiento(request):
 @login_required  # Requiere que el usuario esté autenticado
 def listar_requerimientos(request):
     requerimientos = Requerimiento.objects.all().prefetch_related('detalles')  # Obtener todos los requerimientos Prefetch the related details
-    return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos})  # Renderizar la plantilla con la lista de requerimientos
+    return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos,'usuario': request.user})  # Renderizar la plantilla con la lista de requerimientos
 
 # Vista para agregar una novedad a un requerimiento
 @login_required  # Requiere que el usuario esté autenticado
