@@ -26,33 +26,44 @@
             color: #666;
             line-height: 1.6;
         }
-        .footer {
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #999;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Notificación de Requerimiento</h1>
-        {% if request.user.is_superuser %}
-        <p>Estimados <b>colaboradores</b>,</p>
-        {% else %}
-        <p>Estimado <b>{{ requerimiento.usuario.nombres }}</b>,</p>
-        {% endif %}
+        <p>{{ mensaje }}</p>
         <p>Se ha agregado una nueva novedad al requerimiento No. {{ requerimiento.id }}.</p>
-        <p><strong>Detalle:</strong></p>
-        <p>{{ detalle.comentario }}</p>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <tbody>
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Motivo de Notificación</th>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ mensajeNotificacion }}</td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Descripción del Requerimiento</th>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.descripcion }}</td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Fecha de Novedad</th>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ detalle.fecha }}</td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Etapa del Requerimiento</th>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ mensajeNotificacion2 }}</td>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px;">Descripción Detallada</th>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ detalle.comentario }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         {% if detalle.adjunto %}
         <p><strong>Archivo Adjunto:</strong> <a href="{{ detalle.adjunto.url }}" download>{{ detalle.adjunto.name }}</a> </p>
         {% endif %}
 
-        <div class="footer">
-            <p>Gracias por tu atención.</p>
-            <p>El equipo de soporte</p>
-        </div>
     </div>
 </body>
 </html>

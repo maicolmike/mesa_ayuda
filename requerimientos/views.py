@@ -106,6 +106,16 @@ def agregar_novedad(request, id):
             detalle.usuario = request.user  # Asignar el usuario actual al detalle
             detalle.save()  # Guardar el detalle en la base de datos
 
+            # Define el mensaje basado en el usuario
+            if request.user.is_superuser:
+                mensaje = f"Estimado {requerimiento.usuario.nombres}, nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
+                mensajeNotificacion = "Se brindó una solución al requerimiento"
+                mensajeNotificacion2 = "En espera que cliente confirme solución"
+            else:
+                mensaje = "Estimados colaboradores,"
+                mensajeNotificacion = "Nueva novedad"
+                mensajeNotificacion2 = "Nueva novedad"
+
             # Enviar correo electrónico
             subject = "Nueva novedad en el Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
             template_name = "emails/nueva_novedad.html"  # Plantilla HTML para el correo
@@ -113,6 +123,9 @@ def agregar_novedad(request, id):
                 'usuario': request.user,
                 'requerimiento': requerimiento,
                 'detalle': detalle,
+                'mensaje': mensaje,
+                'mensajeNotificacion': mensajeNotificacion,
+                'mensajeNotificacion2': mensajeNotificacion2,
             }
 
             # Definir la lista de destinatarios en base al tipo de usuario
