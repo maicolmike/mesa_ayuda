@@ -45,12 +45,6 @@ class EmailThread(threading.Thread):
 def send_async_mail(subject, template_name, context, recipient_list):
     EmailThread(subject, template_name, context, recipient_list).start()
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from .forms import RequerimientoForm
-from .models import Requerimiento
-from django.contrib import messages
-
 # Vista para crear un nuevo requerimiento
 @login_required  # Requiere que el usuario esté autenticado
 def crear_requerimiento(request):
