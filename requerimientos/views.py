@@ -11,6 +11,7 @@ import os
 from django.conf import settings
 import time 
 from django.http import JsonResponse
+from django.utils import timezone
 #para el envio de correos
 import threading
 from django.core.mail import EmailMessage
@@ -188,12 +189,44 @@ def detalle_requerimiento(request, id):
 def cerrar_requerimiento(request, id):
     if request.method == 'POST':
         requerimiento = get_object_or_404(Requerimiento, id=id)
-        #detalles = requerimiento.detalles.all()  # Obtener todos los detalles del requerimiento
+        
+        if requerimiento.estado == 'CERRADO':
+            messages.error(request, f"El requerimiento {requerimiento.id} ya está cerrado.")
+            return redirect('listar_requerimientos')
+
         requerimiento.estado = 'CERRADO'
         requerimiento.save()
-        #detalle.requerimiento = requerimiento  # Asignar el requerimiento al detalle
-        #detalle.usuario = request.user  # Asignar el usuario actual al detalle
-        #detalle.save()  # Guardar el detalle en la base de datos
+
+        detalle = DetalleRequerimiento.objects.create(
+            requerimiento=requerimiento,
+            comentario="El requerimiento fue cerrado.",
+            fecha=timezone.now(),
+            usuario=request.user,
+        )
+
+        # Define el mensaje
+        mensaje = f"Estimado {requerimiento.usuario.nombres}, su requerimiento ha sido cerrado."
+        mensajeNotificacion = "El requerimiento fue cerrado"
+        mensajeNotificacion2 = "Requerimiento cerrado exitosamente"
+
+        # Enviar correo electrónico
+        subject = f"Cierre del Requerimiento No. {requerimiento.id}"
+        template_name = "emails/cerrar_requerimiento.html"
+        context = {
+            'usuario': request.user,
+            'requerimiento': requerimiento,
+            'detalle': detalle,
+            'mensaje': mensaje,
+            'mensajeNotificacion': mensajeNotificacion,
+            'mensajeNotificacion2': mensajeNotificacion2,
+        }
+
+        # Definir la lista de destinatarios
+        recipient_list = [requerimiento.usuario.email]
+        
+        # Enviar el correo electrónico de manera asíncrona
+        send_async_mail(subject, template_name, context, recipient_list)
+
         messages.success(request, f"Requerimiento {requerimiento.id} cerrado exitosamente.")
         return redirect('listar_requerimientos')
     else:
