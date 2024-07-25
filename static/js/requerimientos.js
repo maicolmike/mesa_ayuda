@@ -10,30 +10,44 @@ document.addEventListener('DOMContentLoaded', function () {
         'Software': [
             { value: '', text: 'Seleccionar' },
             { value: 'linix', text: 'Linix' },
+            { value: 'workmanager', text: 'Workmanager' },
             { value: 'administrativo visionamos adminweb', text: 'Administrativo visionamos adminweb' },
             { value: 'multiportal', text: 'Multiportal' },
             { value: 'aplicativo convenios', text: 'Aplicativo convenios' },
             { value: 'aplicativo PEPS', text: 'Aplicativo PEPS' },
-            { value: 'sistema operativo', text: 'Sistema operativo' },
-            { value: 'perdida de informacion', text: 'Perdida de información' },
-            { value: 'problemas con aplicaciones especificas', text: 'Problemas con aplicaciones específicas' }
+            { value: 'pasarela ACH colombian', text: 'Pasarela ACH colombian' },
+            { value: 'consulta web', text: 'Consulta web' },
+            { value: 'correo electronico institucional', text: 'Correo electronico institucional' }
         ],
         'Hardware': [
             { value: '', text: 'Seleccionar' },
             { value: 'computadores', text: 'Computadores' },
-            { value: 'impresoras', text: 'Impresoras' },
-            { value: 'datafonos', text: 'Datafonos' },
+            { value: 'impresoras y validadoras', text: 'Impresoras y validadoras' },
             { value: 'UPS', text: 'UPS' },
+            { value: 'estabilizadores', text: 'Estabilizadores' },
             { value: 'planta electrica', text: 'Planta eléctrica' },
-            { value: 'aire acondicionado', text: 'Aire acondicionado' },
             { value: 'instalaciones electricas', text: 'Instalaciones eléctricas' },
+            { value: 'datafonos', text: 'Datafonos' },
+            { value: 'aire acondicionado', text: 'Aire acondicionado' },
+            { value: 'DVR', text: 'DVR' },
+            
         ],
         'Comunicaciones': [
             { value: '', text: 'Seleccionar' },
             { value: 'internet', text: 'Internet' },
             { value: 'equipos de comunicacion', text: 'Equipos de comunicación' },
+            { value: 'puntos de red de datos', text: 'Puntos de red de datos' },
             { value: 'conexion remota data center', text: 'Conexión remota data center' }
+        ],'Transaccional': [
+            { value: '', text: 'Seleccionar' },
+            { value: 'retiros', text: 'Retiros' },
+            { value: 'transferencias', text: 'Transferencias' },
+            { value: 'cupo rotativo', text: 'Cupo rotativo' },
+            { value: 'tarjetas', text: 'Tarjetas' },
+            { value: 'recaudos PSE', text: 'Recaudos PSE' },
+            { value: 'recaudos supergiros', text: 'Recaudos supergiros' },
         ]
+        
     };
 
     // Manejar el evento de cambio en el campo de clasificación

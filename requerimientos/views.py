@@ -188,8 +188,12 @@ def detalle_requerimiento(request, id):
 def cerrar_requerimiento(request, id):
     if request.method == 'POST':
         requerimiento = get_object_or_404(Requerimiento, id=id)
+        #detalles = requerimiento.detalles.all()  # Obtener todos los detalles del requerimiento
         requerimiento.estado = 'CERRADO'
         requerimiento.save()
+        #detalle.requerimiento = requerimiento  # Asignar el requerimiento al detalle
+        #detalle.usuario = request.user  # Asignar el usuario actual al detalle
+        #detalle.save()  # Guardar el detalle en la base de datos
         messages.success(request, f"Requerimiento {requerimiento.id} cerrado exitosamente.")
         return redirect('listar_requerimientos')
     else:
