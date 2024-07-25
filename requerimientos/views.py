@@ -205,7 +205,7 @@ def cerrar_requerimiento(request, id):
         )
 
         # Define el mensaje
-        mensaje = f"Estimado {requerimiento.usuario.nombres}, su requerimiento ha sido cerrado."
+        mensaje = f"Estimado {requerimiento.usuario.nombres}, nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
         mensajeNotificacion = "El requerimiento fue cerrado"
         mensajeNotificacion2 = "Requerimiento cerrado exitosamente"
 
