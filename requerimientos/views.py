@@ -99,6 +99,10 @@ def agregar_novedad(request, id):
         print("Adjunto URL:", requerimiento.adjunto.url)  # Imprimir la URL del adjunto
         print("Adjunto Path:", os.path.join(settings.MEDIA_ROOT, requerimiento.adjunto.name))  # Imprimir la ruta del adjunto
 
+    if requerimiento.estado == 'CERRADO':
+            messages.error(request, f"El requerimiento {requerimiento.id} ya está cerrado.")
+            return redirect('listar_requerimientos')
+
     if request.method == 'POST':  # Si el método de la solicitud es POST
         detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)  # Crear un formulario de detalle con los datos enviados
         if detalle_form.is_valid():  # Validar el formulario de detalle
