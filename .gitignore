@@ -25,7 +25,7 @@ __pycache__/
 #static/
 
 # Ignorar archivos de medios subidos
-media/
+#media/
 
 # Ignorar configuraciones del sistema operativo
 .DS_Store
@@ -41,3 +41,6 @@ node_modules/
 # Ignorar archivos de configuración específicos del sistema operativo
 *.swp
 *.swo
+
+# que no me tome lo de settings py
+**/settings.py

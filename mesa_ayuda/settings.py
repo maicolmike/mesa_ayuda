@@ -155,3 +155,18 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'soportesistemas@cootep.com.co'
 EMAIL_HOST_PASSWORD = 'jsyy bebr hxzp ubzc'
+
+# Configurar la duración de la sesión en segundos (5 minutos) se multiplica 60 segundos por los minutos
+SESSION_COOKIE_AGE = 300
+SESSION_COOKIE_SECURE = False  # True si estï¿½s usando HTTPS
+SESSION_COOKIE_HTTPONLY = 300
+
+# Configurar para que la sesión se actualice con cada solicitud
+SESSION_SAVE_EVERY_REQUEST = True
+
+# URL de inicio de sesión personalizada  / evitar el error de http://127.0.0.1:8000/accounts/login/?next=/requerimientos/listar_requerimientos/
+LOGIN_URL = '/users/login'
+
+#no me esta funcionando esto
+# Si deseas redirigir a los usuarios después de iniciar sesión:
+#LOGIN_REDIRECT_URL = '/requerimientos/listar_requerimientos/'
