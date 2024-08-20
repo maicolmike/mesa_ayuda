@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import LoginUser, RegistroUsuario,CambiarClaveForm,RegistroUsuario1
+from .forms import LoginUser, RegistroUsuario,CambiarClaveForm,RegistroUsuario1,LoginUserRecuperarClave
 from django.contrib import messages
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required # vista basada en funciones que no permita acceder a paginas donde no se ha logeado
@@ -301,7 +301,21 @@ class UsersListView(LoginRequiredMixin,ListView):
         return context
 # recuperar clave    
 def recuperar_clave(request):
-    form = LoginUser(request.POST)
+    if request.method == 'POST':
+        form = LoginUserRecuperarClave(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            try:
+                user = User.objects.get(username=username)
+                # Assuming the password reset logic goes here
+                messages.success(request, 'Se ha enviado un correo a {} para recuperar su clave.'.format(user.email))
+            except User.DoesNotExist:
+                messages.error(request, 'Error: El usuario no existe.')
+        else:
+            messages.error(request, 'Formulario inválido.')
+    else:
+        form = LoginUserRecuperarClave()
+
     return render(request, 'users/recuperarClave.html', {
         'title': "Recuperar clave",
         'form': form,

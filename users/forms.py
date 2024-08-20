@@ -162,3 +162,9 @@ class RegistroUsuario1(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+class LoginUserRecuperarClave(forms.Form):
+    username = forms.CharField(required=True, min_length=4, max_length=50,label='Usuario',
+                               widget=forms.TextInput(attrs={'class': 'form-control',
+                                                             'id': 'username',
+                                                             'placeholder': 'Usuario'}))
