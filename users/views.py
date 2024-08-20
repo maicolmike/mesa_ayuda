@@ -10,7 +10,11 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 import time # módulo time de Python, es parte de la biblioteca estándar de Python, y contiene la útil función sleep() que suspende o detiene un programa durante un número de determinado de segundos
 from django.urls import reverse
-
+import string
+import random
+from django.core.mail import send_mail
+from django.conf import settings
+from threading import Thread
 
 
 
@@ -299,24 +303,76 @@ class UsersListView(LoginRequiredMixin,ListView):
         #context['usersList']=context['user_list']
         
         return context
-# recuperar clave    
+# generar clave automatica   
+def generate_random_password():
+    # Define un conjunto de caracteres que incluye letras (mayúsculas y minúsculas), dígitos y algunos caracteres especiales.
+    characters = string.ascii_letters + string.digits + "*#$&!?"
+    
+    # Genera una contraseña aleatoria de 6 caracteres eligiendo aleatoriamente de los caracteres definidos.
+    return ''.join(random.SystemRandom().choice(characters) for _ in range(6))
+
+# recuperar clave  
 def recuperar_clave(request):
+    # Verifica si la solicitud es de tipo POST (es decir, si se ha enviado el formulario).
     if request.method == 'POST':
+        # Crea una instancia del formulario con los datos enviados.
         form = LoginUserRecuperarClave(request.POST)
+        
+        # Verifica si el formulario es válido.
         if form.is_valid():
+            # Obtiene el nombre de usuario ingresado en el formulario.
             username = form.cleaned_data['username']
             try:
+                # Intenta obtener al usuario de la base de datos por su nombre de usuario.
                 user = User.objects.get(username=username)
-                # Assuming the password reset logic goes here
-                messages.success(request, 'Se ha enviado un correo a {} para recuperar su clave.'.format(user.email))
+                
+                # Genera una nueva contraseña aleatoria.
+                new_password = generate_random_password()
+                
+                # Establece la nueva contraseña para el usuario.
+                user.set_password(new_password)
+                
+                # Guarda los cambios en la base de datos.
+                user.save()
+
+                # Envía la nueva contraseña al correo electrónico del usuario utilizando un hilo separado para no bloquear la ejecución.
+                Thread(target=send_password_email, args=(user, new_password)).start()
+
+                # Muestra un mensaje de éxito al usuario.
+                messages.success(request, f'Se ha enviado un correo a {user.email} para recuperar su clave.')
+                
+                # Redirige al usuario a la página de inicio de sesión.
+                return redirect('login')
             except User.DoesNotExist:
+                # Si el usuario no existe, muestra un mensaje de error.
                 messages.error(request, 'Error: El usuario no existe.')
         else:
+            # Si el formulario no es válido, muestra un mensaje de error.
             messages.error(request, 'Formulario inválido.')
     else:
+        # Si la solicitud no es de tipo POST, simplemente crea un formulario vacío.
         form = LoginUserRecuperarClave()
 
+    # Renderiza la plantilla recuperarClave.html con el formulario.
     return render(request, 'users/recuperarClave.html', {
         'title': "Recuperar clave",
         'form': form,
     })
+
+#enviar correo
+def send_password_email(user, new_password):
+    # Asunto del correo electrónico que se enviará.
+    subject = 'Recuperación de Contraseña'
+    
+    # Cuerpo del mensaje del correo electrónico que incluye la nueva contraseña generada.
+    message = f'Hola {user.username},\n\nTu nueva contraseña es: {new_password}\n\nPor favor, cambia esta contraseña después de iniciar sesión.'
+    
+    # Dirección de correo electrónico del remitente (configurada en settings.py).
+    email_from = settings.EMAIL_HOST_USER
+    
+    # Lista de destinatarios, en este caso, el correo electrónico del usuario.
+    recipient_list = [user.email]
+    
+    # Envía el correo electrónico con el asunto, mensaje, remitente y lista de destinatarios.
+    send_mail(subject, message, email_from, recipient_list)
+    

@@ -24,7 +24,7 @@
     {% endfor %}
     <button type="submit" class="btn btn-lg btn-success" >Iniciar sesi&oacute;n</button>  <!-- style="background-color:rgb(4,105,4);" -->
         <br><br>
-        <a class="" href="#">Recordar contraseña</a>
+        <a class="" href="{% url 'recuperar_clave' %}">Recordar contraseña</a>
         <br>
         {% include 'messages.html' %}
 
