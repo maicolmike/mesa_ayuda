@@ -299,3 +299,10 @@ class UsersListView(LoginRequiredMixin,ListView):
         #context['usersList']=context['user_list']
         
         return context
+# recuperar clave    
+def recuperar_clave(request):
+    form = LoginUser(request.POST)
+    return render(request, 'users/recuperarClave.html', {
+        'title': "Recuperar clave",
+        'form': form,
+    })

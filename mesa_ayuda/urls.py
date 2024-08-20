@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from django.urls import include
-from users.views import login_view,logout_view,register,usersList,UsersListView,CambiarClave,UserUpdateView,UserUdpateClave,UserDelete,crear_usuario,editar_usuario
+from users.views import login_view,logout_view,register,usersList,UsersListView,CambiarClave,UserUpdateView,UserUdpateClave,UserDelete,crear_usuario,editar_usuario,recuperar_clave
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import handler404
@@ -22,6 +22,7 @@ urlpatterns = [
     path('users/editar', UserUpdateView, name='updateusuarios'),
     path('users/editarClave', UserUdpateClave, name='updateusuariosClave'),
     path('users/eliminarUsuarios', UserDelete, name='deleteusuarios'),
+    path('users/recuperarClave', recuperar_clave, name='recuperar_clave'),
     path('requerimientos/', include('requerimientos.urls')),
 
     path('users/registro2',crear_usuario, name='crear_usuario'),
