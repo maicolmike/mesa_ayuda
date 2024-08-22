@@ -43,4 +43,4 @@ node_modules/
 *.swo
 
 # que no me tome lo de settings py
-**/settings.py
+settings.py
