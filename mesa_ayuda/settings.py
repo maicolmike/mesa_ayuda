@@ -157,10 +157,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'soportesistemas@cootep.com.co'
 EMAIL_HOST_PASSWORD = 'jsyy bebr hxzp ubzc'
 
-# Configurar la duración de la sesión en segundos (5 minutos) se multiplica 60 segundos por los minutos
-SESSION_COOKIE_AGE = 300
+# Configurar la duración de la sesión en segundos (10 minutos) se multiplica 60 segundos por los minutos
+SESSION_COOKIE_AGE = 600
 SESSION_COOKIE_SECURE = False  # True si estï¿½s usando HTTPS
-SESSION_COOKIE_HTTPONLY = 300
+SESSION_COOKIE_HTTPONLY = 600
 
 # Configurar para que la sesión se actualice con cada solicitud
 SESSION_SAVE_EVERY_REQUEST = True

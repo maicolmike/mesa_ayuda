@@ -65,11 +65,18 @@ def send_custom_email(subject, template_name, context, recipient_list, saludo_pe
     # Personaliza el saludo según el destinatario
     if saludo_personalizado:
         saludo = f"Estimado(a) {context['usuario'].nombres}"  # Saludo con el nombre del usuario
+        mensaje = "Le informamos que hemos recibido su requerimiento"  # mensaje personalizado
     else:
         saludo = "Estimados colaboradores"  # Saludo genérico para los colaboradores
+        mensaje = "Le informamos que se ha recibido un requerimiento"  # mensaje personalizado
     
     # Agregar el saludo al contexto para que esté disponible en la plantilla
-    context['saludo'] = saludo
+    #context['saludo'] = saludo
+   # Agregar el saludo y el mensaje al contexto para que estén disponibles en la plantilla
+    context.update({
+        'saludo': saludo,
+        'mensaje': mensaje
+    })
 
     # Renderiza la plantilla HTML usando el contexto proporcionado
     html_message = render_to_string(template_name, context)
