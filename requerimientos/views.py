@@ -16,6 +16,8 @@ from django.utils import timezone
 import threading
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.utils.html import strip_tags
 
 
 
@@ -49,37 +51,90 @@ class EmailThread(threading.Thread):
 def send_async_mail(subject, template_name, context, recipient_list):
     EmailThread(subject, template_name, context, recipient_list).start()
 
-# Vista para crear un nuevo requerimiento
-@login_required  # Requiere que el usuario esté autenticado
-def crear_requerimiento(request):
-    if request.method == 'POST':  # Si el método de la solicitud es POST
-        form = RequerimientoForm(request.POST, request.FILES, user=request.user)  # Crear un formulario con los datos enviados
-        if form.is_valid():  # Validar el formulario
-            requerimiento = form.save(commit=False)  # Guardar el formulario sin comprometer los datos aún
-            requerimiento.usuario = request.user  # Asignar el usuario actual al requerimiento
-            requerimiento.save()  # Guardar el requerimiento en la base de datos
+# Clase que extiende Thread para manejar el envío de correo en segundo plano
+class EmailThread2(threading.Thread):
+    def __init__(self, email):
+        self.email = email
+        super().__init__()
 
-            # Enviar correo electrónico al usuario que creó el requerimiento
-            subject = "Registro de Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
-            template_name = "emails/nuevo_requerimiento.html"  # Plantilla HTML para el correo
-            context = {  # Contexto para renderizar la plantilla
-                'usuario': request.user,  # Información del usuario actual
-                'requerimiento': requerimiento,  # Información del requerimiento
-            }
+    def run(self):
+        self.email.send()
 
-            # Lista de destinatarios incluyendo al usuario y otros colaboradores
-            recipient_list = [request.user.email, 'maicol.yela@gmail.com', 'maicol-yela@hotmail.com']
-
-            # Enviar el correo en segundo plano
-            send_async_mail(subject, template_name, context, recipient_list)
-
-            # Mostrar un mensaje de éxito al usuario con el ID del requerimiento
-            messages.success(request, 'Registro Exitoso! Su número de radicado tiquet es: {}'.format(requerimiento.id))
-            return redirect('crear_requerimiento')  # Redirigir al usuario a la página de creación de requerimiento
+# Función para enviar un correo electrónico con soporte para mensajes HTML y texto plano, con saludo personalizado
+def send_custom_email(subject, template_name, context, recipient_list, saludo_personalizado):
+    # Personaliza el saludo según el destinatario
+    if saludo_personalizado:
+        saludo = f"Estimado(a) {context['usuario'].nombres}"  # Saludo con el nombre del usuario
     else:
-        form = RequerimientoForm(user=request.user)  # Crear un formulario vacío
+        saludo = "Estimados colaboradores"  # Saludo genérico para los colaboradores
+    
+    # Agregar el saludo al contexto para que esté disponible en la plantilla
+    context['saludo'] = saludo
 
-    # Renderizar la plantilla con el formulario
+    # Renderiza la plantilla HTML usando el contexto proporcionado
+    html_message = render_to_string(template_name, context)
+    # Convierte el mensaje HTML en texto plano para destinatarios que no puedan ver HTML
+    #plain_message = strip_tags(html_message)
+    # Dirección de correo del remitente, tomada de la configuración
+    #from_email = "servicio de notificación <{}>".format(settings.DEFAULT_FROM_EMAIL)
+    
+    # Crea un correo electrónico con soporte para texto plano y HTML
+    #email = EmailMultiAlternatives(subject, plain_message, from_email, recipient_list)
+    # Adjunta la versión HTML del correo
+    #email.attach_alternative(html_message, "text/html")
+    # Envía el correo
+    #email.send()
+    # Crear el mensaje de correo electrónico
+    email = EmailMessage(
+        subject,  # Asunto del correo
+        html_message,  # Cuerpo del mensaje (HTML)
+        from_email="servicio de notificación <{}>".format(settings.DEFAULT_FROM_EMAIL),  # Remitente personalizado
+        to=recipient_list  # Lista de destinatarios
+    )
+    email.content_subtype = 'html'  # Definir el contenido como HTML
+
+    # Crear una instancia de EmailThread para enviar el correo en segundo plano
+    EmailThread2(email).start()
+
+# Vista para crear un nuevo requerimiento
+@login_required  # Requiere que el usuario esté autenticado para acceder a la vista
+def crear_requerimiento(request):
+    if request.method == 'POST':  # Si el método de la solicitud es POST, es decir, el usuario ha enviado el formulario
+        form = RequerimientoForm(request.POST, request.FILES, user=request.user)  # Se crea una instancia del formulario con los datos enviados
+        if form.is_valid():  # Se valida el formulario para asegurarse de que los datos son correctos
+            requerimiento = form.save(commit=False)  # Guarda el formulario sin comprometer los datos aún (para agregar más información)
+            requerimiento.usuario = request.user  # Asigna el usuario actual como el creador del requerimiento
+            requerimiento.save()  # Guarda finalmente el requerimiento en la base de datos
+
+            # Enviar correo al usuario que creó el requerimiento
+            subject_user = "Registro de Requerimiento No. " + str(requerimiento.id)  # Asunto del correo electrónico para el usuario
+            template_name_user = "emails/nuevo_requerimiento.html"  # Nombre de la plantilla HTML para el correo
+            context_user = {
+                'usuario': request.user,  # Contexto para la plantilla que incluye el usuario
+                'requerimiento': requerimiento,  # Contexto que incluye el requerimiento recién creado
+            }
+            recipient_list_user = [request.user.email]  # El destinatario del correo es el usuario que creó el requerimiento
+            # Envía el correo electrónico con un saludo personalizado que incluye el nombre del usuario
+            send_custom_email(subject_user, template_name_user, context_user, recipient_list_user, saludo_personalizado=True)
+
+            # Enviar correo a los colaboradores
+            subject_collaborators = "Nuevo Requerimiento Recibido - No. " + str(requerimiento.id)  # Asunto del correo electrónico para los colaboradores
+            template_name_collaborators = "emails/nuevo_requerimiento.html"  # Usamos la misma plantilla HTML
+            context_collaborators = {
+                'usuario': None,  # No se pasa un usuario específico ya que el saludo es genérico
+                'requerimiento': requerimiento,  # Contexto que incluye el requerimiento recién creado
+            }
+            recipient_list_collaborators = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Destinatarios del correo para los colaboradores
+            # Envía el correo electrónico con un saludo genérico "Estimados colaboradores"
+            send_custom_email(subject_collaborators, template_name_collaborators, context_collaborators, recipient_list_collaborators, saludo_personalizado=False)
+
+            # Mostrar un mensaje de éxito al usuario en la interfaz
+            messages.success(request, 'Registro Exitoso! Su número de radicado tiquet es: {}'.format(requerimiento.id))
+            return redirect('crear_requerimiento')  # Redirige al usuario a la página de creación de requerimiento
+    else:
+        form = RequerimientoForm(user=request.user)  # Si no es una solicitud POST, se crea un formulario vacío
+
+    # Renderiza la plantilla con el formulario de creación de requerimiento
     return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento", 'form': form})
 
 # Vista para listar todos los requerimientos
