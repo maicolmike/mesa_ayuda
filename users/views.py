@@ -14,8 +14,9 @@ import string
 import random
 from django.core.mail import send_mail
 from django.conf import settings
-from threading import Thread
-
+from threading import Thread #trabajar en segundo plano
+from django.template.loader import render_to_string #Renderiza la plantilla HTML con los datos necesarios.
+from django.utils.html import strip_tags # Convierte el mensaje HTML a texto plano.
 
 
 
@@ -360,6 +361,7 @@ def recuperar_clave(request):
     })
 
 #enviar correo
+'''
 def send_password_email(user, new_password):
     # Asunto del correo electrónico que se enviará.
     subject = 'Recuperación de Contraseña'
@@ -375,4 +377,23 @@ def send_password_email(user, new_password):
     
     # Envía el correo electrónico con el asunto, mensaje, remitente y lista de destinatarios.
     send_mail(subject, message, email_from, recipient_list)
+'''
+def send_password_email(user, new_password):
+    # Asunto del correo electrónico.
+    subject = 'Recuperación de Contraseña'
+    
+    # Renderiza la plantilla HTML con los datos necesarios.
+    html_message = render_to_string('emails/restablecerclave.html', {'username': user.username, 'nombres': user.nombres,'new_password': new_password})
+    
+    # Convierte el mensaje HTML a texto plano.
+    plain_message = strip_tags(html_message)
+    
+    # Dirección de correo electrónico del remitente personalizada.
+    from_email = "servicio de notificación <{}>".format(settings.DEFAULT_FROM_EMAIL)
+    
+    # Lista de destinatarios.
+    recipient_list = [user.email]
+    
+    # Envía el correo electrónico con el asunto, mensaje en texto plano, mensaje HTML, remitente y lista de destinatarios.
+    send_mail(subject, plain_message, from_email, recipient_list, html_message=html_message)
     
