@@ -26,6 +26,13 @@
             color: #666;
             line-height: 1.6;
         }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -63,6 +70,12 @@
         {% if detalle.adjunto %}
         <p><strong>Archivo Adjunto:</strong> <a href="{{ detalle.adjunto.url }}" download>{{ detalle.adjunto.name }}</a> </p>
         {% endif %}
+
+        <div class="footer">
+            <!--<p>© 2024 - COOTEP</p>-->
+            <p>&copy; COOTEP</p>
+            <p>Este es un correo generado automáticamente, por favor no respondas a este mensaje.</p>
+        </div>
 
     </div>
 </body>
