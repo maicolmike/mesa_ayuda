@@ -4,19 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nuevo Requerimiento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: auto;
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .content {
+            font-size: 16px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
-    
-    <p>Estimado(a) <b>{{ usuario.nombres }}</b>,</p>
-    <p>Gracias por comunicarse con el Servicio de Soporte COOTEP</p>
-    <p>Le informamos que hemos recibido su requerimiento bajo el número <strong>{{ requerimiento.id }}</strong>  con los siguientes detalles:</p>
-    <ul>
-        <li><strong>Título:</strong> {{ requerimiento.titulo }}</li>
-        <li><strong>Descripción:</strong> {{ requerimiento.descripcion }}</li>
-        <li><strong>Clasificación:</strong> {{ requerimiento.clasificacion }}</li>
-        <li><strong>Sub-Clasificación:</strong> {{ requerimiento.sub_clasificacion }}</li>
-        <li><strong>Estado:</strong> {{ requerimiento.estado }}</li>
-    </ul>
-    <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
+    <div class="container">
+        <div class="header">
+            <h1>Nuevo Requerimiento</h1>
+        </div>
+        <div class="content">
+            <p>Estimado(a) <b>{{ usuario.nombres }}</b>,</p>
+            <p>Gracias por comunicarse con el Servicio de Soporte COOTEP</p>
+            <p>Le informamos que hemos recibido su requerimiento bajo el número <strong>{{ requerimiento.id }}</strong>  con los siguientes detalles:</p>
+            <ul>
+                <li><strong>Título:</strong> {{ requerimiento.titulo }}</li>
+                <li><strong>Descripción:</strong> {{ requerimiento.descripcion }}</li>
+                <li><strong>Clasificación:</strong> {{ requerimiento.clasificacion }}</li>
+                <li><strong>Sub-Clasificación:</strong> {{ requerimiento.sub_clasificacion }}</li>
+                <li><strong>Estado:</strong> {{ requerimiento.estado }}</li>
+            </ul>
+            <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
+        </div>
+        <div class="footer">
+            <p>© 2024 - COOTEP</p>
+            <p>Este es un correo generado automáticamente, por favor no respondas a este mensaje.</p>
+        </div>
+    </div>
 </body>
 </html>

@@ -58,20 +58,23 @@ def crear_requerimiento(request):
             requerimiento = form.save(commit=False)  # Guardar el formulario sin comprometer los datos aún
             requerimiento.usuario = request.user  # Asignar el usuario actual al requerimiento
             requerimiento.save()  # Guardar el requerimiento en la base de datos
-            #form.save_m2m()  # Guardar las relaciones ManyToMany del formulario
 
-            # Enviar correo electrónico
+            # Enviar correo electrónico al usuario que creó el requerimiento
             subject = "Registro de Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
             template_name = "emails/nuevo_requerimiento.html"  # Plantilla HTML para el correo
             context = {  # Contexto para renderizar la plantilla
-                'usuario': request.user,
-                'requerimiento': requerimiento,
+                'usuario': request.user,  # Información del usuario actual
+                'requerimiento': requerimiento,  # Información del requerimiento
             }
-            recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Lista de destinatarios del correo
-            send_async_mail(subject, template_name, context, recipient_list)  # Enviar el correo en segundo plano
+
+            # Lista de destinatarios incluyendo al usuario y otros colaboradores
+            recipient_list = [request.user.email, 'maicol.yela@gmail.com', 'maicol-yela@hotmail.com']
+
+            # Enviar el correo en segundo plano
+            send_async_mail(subject, template_name, context, recipient_list)
 
             # Mostrar un mensaje de éxito al usuario con el ID del requerimiento
-            messages.success(request, 'Registro Exitoso! Su numero de radicado tiquet es: {}'.format(requerimiento.id))
+            messages.success(request, 'Registro Exitoso! Su número de radicado tiquet es: {}'.format(requerimiento.id))
             return redirect('crear_requerimiento')  # Redirigir al usuario a la página de creación de requerimiento
     else:
         form = RequerimientoForm(user=request.user)  # Crear un formulario vacío
