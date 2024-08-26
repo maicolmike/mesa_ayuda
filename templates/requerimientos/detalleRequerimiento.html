@@ -8,9 +8,19 @@
 <p>{{ requerimiento.titulo }}</p>
 <p>{{ requerimiento.clasificacion }} - {{ requerimiento.sub_clasificacion }}</p>
 <p>Estado: {{ requerimiento.estado }}</p>
+<p>
+    <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info">Agregar novedad</a>
+    {% if usuario.is_superuser == 1 %} <!-- user.is_superuser == 1-->
+    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}">Cerrar caso</a>
+    {% endif %}
+</p>
+
+
+
 
 <table id="example1" class="table table-bordered table-hover">
     <thead class="table-secondary">
+        
         <tr>
             <th>Fecha</th>
             <th>Descripción</th>
@@ -43,6 +53,9 @@
                 {% endif %}
             </td>
             <td>{{ detalle.usuario.username }}</td>
+
+            {% include 'requerimientos/modalEliminarRequerimiento.html' %}
+
         </tr>
         {% endfor %}
     </tbody>

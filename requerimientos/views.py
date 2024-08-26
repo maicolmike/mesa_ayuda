@@ -252,6 +252,7 @@ def detalle_requerimiento(request, id):
         'requerimiento': requerimiento,  # Objeto del requerimiento actual
         'detalles': detalles,  # QuerySet de detalles asociados al requerimiento
         'detalle_form': detalle_form,  # Formulario para agregar nuevos detalles
+        'usuario': request.user,
     })
 
 @login_required
