@@ -20,7 +20,7 @@
                         <th>Fecha</th>
                         <th>Detalles</th>
                         <th>Agregar novedad</th>
-                        {% if usuario.is_superuser == 1 %} <!-- user.is_superuser == 1-->
+                        {% if usuario.is_superuser == 1 %} 
                         <th>Cerrar caso</th>
                         {% endif %}
                     </tr>
@@ -30,7 +30,12 @@
                     <tr>
                         <td>{{ requerimiento.id }}</td>
                         <td>{{ requerimiento.titulo }}</td>
-                        <td>{{ requerimiento.descripcion|truncatechars:50 }}</td>
+                        <td>
+                            {{ requerimiento.descripcion|truncatechars:100 }} <!-- Muestra solo los primeros 100 caracteres -->
+                            {% if requerimiento.descripcion|length > 100 %} 
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalVerMas{{ requerimiento.id }}">Ver más</a>
+                            {% endif %}
+                        </td>
                         <td>{{ requerimiento.clasificacion }}</td>
                         <td>{{ requerimiento.sub_clasificacion }}</td>
                         <td>{{ requerimiento.estado }}</td>
@@ -38,21 +43,34 @@
                         <td>{{ requerimiento.fecha }}</td>
                         <td style="text-align: center;">
                             <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success fa-solid fa-calendar-check"></a>
-                           <!-- <a href="#" class="btn btn-success fa-solid fa-calendar-check" data-bs-toggle="modal" data-bs-target="#modalDetalleRequerimiento{{ requerimiento.id }}"></a> -->
                         </td>
                         <td style="text-align: center;">
                             <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info fa-solid fa-check"></a>
-                            <!-- <a href="#" class="btn btn-info fa-solid fa-check" data-bs-toggle="modal" data-bs-target="#modalAgregarNovedad{{ requerimiento.id }}"></a> -->
                         </td>
-                        {% if usuario.is_superuser == 1 %} <!-- user.is_superuser == 1-->
+                        {% if usuario.is_superuser == 1 %}
                         <td style="text-align: center;">
                             <a href="#" class="btn btn-danger fa-solid fa-xmark" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}"></a>
                         </td>
                         {% endif %}
 
-                        {% include 'requerimientos/modalDetalleRequerimiento.html' %}
-                        {% include 'requerimientos/modalAgregarNovedad.html' %}
-                        {% include 'requerimientos/modalEliminarRequerimiento.html' %}
+                        <!-- Modal Ver Más -->
+                        <div class="modal fade" id="modalVerMas{{ requerimiento.id }}" tabindex="-1" aria-labelledby="modalVerMasLabel{{ requerimiento.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalVerMasLabel{{ requerimiento.id }}">Descripción Completa</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ requerimiento.descripcion }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin Modal Ver Más -->
 
                     </tr>
                 {% endfor %}
