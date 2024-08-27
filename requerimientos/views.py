@@ -131,7 +131,7 @@ def crear_requerimiento(request):
                 'usuario': None,  # No se pasa un usuario específico ya que el saludo es genérico
                 'requerimiento': requerimiento,  # Contexto que incluye el requerimiento recién creado
             }
-            recipient_list_collaborators = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']  # Destinatarios del correo para los colaboradores
+            recipient_list_collaborators = ['soportesistemas@cootep.com.co', 'sistemas@cootep.com.co', 'auxsistemas@cootep.com.co']  # Destinatarios del correo para los colaboradores
             # Envía el correo electrónico con un saludo genérico "Estimados colaboradores"
             send_custom_email(subject_collaborators, template_name_collaborators, context_collaborators, recipient_list_collaborators, saludo_personalizado=False)
 
@@ -202,7 +202,7 @@ def agregar_novedad(request, id):
             if request.user.is_superuser:
                 recipient_list = [requerimiento.usuario.email]
             else:
-                recipient_list = ['maicol.yela@gmail.com', 'maicol-yela@hotmail.com']
+                recipient_list = ['soportesistemas@cootep.com.co', 'sistemas@cootep.com.co', 'auxsistemas@cootep.com.co']
 
             # Enviar el correo electrónico de manera asíncrona
             send_async_mail(subject, template_name, context, recipient_list)
