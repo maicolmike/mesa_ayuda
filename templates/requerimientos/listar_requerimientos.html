@@ -52,6 +52,11 @@
                             <a href="#" class="btn btn-danger fa-solid fa-xmark" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}"></a>
                         </td>
                         {% endif %}
+                        
+                        {% include 'requerimientos/modalDetalleRequerimiento.html' %}
+                        {% include 'requerimientos/modalAgregarNovedad.html' %}
+                        {% include 'requerimientos/modalEliminarRequerimiento.html' %}
+
 
                         <!-- Modal Ver Más -->
                         <div class="modal fade" id="modalVerMas{{ requerimiento.id }}" tabindex="-1" aria-labelledby="modalVerMasLabel{{ requerimiento.id }}" aria-hidden="true">
@@ -65,7 +70,7 @@
                                         {{ requerimiento.descripcion }}
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
                                     </div>
                                 </div>
                             </div>
