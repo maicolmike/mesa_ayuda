@@ -10,20 +10,35 @@ CLASIFICACION_CHOICES = [
     ('Transaccional', 'Transaccional'),
 ]
 
+# Definición de opciones para el campo de agencia
+AGENCIA_CHOICES = [
+    ('', ''),
+    ('MOCOA', 'Mocoa'),
+    ('PUERTO ASIS', 'Puerto Asis'),
+    ('DORADA', 'Dorada'),
+    ('HORMIGA', 'Hormiga'),
+    ('ORITO', 'Orito'),
+    ('VILLA GARZON', 'Villa Garzon'),
+    ('PUERTO LEGUIZAMO', 'Puerto Leguizamo'),
+    ('SIBUNDOY', 'Sibundoy'),
+]
+
 # Formulario para el modelo Requerimiento
 class RequerimientoForm(forms.ModelForm):
     class Meta:
         model = Requerimiento  # Especifica el modelo asociado
-        fields = ['titulo', 'descripcion', 'clasificacion', 'sub_clasificacion', 'adjunto', 'estado']  # Campos a incluir en el formulario
+        fields = ['titulo', 'descripcion', 'agencia','clasificacion', 'sub_clasificacion', 'adjunto', 'estado']  # Campos a incluir en el formulario
         labels = {
             'titulo': 'Título',
             'descripcion': 'Descripción',
+            'agencia': 'Agencia',
             'clasificacion': 'Clasificación',
             'sub_clasificacion': 'Sub Clasificación',
         }
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Título', 'id': 'titulo'}),  # Widget personalizado para el campo título
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Descripción', 'id': 'descripcion','style': 'resize: none;'}),  # Widget personalizado para el campo descripción
+            'agencia': forms.Select(attrs={'class': 'form-control', 'id': 'agencia'}, choices=AGENCIA_CHOICES),
             'clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'clasificacion'}, choices=CLASIFICACION_CHOICES),  # Widget select para el campo clasificación
             'sub_clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'sub_clasificacion'}),  # Widget select para el campo sub clasificación
             'adjunto': forms.ClearableFileInput(attrs={'class': 'form-control', 'id': 'adjunto'}),  # Widget para el campo adjunto

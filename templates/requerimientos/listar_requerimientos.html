@@ -13,6 +13,7 @@
                         <th class="sorting sorting_asc">Id</th>
                         <th>Título</th>
                         <th>Descripción</th>
+                        <th>Agencia</th>
                         <th>Clasificación</th>
                         <th>Sub Clasificación</th>
                         <th>Estado</th>
@@ -36,6 +37,7 @@
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalVerMas{{ requerimiento.id }}">Ver más</a>
                             {% endif %}
                         </td>
+                        <td>{{ requerimiento.agencia }}</td>
                         <td>{{ requerimiento.clasificacion }}</td>
                         <td>{{ requerimiento.sub_clasificacion }}</td>
                         <td>{{ requerimiento.estado }}</td>
