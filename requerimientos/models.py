@@ -8,6 +8,7 @@ class Requerimiento(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
     titulo = models.CharField(max_length=255)
     descripcion = models.TextField()
+    agencia = models.CharField(max_length=100)
     clasificacion = models.CharField(max_length=100)
     sub_clasificacion = models.CharField(max_length=100)
     adjunto = models.FileField(upload_to='adjuntos/', null=True, blank=True)
