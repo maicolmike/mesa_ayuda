@@ -18,6 +18,8 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
+from django.http import HttpResponseForbidden
+
 
 
 
@@ -153,7 +155,12 @@ def listar_requerimientos(request):
 # Vista para agregar una novedad a un requerimiento
 @login_required  # Requiere que el usuario esté autenticado
 def agregar_novedad(request, id):
-    requerimiento = get_object_or_404(Requerimiento, id=id)  # Obtener el requerimiento o devolver un 404 si no existe
+    requerimiento = get_object_or_404(Requerimiento, id=id)
+    if not (request.user.is_superuser or request.user == requerimiento.usuario):
+        messages.error(request, "No tienes permiso para agregar novedades a este requerimiento.")
+        return redirect('listar_requerimientos')
+        #return HttpResponseForbidden("No tienes permiso para agregar novedades a este requerimiento.")
+    #requerimiento = get_object_or_404(Requerimiento, id=id)  # Obtener el requerimiento o devolver un 404 si no existe
     detalles = requerimiento.detalles.all()  # Obtener todos los detalles del requerimiento
 
     print(request.user.is_superuser)
