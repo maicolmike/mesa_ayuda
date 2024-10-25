@@ -18,7 +18,7 @@ __pycache__/
 *.log
 
 # Ignorar archivos de migración de Django
-*/migrations/*
+#*/migrations/*
 
 # Ignorar archivos estáticos generados
 #staticfiles/
