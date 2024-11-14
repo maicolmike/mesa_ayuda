@@ -124,6 +124,7 @@ def CambiarClave(request):
 
 # esta funcion sirve para editar los usuarios que se obtienen de la vista listar usuarios
 # esta asociada a los siguiente: template/users/listUsers.html     mesa_ayuda/mesa_ayuda/urls.py path('users/editar', UserUpdateView, name='updateusuarios'),
+# esta funcion esta sirviendo con modalEdtiar usuarios
 @login_required(login_url='login')
 def UserUpdateView(request):
     """
@@ -138,6 +139,7 @@ def UserUpdateView(request):
         agencia = request.POST.get('agencia')
         email = request.POST.get('userEmail')
         tipousuario = request.POST.get('tipousuario')
+        estado = request.POST.get('estado')
         
         # Busca el usuario en la base de datos por su ID
         user = get_object_or_404(User, id=user_id)
@@ -159,6 +161,7 @@ def UserUpdateView(request):
         user.agencia = agencia
         user.email = email
         user.is_superuser = tipousuario
+        user.is_active = estado
 
         # Guarda los cambios en la base de datos
         user.save()

@@ -18,6 +18,7 @@
                         <th>Agencia</th>
                         <th>Email</th>
                         <th style="width: 140px;">Tipo usuario</th>
+                        <th style="width: 140px;">Estado usuario</th>
                         <th>Editar</th>
                         <th>Clave</th>
                         <th>Borrar</th>
@@ -36,6 +37,11 @@
                           <td>Administrador</td>
                         {% else %}
                           <td>Cliente</td>
+                        {% endif %}
+                        {% if usuarios.is_active == 1 %}
+                          <td>Activo</td>
+                        {% else %}
+                          <td>Inactivo</td>
                         {% endif %}
                         <td style="text-align: center;">
                           <a href="#" class="btn btn-info fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#modalEditar{{ usuarios.id }}"></a>

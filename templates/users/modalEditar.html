@@ -135,6 +135,16 @@
             </select>
           </div>
 
+          <!-- Campo estado usuario -->
+          <div class="form-inline col-sm-12 mt-3">
+            <label class="control-label col-sm-4" for="estado"><h5>Estado Usuario</h5></label>
+            <select name="estado" id="estado" class="form-control col-sm-7">
+                <option value="1" {% if usuarios.is_active %}selected{% endif %}>Activo</option>
+                <option value="0" {% if not usuarios.is_active %}selected{% endif %}>Inactivo</option>
+            </select>
+          </div>
+
+
           <!-- Botones del Modal -->
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Guardar cambios</button> <!-- btnEditar para activar los alerts de js -->
