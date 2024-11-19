@@ -30,7 +30,8 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, 'Bienvenido {}'.format(user.username))
+                #messages.success(request, 'Bienvenido {}'.format(user.username))
+                messages.success(request, 'Bienvenido {}'.format(user.nombres))
                 return redirect('index')  # Redirige al usuario a la página de inicio
             else:
                 messages.error(request, 'Usuario o contraseña incorrectos')
