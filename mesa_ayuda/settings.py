@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'mesa_ayuda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mesa_ayuda_pruebas2',
+        'NAME': config('DB_NAME'),
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
