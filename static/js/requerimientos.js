@@ -9,43 +9,63 @@ document.addEventListener('DOMContentLoaded', function () {
         '': [],
         'Software': [
             { value: '', text: 'Seleccionar' },
-            { value: 'linix', text: 'Linix' },
-            { value: 'workmanager', text: 'Workmanager' },
             { value: 'administrativo visionamos adminweb', text: 'Administrativo visionamos adminweb' },
-            { value: 'multiportal', text: 'Multiportal' },
             { value: 'aplicativo convenios', text: 'Aplicativo convenios' },
             { value: 'aplicativo PEPS', text: 'Aplicativo PEPS' },
-            { value: 'pasarela ACH colombian', text: 'Pasarela ACH colombian' },
             { value: 'consulta web', text: 'Consulta web' },
-            { value: 'correo electronico institucional', text: 'Correo electronico institucional' }
+            { value: 'correo electronico institucional', text: 'Correo electronico institucional' },
+            { value: 'linix', text: 'Linix' },
+            { value: 'multiportal', text: 'Multiportal' },
+            { value: 'pasarela ACH colombian', text: 'Pasarela ACH colombian' },
+            { value: 'workmanager', text: 'Workmanager' }, 
+            
         ],
         'Hardware': [
             { value: '', text: 'Seleccionar' },
-            { value: 'computadores', text: 'Computadores' },
-            { value: 'impresoras y validadoras', text: 'Impresoras y validadoras' },
-            { value: 'UPS', text: 'UPS' },
-            { value: 'estabilizadores', text: 'Estabilizadores' },
-            { value: 'planta electrica', text: 'Planta eléctrica' },
-            { value: 'instalaciones electricas', text: 'Instalaciones eléctricas' },
-            { value: 'datafonos', text: 'Datafonos' },
             { value: 'aire acondicionado', text: 'Aire acondicionado' },
+            { value: 'computadores', text: 'Computadores' },
+            { value: 'datafonos', text: 'Datafonos' },
             { value: 'DVR', text: 'DVR' },
-            
+            { value: 'estabilizadores', text: 'Estabilizadores' },
+            { value: 'impresoras y validadoras', text: 'Impresoras y validadoras' },
+            { value: 'instalaciones electricas', text: 'Instalaciones eléctricas' },
+            { value: 'planta electrica', text: 'Planta eléctrica' },
+            { value: 'UPS', text: 'UPS' },
+
         ],
         'Comunicaciones': [
             { value: '', text: 'Seleccionar' },
-            { value: 'internet', text: 'Internet' },
+            { value: 'conexion remota data center', text: 'Conexión remota data center' },
             { value: 'equipos de comunicacion', text: 'Equipos de comunicación' },
+            { value: 'internet', text: 'Internet' },
             { value: 'puntos de red de datos', text: 'Puntos de red de datos' },
-            { value: 'conexion remota data center', text: 'Conexión remota data center' }
+            
         ],'Transaccional': [
             { value: '', text: 'Seleccionar' },
-            { value: 'retiros', text: 'Retiros' },
-            { value: 'transferencias', text: 'Transferencias' },
             { value: 'cupo rotativo', text: 'Cupo rotativo' },
-            { value: 'tarjetas', text: 'Tarjetas' },
             { value: 'recaudos PSE', text: 'Recaudos PSE' },
             { value: 'recaudos supergiros', text: 'Recaudos supergiros' },
+            { value: 'retiros', text: 'Retiros' },
+            { value: 'tarjetas', text: 'Tarjetas' },
+            { value: 'transferencias', text: 'Transferencias' },  
+
+        ],'Solicitud de actualizacion de informacion': [
+            { value: '', text: 'Seleccionar' },
+            { value: 'etapas de credito', text: 'Etapas de credito' },
+            { value: 'fecha de vencimiento de contrato', text: 'Fecha de vencimiento de contrato' },
+            { value: 'ultima fecha de actualizacion de datos (asociados - terceros)', text: 'Ultima fecha de actualizacion de datos (asociados - terceros)' },
+            
+        ],'Solicitud de reportes de informacion': [
+            { value: '', text: 'Seleccionar' },
+            { value: 'listado de asociados activos', text: 'Listado de asociados activos' },
+            { value: 'listado de asociados actualizados a la fecha', text: 'Listado de asociados actualizados a la fecha' },
+            { value: 'listado de asociados afiliados', text: 'Listado de asociados afiliados' },
+            { value: 'listado de asociados al dia en pago de obligaciones', text: 'Listado de asociados al dia en pago de obligaciones' },
+            { value: 'listado de asociados retirados', text: 'Listado de asociados retirados' },
+            { value: 'listado de asociados sin actualizar datos', text: 'Listado de asociados sin actualizar datos' },
+            { value: 'listado de asociados sin cancelar aportes', text: 'Listado de asociados sin cancelar aportes' },
+            
+            
         ]
         
     };

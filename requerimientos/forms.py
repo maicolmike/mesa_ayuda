@@ -8,6 +8,8 @@ CLASIFICACION_CHOICES = [
     ('Hardware', 'Hardware'),
     ('Comunicaciones', 'Comunicaciones'),
     ('Transaccional', 'Transaccional'),
+    ('Solicitud de actualizacion de informacion', 'Solicitud de actualizacion de informacion'),
+    ('Solicitud de reportes de informacion', 'Solicitud de reportes de informacion'),
 ]
 
 # Definición de opciones para el campo de agencia
