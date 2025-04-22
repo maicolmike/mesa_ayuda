@@ -10,7 +10,7 @@ class LoginUser(forms.Form):
     password = forms.CharField(required=True,label='Contraseña',
                                widget=forms.PasswordInput(attrs={'class': 'form-control',
                                                              'id': 'password',
-                                                             'placeholder': 'Password'}))
+                                                             'placeholder': 'Contraseña'}))
     
 class RegistroUsuario(forms.Form):
     

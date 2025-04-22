@@ -43,7 +43,7 @@ def login_view(request):
         return redirect('index')
 
     return render(request, 'users/login.html', {
-        'title': "Login",
+        'title': "Login mesa de ayuda",
         'form': form
     })
 
