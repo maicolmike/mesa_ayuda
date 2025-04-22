@@ -113,11 +113,11 @@ body {
   }
   
   /* para que el mensaje se ponga adelante de la transparencia */
-  .mensajes {
-    
+  .mensajes {  
     position: relative; /* Asegura que esté sobre la capa transparente */
     z-index: 2; /* Coloca el contenedor encima de la capa */
-    
-    
-    
+    text-align: center;
+    max-width: 350px; /* tamaño del mensaje de alerta */
+    margin: 0 auto;  /* se ajuste al lado del login */
+    font-size: 15px; /* tamaño del la letra del mensaje de alerta */
   }
