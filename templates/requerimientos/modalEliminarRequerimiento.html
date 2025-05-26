@@ -16,8 +16,9 @@
               <input readonly minlength="4" type="text" class="form-control col-sm-7" name="id" value="{{ requerimiento.id }}">
           </div>
 
-          <p style="font-size: 20px;">¿Estás seguro que deseas cerrar el requerimiento <b>{{ requerimiento.id }}</b>?</p>
-          <h5>Recuerde que este proceso es irreversible.</h5>
+          <h5>Comentarios de cierre de caso</h5>
+          <textarea name="comentario" id="comentario" cols="40" rows="10" class="form-control" placeholder="comentarios" style="resize:none" required></textarea>
+          
          
       </div>
       <div class="modal-footer">

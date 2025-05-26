@@ -130,7 +130,8 @@ def crear_requerimiento(request):
             subject_collaborators = "Nuevo Requerimiento Recibido - No. " + str(requerimiento.id)  # Asunto del correo electrónico para los colaboradores
             template_name_collaborators = "emails/nuevo_requerimiento.html"  # Usamos la misma plantilla HTML
             context_collaborators = {
-                'usuario': None,  # No se pasa un usuario específico ya que el saludo es genérico
+                #'usuario': None,  # No se pasa un usuario específico ya que el saludo es genérico
+                'usuario': request.user,  # Contexto para la plantilla que incluye el usuario
                 'requerimiento': requerimiento,  # Contexto que incluye el requerimiento recién creado
             }
             recipient_list_collaborators = ['soportesistemas@cootep.com.co', 'sistemas@cootep.com.co', 'auxsistemas@cootep.com.co']  # Destinatarios del correo para los colaboradores
@@ -281,7 +282,7 @@ def cerrar_requerimiento(request, id):
 
         detalle = DetalleRequerimiento.objects.create(
             requerimiento=requerimiento,
-            comentario="El requerimiento fue cerrado.",
+            comentario=request.POST.get('comentario', 'Sin comentarios'),
             fecha=timezone.now(),
             usuario=request.user,
         )
