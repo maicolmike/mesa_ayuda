@@ -21,9 +21,7 @@
                         <th>Fecha</th>
                         <th>Detalles</th>
                         <th>Agregar novedad</th>
-                        {% if usuario.is_superuser == 1 %} 
                         <th>Cerrar caso</th>
-                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -49,11 +47,11 @@
                         <td style="text-align: center;">
                             <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info fa-solid fa-check"></a>
                         </td>
-                        {% if usuario.is_superuser == 1 %}
+                        
                         <td style="text-align: center;">
                             <a href="#" class="btn btn-danger fa-solid fa-xmark" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}"></a>
                         </td>
-                        {% endif %}
+                        
 
                         {% include 'requerimientos/modalDetalleRequerimiento.html' %}
                         {% include 'requerimientos/modalAgregarNovedad.html' %}

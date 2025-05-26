@@ -264,6 +264,11 @@ def detalle_requerimiento(request, id):
 
 @login_required
 def cerrar_requerimiento(request, id):
+    requerimiento = get_object_or_404(Requerimiento, id=id)
+    if not (request.user.is_superuser or request.user == requerimiento.usuario):
+        messages.error(request, "No tienes permiso para cerrar este requerimiento.")
+        return redirect('listar_requerimientos')
+
     if request.method == 'POST':
         requerimiento = get_object_or_404(Requerimiento, id=id)
         
