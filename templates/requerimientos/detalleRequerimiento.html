@@ -13,6 +13,7 @@
     <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info">Agregar novedad</a>
     {% if usuario.is_superuser == 1 %} <!-- user.is_superuser == 1-->
     <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}">Cerrar caso</a>
+    {% include 'requerimientos/modalEliminarRequerimiento.html' %}
     {% endif %}
 </p>
 
@@ -54,8 +55,6 @@
                 {% endif %}
             </td>
             <td>{{ detalle.usuario.username }}</td>
-
-            {% include 'requerimientos/modalEliminarRequerimiento.html' %}
 
         </tr>
         {% endfor %}
