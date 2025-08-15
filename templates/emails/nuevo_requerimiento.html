@@ -21,7 +21,7 @@
         }
         .header {
             text-align: center;
-            padding-bottom: 20px;
+            padding-bottom: 10px;
         }
         .content {
             font-size: 16px;
@@ -37,12 +37,13 @@
 <body>
     <div class="container">
         <div class="header">
+            <img src="/mesa_ayuda/static/img/logonew.png" width="250" height="" alt="COOTEP LTDA" title="COOTEP LTDA">
             <h1>Nuevo Requerimiento</h1>
         </div>
         <div class="content">
             <p><b>{{ saludo }}</b>,</p>
             <p>Gracias por comunicarse con el Servicio de Soporte COOTEP</p>
-            <p>{{ mensaje }} bajo el número <strong>{{ requerimiento.id }}</strong>  con los siguientes detalles:</p>
+            <p>{{ mensaje }} bajo el <strong># {{ requerimiento.id }}</strong>  con los siguientes detalles:</p>
             <ul>
                 <li><strong>Título:</strong> {{ requerimiento.titulo }}</li>
                 <li><strong>Descripción:</strong> {{ requerimiento.descripcion }}</li>
