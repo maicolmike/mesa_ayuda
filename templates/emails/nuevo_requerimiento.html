@@ -44,17 +44,46 @@
             <p><b>{{ saludo }}</b>,</p>
             <p>Gracias por comunicarse con el Servicio de Soporte COOTEP</p>
             <p>{{ mensaje }} bajo el <strong># {{ requerimiento.id }}</strong>  con los siguientes detalles:</p>
-            <ul>
-                <li><strong>Título:</strong> {{ requerimiento.titulo }}</li>
-                <li><strong>Descripción:</strong> {{ requerimiento.descripcion }}</li>
-                <li><strong>Agencia:</strong> {{ requerimiento.agencia }}</li>
-                <li><strong>Clasificación:</strong> {{ requerimiento.clasificacion }}</li>
-                <li><strong>Sub-Clasificación:</strong> {{ requerimiento.sub_clasificacion }}</li>
-                <li><strong>Estado:</strong> {{ requerimiento.estado }}</li>
-                <li><strong>Usuario:</strong> {{ usuario.username }}</li>
-            </ul>
-            <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                    <tbody>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Título</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.titulo }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Descripción</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Agencia</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.agencia }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Clasificación</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.clasificacion }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Sub-Clasificación</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.sub_clasificacion }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Estado</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.estado }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Usuario</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ usuario.username }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
+                <a href="http://10.180.131.7:8004/users/login" target="_blank">Link portal web aplicativo mesa de ayuda</a>
+            </div>
+
         </div>
+
         <div class="footer">
             <!--<p>© 2024 - COOTEP</p>-->
             <p>&copy; COOTEP</p>
