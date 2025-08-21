@@ -6,6 +6,8 @@ $(function () {
     "autoWidth": true, // Deshabilita el ajuste automático del ancho de las columnas
     "lengthMenu": [10, 25, 100], // Define las opciones del menú desplegable para el número de registros por página
     "pageLength": 5, // Establece el número de registros por página a 5
+    // 👇 esta línea es la clave
+    "order": [[8, "desc"]],  // Columna 8 ("Fecha"), descendente (más reciente primero)
 
     // Configura la traducción de los textos del DataTable al español
     "language": {
