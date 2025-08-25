@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notificación de Novedad</title>
+    <title>Nuevo Requerimiento</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,49 +40,47 @@
             <img src="/mesa_ayuda/static/img/logonew.png" width="250" height="" alt="COOTEP LTDA" title="COOTEP LTDA">
             <h1>Notificación de Requerimiento</h1>
         </div>
-        <p><b>{{ mensaje }}</b></p>
-        <p>Se ha agregado una nueva novedad al requerimiento <strong># {{ requerimiento.id }}.</strong></p>
-        <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
-                <tbody>
-                    <tr>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Motivo de Notificación</th>
-                        <td style="border: 1px solid #ddd; padding: 8px;">{{ mensajeNotificacion }}</td>
-                    </tr>
-                    <tr>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Descripción del Requerimiento</th>
-                        <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.descripcion }}</td>
-                    </tr>
-                    <tr>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Fecha de Novedad</th>
-                        <td style="border: 1px solid #ddd; padding: 8px;">{{ detalle.fecha }}</td>
-                    </tr>
-                    <tr>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Etapa del Requerimiento</th>
-                        <td style="border: 1px solid #ddd; padding: 8px;">{{ mensajeNotificacion2 }}</td>
-                    </tr>
-                    <tr>
-                        <th style="border: 1px solid #ddd; padding: 8px;">Descripción Detallada</th>
-                        <td style="border: 1px solid #ddd; padding: 8px;">{{ detalle.comentario }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
-            <a href="http://10.180.131.7:8004/users/login" target="_blank">Link portal web aplicativo mesa de ayuda</a>
-        </div>
+        <div class="content">
+            <p><b>{{ mensaje }}</b></p>
+            <P>{{ mensajeNotificacion0 }}</P>
+            <p>Se ha agregado una nueva novedad al requerimiento <strong># {{ requerimiento.id }}.</strong></p>
 
-        {# 
-        {% if detalle.adjunto %}
-        <p><strong>Archivo Adjunto:</strong> <a href="{{ detalle.adjunto.url }}" download>{{ detalle.adjunto.name }}</a> </p>
-        {% endif %}
-        #}
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                    <tbody>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Motivo de Notificación</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ mensajeNotificacion }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Descripción del Requerimiento</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ requerimiento.descripcion }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Fecha de Novedad</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ detalle.fecha }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Etapa del Requerimiento</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ mensajeNotificacion2 }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid #ddd; padding: 8px;">Descripción Detallada</th>
+                            <td style="border: 1px solid #ddd; padding: 8px;">{{ detalle.comentario }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
+                <a href="http://10.180.131.7:8004/users/login" target="_blank">Link portal web aplicativo mesa de ayuda</a>
+            </div>
+
+        </div>
 
         <div class="footer">
             <!--<p>© 2024 - COOTEP</p>-->
             <p>&copy; COOTEP</p>
             <p>Este es un correo generado automáticamente, por favor no respondas a este mensaje.</p>
         </div>
-
     </div>
 </body>
 </html>

@@ -186,7 +186,8 @@ def agregar_novedad(request, id):
 
             # Define el mensaje basado en el usuario
             if request.user.is_superuser:
-                mensaje = f"Estimado {requerimiento.usuario.nombres}, nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
+                mensaje = f"Estimado {requerimiento.usuario.nombres},"
+                mensajeNotificacion0 = "nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
                 mensajeNotificacion = "Se brindó una solución al requerimiento"
                 mensajeNotificacion2 = "En espera que cliente confirme solución"
             else:
@@ -202,6 +203,7 @@ def agregar_novedad(request, id):
                 'requerimiento': requerimiento,
                 'detalle': detalle,
                 'mensaje': mensaje,
+                'mensajeNotificacion0': mensajeNotificacion0,
                 'mensajeNotificacion': mensajeNotificacion,
                 'mensajeNotificacion2': mensajeNotificacion2,
             }
@@ -288,7 +290,8 @@ def cerrar_requerimiento(request, id):
         )
 
         # Define el mensaje
-        mensaje = f"Estimado {requerimiento.usuario.nombres}, nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
+        mensaje = f"Estimado {requerimiento.usuario.nombres},"
+        mensajeNotificacion0 = "nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
         mensajeNotificacion = "El requerimiento fue cerrado"
         mensajeNotificacion2 = "Requerimiento cerrado exitosamente"
 
@@ -300,6 +303,7 @@ def cerrar_requerimiento(request, id):
             'requerimiento': requerimiento,
             'detalle': detalle,
             'mensaje': mensaje,
+            'mensajeNotificacion0': mensajeNotificacion0,
             'mensajeNotificacion': mensajeNotificacion,
             'mensajeNotificacion2': mensajeNotificacion2,
         }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recuperación de Contraseña</title>
+    <title>Nuevo Requerimiento</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,11 +44,16 @@
             <p>Estimado(a) <strong>{{ nombres }}</strong>, gracias por comunicarse con el Servicio de Soporte COOTEP</p>
             <p>Le informamos que su nueva contraseña es: <strong>{{ new_password }}</strong></p>
             <p>Por favor, después de haber iniciado sesión se le recomienda que cambie de contraseña.</p>
-        </div>
-        <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
+
+            <div style="overflow-x: auto;">
+                <p>Gracias por utilizar nuestro sistema de mesa de ayuda.</p>
                 <a href="http://10.180.131.7:8004/users/login" target="_blank">Link portal web aplicativo mesa de ayuda</a>
+            </div>
+        </div>
+
         <div class="footer">
-            <p>© COOTEP</p>
+            <!--<p>© 2024 - COOTEP</p>-->
+            <p>&copy; COOTEP</p>
             <p>Este es un correo generado automáticamente, por favor no respondas a este mensaje.</p>
         </div>
     </div>
