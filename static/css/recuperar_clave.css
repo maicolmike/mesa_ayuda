@@ -6,25 +6,14 @@ body {
     height: 100vh; /* Ocupa toda la altura de la pantalla */
     margin: 0; /* Elimina márgenes */
     font-family: 'Poppins', sans-serif; /* Fuente */
-    background-image: url('../img/fondo.jpg'); /* Subir un nivel y entrar a img /* Imagen de fondo */
+    background-image: url('../img/fondoC.jpg'); /* Subir un nivel y entrar a img /* Imagen de fondo */
     background-size: cover; /* Ajusta el tamaño */
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
   }
   
-  /* Capa oscura sobre la imagen de fondo */
-  body::before {
-    content: '';
-    position: fixed; /* posision del login */
-    top: 0;
-    left: 0;
-    /*width: 100%;
-    height: 100%;
-    background-color: rgba(250, 247, 247, 0.5); /* Capa negra transparente */
-    /*z-index: 1; /* Coloca la capa detrás del contenido */
-  }
-  
+
   /* ----------- Contenedor de Login ----------- */
   .login-container {
     position: relative; /* Asegura que esté sobre la capa transparente */
@@ -91,32 +80,3 @@ body {
     background-color: #1da890; /* Color al pasar el mouse */
   }
   
-  /* Enlace para recuperar contraseña */
-  .forgot-password {
-    display: block;
-    margin: 12px 0; /* Espaciado */
-    font-size: 14px; /* Tamaño del texto */
-    color: #22bca7; /* Color del texto */
-    text-decoration: none; /* Elimina subrayado */
-  }
-  
-  .forgot-password:hover {
-    text-decoration: underline; /* Subraya al pasar el mouse */
-  }
-  
-  /* Mensaje de error */
-  .errorlist {
-    color: red; /* Color rojo para errores */
-    font-size: 12px; /* Tamaño del texto */
-    text-align: left; /* Alineación a la izquierda */
-  }
-  
-  /* para que el mensaje se ponga adelante de la transparencia */
-  .mensajes {  
-    position: relative; /* Asegura que esté sobre la capa transparente */
-    z-index: 2; /* Coloca el contenedor encima de la capa */
-    text-align: center;
-    max-width: 350px; /* tamaño del mensaje de alerta */
-    margin: 0 auto;  /* se ajuste al lado del login */
-    font-size: 15px; /* tamaño del la letra del mensaje de alerta */
-  }
