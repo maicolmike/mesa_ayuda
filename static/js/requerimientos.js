@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'consulta web', text: 'Consulta web' },
             { value: 'correo electronico institucional', text: 'Correo electronico institucional' },
             { value: 'linix', text: 'Linix' },
-            { value: 'multiportal', text: 'Multiportal' },
+            { value: 'multiportal o nueva app red coopcentral', text: 'Multiportal o Nueva App Red Coopcentral' },
             { value: 'pasarela ACH colombian', text: 'Pasarela ACH colombian' },
             { value: 'workmanager', text: 'Workmanager' }, 
             
