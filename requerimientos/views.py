@@ -184,6 +184,8 @@ def agregar_novedad(request, id):
             detalle.usuario = request.user  # Asignar el usuario actual al detalle
             detalle.save()  # Guardar el detalle en la base de datos
 
+            mensajeNotificacion0 = ""  # inicialización
+
             # Define el mensaje basado en el usuario
             if request.user.is_superuser:
                 mensaje = f"Estimado {requerimiento.usuario.nombres},"
