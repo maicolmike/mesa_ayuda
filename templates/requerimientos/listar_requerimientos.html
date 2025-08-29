@@ -7,6 +7,19 @@
         <div class="card-body table-responsive">
           {% include 'messages.html' %}
             <h4 style="text-align: center;"><b>Listado de requerimientos</b></h4>
+
+            <!-- CODIGO PARA LOS FILTROS DE ESTADO -->
+            <div class="mb-3">
+                <label for="estadoFilter" class="form-label"><b>Filtrar por estado:</b></label>
+                <select id="estadoFilter" class="form-select" style="width: auto; display: inline-block;">
+                    <option value="">Todos</option>
+                    <option value="ABIERTOS">Abiertos</option>
+                    <option value="EN TRAMITE">En trámite</option>
+                    <option value="ACTIVO">Activos</option>
+                    <option value="CERRADO">Cerrados</option>
+                </select>
+            </div>
+
             <table id="example1" class="table table-bordered table-hover">
                 <thead class="table-secondary">
                     <tr>
