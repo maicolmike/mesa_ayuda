@@ -156,51 +156,89 @@ def listar_requerimientos(request):
 # Vista para agregar una novedad a un requerimiento
 @login_required  # Requiere que el usuario esté autenticado
 def agregar_novedad(request, id):
+    # Obtener el requerimiento o devolver 404 si no existe
     requerimiento = get_object_or_404(Requerimiento, id=id)
+
+    # --- Validación de permisos ---
+    # Solo el superusuario o el dueño del requerimiento pueden agregar novedades
     if not (request.user.is_superuser or request.user == requerimiento.usuario):
         messages.error(request, "No tienes permiso para agregar novedades a este requerimiento.")
         return redirect('listar_requerimientos')
-        #return HttpResponseForbidden("No tienes permiso para agregar novedades a este requerimiento.")
-    #requerimiento = get_object_or_404(Requerimiento, id=id)  # Obtener el requerimiento o devolver un 404 si no existe
-    detalles = requerimiento.detalles.all()  # Obtener todos los detalles del requerimiento
 
-    print(request.user.is_superuser)
-    print(requerimiento.usuario.email)
+    # Obtener todos los detalles (novedades) del requerimiento
+    detalles = requerimiento.detalles.all()
 
-    # Imprimir la ruta del archivo adjunto para depuración
-    if requerimiento.adjunto:
-        print("Adjunto URL:", requerimiento.adjunto.url)  # Imprimir la URL del adjunto
-        print("Adjunto Path:", os.path.join(settings.MEDIA_ROOT, requerimiento.adjunto.name))  # Imprimir la ruta del adjunto
-
+    # --- Bloquear si ya está cerrado ---
     if requerimiento.estado == 'CERRADO':
-            messages.error(request, f"El requerimiento {requerimiento.id} ya está cerrado.")
-            return redirect('listar_requerimientos')
+        messages.error(request, f"El requerimiento {requerimiento.id} ya está cerrado.")
+        return redirect('listar_requerimientos')
 
-    if request.method == 'POST':  # Si el método de la solicitud es POST
-        detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)  # Crear un formulario de detalle con los datos enviados
-        if detalle_form.is_valid():  # Validar el formulario de detalle
-            detalle = detalle_form.save(commit=False)  # Guardar el formulario sin comprometer los datos aún
-            detalle.requerimiento = requerimiento  # Asignar el requerimiento al detalle
-            detalle.usuario = request.user  # Asignar el usuario actual al detalle
-            detalle.save()  # Guardar el detalle en la base de datos
+    # --- Procesamiento del formulario ---
+    if request.method == 'POST':
+        detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)
+        if detalle_form.is_valid():
+            # Crear el detalle (novedad) pero aún no lo guardamos en BD
+            detalle = detalle_form.save(commit=False)
+            detalle.requerimiento = requerimiento
+            detalle.usuario = request.user
+            detalle.save()  # Guardamos ya con relaciones correctas
 
-            mensajeNotificacion0 = ""  # inicialización
+            # Inicialización del mensaje adicional para correo
+            mensajeNotificacion0 = ""
 
-            # Define el mensaje basado en el usuario
+            # =================================================
+            # Manejo de ESTADO del requerimiento
+            # =================================================
             if request.user.is_superuser:
+                # Caso: el que responde es un superusuario
+
+                # Forzamos el estado a "EN TRÁMITE" de manera defensiva
+                # Solo lo actualizamos si es distinto (para no hacer UPDATE innecesario)
+                if requerimiento.estado != "EN TRAMITE":
+                    requerimiento.estado = "EN TRAMITE"
+                    requerimiento.save()
+
+                # Mensajes para correo al cliente
                 mensaje = f"Estimado {requerimiento.usuario.nombres},"
-                mensajeNotificacion0 = "nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
+                mensajeNotificacion0 = (
+                    "nos complace informarle que estamos en proceso de notificarle "
+                    "sobre el estado y detalles de su requerimiento."
+                )
                 mensajeNotificacion = "Se brindó una solución al requerimiento"
                 mensajeNotificacion2 = "En espera que cliente confirme solución"
+
             else:
+                # Caso: el que responde es el cliente (no superusuario)
+
+                # Revisamos si ya existe alguna respuesta previa de un superusuario
+                hay_respuesta_superusuario = requerimiento.detalles.filter(
+                    usuario__is_superuser=True
+                ).exists()
+
+                if hay_respuesta_superusuario:
+                    # Si ya hubo respuesta de superusuario, el requerimiento
+                    # debe estar en "EN TRÁMITE". Si por alguna razón no lo está,
+                    # lo corregimos (defensivo + eficiente)
+                    if requerimiento.estado != "EN TRAMITE":
+                        requerimiento.estado = "EN TRAMITE"
+                        requerimiento.save()
+                    # Si ya estaba en EN TRAMITE, no hacemos nada (ahorramos UPDATE)
+                else:
+                    # Si NUNCA ha respondido un superusuario,
+                    # dejamos el estado como está (normalmente ACTIVO)
+                    pass
+
+                # Mensajes para correo a los colaboradores
                 mensaje = "Estimados colaboradores,"
                 mensajeNotificacion = "Nueva novedad"
                 mensajeNotificacion2 = "Nueva novedad"
 
-            # Enviar correo electrónico
-            subject = "Nueva novedad en el Requerimiento No. " + str(requerimiento.id)  # Crear el asunto del correo con el ID del requerimiento
-            template_name = "emails/nueva_novedad.html"  # Plantilla HTML para el correo
-            context = {  # Contexto para renderizar la plantilla
+            # =================================================
+            # Envío de correo de notificación
+            # =================================================
+            subject = "Nueva novedad en el Requerimiento No. " + str(requerimiento.id)
+            template_name = "emails/nueva_novedad.html"
+            context = {
                 'usuario': request.user,
                 'requerimiento': requerimiento,
                 'detalle': detalle,
@@ -210,27 +248,37 @@ def agregar_novedad(request, id):
                 'mensajeNotificacion2': mensajeNotificacion2,
             }
 
-            # Definir la lista de destinatarios en base al tipo de usuario
+            # Lista de destinatarios según quién genera la novedad
             if request.user.is_superuser:
+                # Si responde un superusuario → notificar al cliente
                 recipient_list = [requerimiento.usuario.email]
             else:
-                recipient_list = ['soportesistemas@cootep.com.co', 'sistemas@cootep.com.co', 'auxsistemas@cootep.com.co']
+                # Si responde el cliente → notificar al equipo de sistemas
+                recipient_list = [
+                    'soportesistemas@cootep.com.co',
+                    'sistemas@cootep.com.co',
+                    'auxsistemas@cootep.com.co',
+                ]
 
-            # Enviar el correo electrónico de manera asíncrona
+            # Enviar el correo electrónico de forma asíncrona
             send_async_mail(subject, template_name, context, recipient_list)
 
-            messages.success(request, 'Novedad registrada con éxito')  # Mensaje de éxito
-            return redirect('listar_requerimientos')  # Redirigir al usuario a la página de listar_requerimientos
-            #return redirect('detalle_requerimiento', id=requerimiento.id)  # Redirigir al usuario a la vista de detalles del requerimiento
-    else:
-        detalle_form = DetalleRequerimientoForm()  # Crear un formulario de detalle vacío
+            # Mensaje de éxito para el usuario
+            messages.success(request, 'Novedad registrada con éxito')
+            return redirect('listar_requerimientos')
 
+    else:
+        # Si la solicitud es GET → mostramos formulario vacío
+        detalle_form = DetalleRequerimientoForm()
+
+    # Renderizar la plantilla con el formulario y los detalles existentes
     return render(request, 'requerimientos/agregarNovedad.html', {
         'title': "Agregar novedad",
         'requerimiento': requerimiento,
         'detalles': detalles,
         'detalle_form': detalle_form
-    })  # Renderizar la plantilla con el requerimiento, los detalles y el formulario de detalle
+    })
+
 
 # Vista para mostrar los detalles de un requerimiento específico
 @login_required  # Requiere que el usuario esté autenticado
