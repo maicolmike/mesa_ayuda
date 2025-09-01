@@ -6,7 +6,7 @@ $(function () {
     "autoWidth": true,
     "lengthMenu": [10, 25, 100], // Opciones de cantidad de registros por página
     "pageLength": 5,             // Cantidad de registros por defecto
-    "order": [[8, "desc"]],      // Ordenar por la columna de fecha (columna 8) descendente
+    "order": [[0, "desc"]],      // Ordenar por la columna de fecha (columna 8) descendente
     "language": {                // Traducción al español
       "sProcessing": "Procesando...",
       "sLengthMenu": "Mostrar _MENU_ registros",
