@@ -17,9 +17,6 @@
     
 </p>
 
-
-
-
 <table id="example1" class="table table-bordered table-hover">
     <thead class="table-secondary">
         
@@ -33,7 +30,12 @@
     <tbody>
         <tr>
             <td>{{ requerimiento.fecha }}</td>
-            <td>{{ requerimiento.descripcion }}</td>
+            <td>
+                {{ requerimiento.descripcion|truncatechars:210 }}
+                {% if requerimiento.descripcion|length > 210 %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modalVerMas{{ requerimiento.id }}">Ver más</a>
+                {% endif %}
+            </td>
             <td>
                 {% if requerimiento.adjunto %}
                     <a href="{{ requerimiento.adjunto.url }}" download>{{ requerimiento.adjunto.name }}</a>
@@ -55,10 +57,14 @@
                 {% endif %}
             </td>
             <td>{{ detalle.usuario.username }}</td>
+            {% include 'requerimientos/modalVerMas.html' %}
 
         </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<!-- Script para ordenar automáticamente -->
+ <script src="{% static 'js/ordenar.js' %}"></script>
 
 {% endblock %}
