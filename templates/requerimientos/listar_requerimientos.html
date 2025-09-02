@@ -2,83 +2,85 @@
 {% load static %}
 
 {% block sinNada %}
-<div class="container-fluid" style="padding-top: 35px;padding-left: 50px;padding-right: 50px;">
-    <div class="card shadow table-responsive">
-        <div class="card-body table-responsive">
-          {% include 'messages.html' %}
-            <h4 style="text-align: center;"><b>Listado de requerimientos</b></h4>
+<div class="container-fluid" style="padding-top: 35px; padding-left: 20px; padding-right: 20px;">
+    <div class="card shadow">
+        <div class="card-body">
+            {% include 'messages.html' %}
+            <h4 class="text-center"><b>Listado de requerimientos</b></h4>
 
-            <!-- CODIGO PARA LOS FILTROS DE ESTADO -->
-            <!-- Select de filtro -->
+            <!-- FILTRO DE ESTADO -->
             <div class="mb-3">
-            <label for="estadoFilter" class="form-label"><b>Filtrar por estado:</b></label>
-            <form method="get" style="display:inline;">
-                <select id="estadoFilter" name="estado" class="form-select" style="width: auto; display: inline-block;" onchange="this.form.submit()">
-                    <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
-                    <option value="ABIERTOS" {% if filtro_actual == "ABIERTOS" %}selected{% endif %}>Abiertos</option>
-                    <option value="EN TRAMITE" {% if filtro_actual == "EN TRAMITE" %}selected{% endif %}>En trámite</option>
-                    <option value="ACTIVO" {% if filtro_actual == "ACTIVO" %}selected{% endif %}>Activos</option>
-                    <option value="CERRADO" {% if filtro_actual == "CERRADO" %}selected{% endif %}>Cerrados</option>
-                </select>
-            </form>
+                <label for="estadoFilter" class="form-label"><b>Filtrar por estado:</b></label>
+                <form method="get" style="display:inline;">
+                    <select id="estadoFilter" name="estado" 
+                            class="form-select d-inline-block w-auto" 
+                            onchange="this.form.submit()">
+                        <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
+                        <option value="ABIERTOS" {% if filtro_actual == "ABIERTOS" %}selected{% endif %}>Abiertos</option>
+                        <option value="EN TRAMITE" {% if filtro_actual == "EN TRAMITE" %}selected{% endif %}>En trámite</option>
+                        <option value="ACTIVO" {% if filtro_actual == "ACTIVO" %}selected{% endif %}>Activos</option>
+                        <option value="CERRADO" {% if filtro_actual == "CERRADO" %}selected{% endif %}>Cerrados</option>
+                    </select>
+                </form>
             </div>
-            <!-- Select de filtro -->
+            <!-- FIN FILTRO -->
 
-            <table id="example1" class="table table-bordered table-hover">
-                <thead class="table-secondary">
-                    <tr>
-                        <th class="sorting sorting_asc">Id</th>
-                        <th>Título</th>
-                        <th>Descripción</th>
-                        <th>Agencia</th>
-                        <th>Clasificación</th>
-                        <th>Sub Clasificación</th>
-                        <th>Estado</th>
-                        <th>Usuario</th>
-                        <th>Fecha</th>
-                        <th>Detalles</th>
-                        <th>Agregar novedad</th>
-                        <th>Cerrar caso</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for requerimiento in requerimientos %}
-                    <tr>
-                        <td>{{ requerimiento.id }}</td>
-                        <td>{{ requerimiento.titulo }}</td>
-                        <td>
-                            {{ requerimiento.descripcion|truncatechars:210 }} <!-- Muestra solo los primeros 100 caracteres -->
-                            {% if requerimiento.descripcion|length > 210 %} 
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalVerMas{{ requerimiento.id }}">Ver más</a>
-                            {% endif %}
-                        </td>
-                        <td>{{ requerimiento.agencia }}</td>
-                        <td>{{ requerimiento.clasificacion }}</td>
-                        <td>{{ requerimiento.sub_clasificacion }}</td>
-                        <td style="min-width: 120px;">{{ requerimiento.estado }}</td>
-                        <td>{{ requerimiento.usuario.username }}</td>
-                        <td>{{ requerimiento.fecha }}</td>
-                        <td style="text-align: center;">
-                            <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success fa-solid fa-calendar-check"></a>
-                        </td>
-                        <td style="text-align: center;">
-                            <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info fa-solid fa-check"></a>
-                        </td>
-                        
-                        <td style="text-align: center;">
-                            <a href="#" class="btn btn-danger fa-solid fa-xmark" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}"></a>
-                        </td>
-                        
+            <!-- Contenedor responsivo para tabla -->
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-hover align-middle">
+                    <thead class="table-secondary text-center">
+                        <tr>
+                            <th>Id</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                            <th>Agencia</th>
+                            <th>Clasificación</th>
+                            <th>Sub Clasificación</th>
+                            <th>Estado</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th>Detalles</th>
+                            <th>Agregar novedad</th>
+                            <th>Cerrar caso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for requerimiento in requerimientos %}
+                        <tr>
+                            <td>{{ requerimiento.id }}</td>
+                            <td>{{ requerimiento.titulo }}</td>
+                            <td>
+                                {{ requerimiento.descripcion|truncatechars:210 }}
+                                {% if requerimiento.descripcion|length > 210 %}
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalVerMas{{ requerimiento.id }}">Ver más</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ requerimiento.agencia }}</td>
+                            <td>{{ requerimiento.clasificacion }}</td>
+                            <td>{{ requerimiento.sub_clasificacion }}</td>
+                            <td><span class="badge bg-info text-dark">{{ requerimiento.estado }}</td>
+                            <td>{{ requerimiento.usuario.username }}</td>
+                            <td>{{ requerimiento.fecha }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success btn-sm fa-solid fa-calendar-check"></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info btn-sm fa-solid fa-check"></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-danger btn-sm fa-solid fa-xmark" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}"></a>
+                            </td>
 
-                        {% include 'requerimientos/modalDetalleRequerimiento.html' %}
-                        {% include 'requerimientos/modalAgregarNovedad.html' %}
-                        {% include 'requerimientos/modalEliminarRequerimiento.html' %}
-                        {% include 'requerimientos/modalVerMas.html' %}
-                        
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                            {% include 'requerimientos/modalDetalleRequerimiento.html' %}
+                            {% include 'requerimientos/modalAgregarNovedad.html' %}
+                            {% include 'requerimientos/modalEliminarRequerimiento.html' %}
+                            {% include 'requerimientos/modalVerMas.html' %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- FIN tabla responsiva -->
         </div>
     </div>
 </div>
