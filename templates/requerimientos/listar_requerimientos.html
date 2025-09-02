@@ -15,11 +15,11 @@
                     <select id="estadoFilter" name="estado" 
                             class="form-select d-inline-block w-auto" 
                             onchange="this.form.submit()">
-                        <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
                         <option value="ABIERTOS" {% if filtro_actual == "ABIERTOS" %}selected{% endif %}>Abiertos</option>
-                        <option value="EN TRAMITE" {% if filtro_actual == "EN TRAMITE" %}selected{% endif %}>En trámite</option>
                         <option value="ACTIVO" {% if filtro_actual == "ACTIVO" %}selected{% endif %}>Activos</option>
+                        <option value="EN TRAMITE" {% if filtro_actual == "EN TRAMITE" %}selected{% endif %}>En trámite</option>
                         <option value="CERRADO" {% if filtro_actual == "CERRADO" %}selected{% endif %}>Cerrados</option>
+                        <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
                     </select>
                 </form>
             </div>
@@ -58,7 +58,15 @@
                             <td>{{ requerimiento.agencia }}</td>
                             <td>{{ requerimiento.clasificacion }}</td>
                             <td>{{ requerimiento.sub_clasificacion }}</td>
-                            <td><span class="badge bg-info text-dark">{{ requerimiento.estado }}</td>
+                            {% if requerimiento.estado == "ACTIVO" %}
+                            <td><span class="badge bg-success">{{ requerimiento.estado }}</td>
+                            {% elif requerimiento.estado == "CERRADO" %}
+                            <td><span class="badge bg-danger">{{ requerimiento.estado }}</td>
+                            {% elif requerimiento.estado == "EN TRAMITE" %}
+                            <td><span class="badge bg-warning text-dark">{{ requerimiento.estado }}</td>
+                            {% else %}
+                            <td><span class="badge bg-info">{{ requerimiento.estado }}</td>
+                            {% endif %}
                             <td>{{ requerimiento.usuario.username }}</td>
                             <td>{{ requerimiento.fecha }}</td>
                             <td class="text-center">
