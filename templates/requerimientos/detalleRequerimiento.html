@@ -34,8 +34,10 @@
                 {{ requerimiento.descripcion|truncatechars:210 }}
                 {% if requerimiento.descripcion|length > 210 %}
                 <a href="#" data-bs-toggle="modal" data-bs-target="#modalVerMas{{ requerimiento.id }}">Ver más</a>
+                 {% include 'requerimientos/modalVerMas.html' with detalle=requerimiento %}
                 {% endif %}
             </td>
+
             <td>
                 {% if requerimiento.adjunto %}
                     <a href="{{ requerimiento.adjunto.url }}" download>{{ requerimiento.adjunto.name }}</a>
