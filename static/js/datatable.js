@@ -1,13 +1,15 @@
 $(function () {
-  // Inicializar DataTable
-  var table = $("#example1").DataTable({
-    "responsive": true,
-    "lengthChange": false,
-    "autoWidth": true,
-    "lengthMenu": [10, 25, 100], // Opciones de cantidad de registros por página
-    "pageLength": 5,             // Cantidad de registros por defecto
-    "order": [[0, "desc"]],      // Ordenar por la columna de fecha (columna 8) descendente
-    "language": {                // Traducción al español
+  // 🔹 Inicialización del DataTable sobre la tabla con ID #example1
+  $("#example1").DataTable({
+    "responsive": true,   // Habilita que la tabla sea adaptable a distintos tamaños de pantalla (responsive design)
+    "lengthChange": false, // Oculta el selector que permite cambiar el número de registros por página
+    "autoWidth": true, // Ajusta automáticamente el ancho de las columnas
+    "lengthMenu": [10, 25, 100], // Opciones disponibles para elegir cuántos registros mostrar por página
+    "pageLength": 5, // Cantidad de registros que se mostrarán por defecto al cargar la tabla
+    "order": [[0, "desc"]],  // Ordenar la tabla por la PRIMERA columna (índice 0) en orden descendente
+
+    // 🔹 Traducción de los textos al español
+    "language": {
       "sProcessing": "Procesando...",
       "sLengthMenu": "Mostrar _MENU_ registros",
       "sZeroRecords": "No se encontraron resultados",
@@ -15,40 +17,23 @@ $(function () {
       "sInfo": "_START_ al _END_ de _TOTAL_ registros",
       "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
       "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-      "sSearch": "Buscar:",
+      "sSearch": "Buscar:", // Texto de la caja de búsqueda
       "sLoadingRecords": "Cargando...",
       "oPaginate": {
         "sFirst": "Primero",
         "sLast": "Último",
         "sNext": "Siguiente",
         "sPrevious": "Anterior"
-      },
-      "oAria": {
-        "sSortAscending": ": Activar para ordenar ascendente",
-        "sSortDescending": ": Activar para ordenar descendente"
       }
     },
-    // Estructura del DOM: búsqueda arriba, tabla en el medio y paginación abajo
+    // 🔹 Personaliza la estructura del DOM (dónde se colocan los elementos de búsqueda, tabla y paginación)
+    // En este caso:
+    //   f → filtro de búsqueda arriba
+    //   r → información del procesado
+    //   t → tabla
+    //   i → información de los registros
+    //   p → paginación
+    // Con estilos Bootstrap: búsqueda alineada arriba a la derecha con margen inferior
     dom: '<"d-flex justify-content-between align-items-center mb-3"f>rtip'
-  });
-
-  // 🔹 Filtro por defecto al cargar: mostrar SOLO "EN TRAMITE" y "ACTIVO"
-  table.column(6).search("EN TRAMITE|ACTIVO", true, false).draw();
-  $('#estadoFilter').val("ABIERTOS"); // Seleccionar la opción "ABIERTOS" en el select
-
-  // 🔹 Evento de cambio en el select
-  $('#estadoFilter').on('change', function () {
-    var filtro = $(this).val();
-
-    if (filtro === "ABIERTOS") {
-      // Si selecciona "ABIERTOS", filtrar EN TRAMITE o ACTIVO
-      table.column(6).search("EN TRAMITE|ACTIVO", true, false).draw();
-    } else if (filtro) {
-      // Si selecciona otro estado, filtrar exactamente ese estado
-      table.column(6).search(filtro, true, false).draw();
-    } else {
-      // Si selecciona "Todos", quitar filtros
-      table.column(6).search('').draw();
-    }
   });
 });

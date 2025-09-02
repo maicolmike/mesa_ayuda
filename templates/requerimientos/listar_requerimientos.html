@@ -9,16 +9,20 @@
             <h4 style="text-align: center;"><b>Listado de requerimientos</b></h4>
 
             <!-- CODIGO PARA LOS FILTROS DE ESTADO -->
+            <!-- Select de filtro -->
             <div class="mb-3">
-                <label for="estadoFilter" class="form-label"><b>Filtrar por estado:</b></label>
-                <select id="estadoFilter" class="form-select" style="width: auto; display: inline-block;">
-                    <option value="">Todos</option>
-                    <option value="ABIERTOS">Abiertos</option>
-                    <option value="EN TRAMITE">En trámite</option>
-                    <option value="ACTIVO">Activos</option>
-                    <option value="CERRADO">Cerrados</option>
+            <label for="estadoFilter" class="form-label"><b>Filtrar por estado:</b></label>
+            <form method="get" style="display:inline;">
+                <select id="estadoFilter" name="estado" class="form-select" style="width: auto; display: inline-block;" onchange="this.form.submit()">
+                    <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
+                    <option value="ABIERTOS" {% if filtro_actual == "ABIERTOS" %}selected{% endif %}>Abiertos</option>
+                    <option value="EN TRAMITE" {% if filtro_actual == "EN TRAMITE" %}selected{% endif %}>En trámite</option>
+                    <option value="ACTIVO" {% if filtro_actual == "ACTIVO" %}selected{% endif %}>Activos</option>
+                    <option value="CERRADO" {% if filtro_actual == "CERRADO" %}selected{% endif %}>Cerrados</option>
                 </select>
+            </form>
             </div>
+            <!-- Select de filtro -->
 
             <table id="example1" class="table table-bordered table-hover">
                 <thead class="table-secondary">

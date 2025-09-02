@@ -20,9 +20,6 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from django.http import HttpResponseForbidden
 
-
-
-
 # Clase que hereda de threading.Thread para enviar correos en segundo plano
 class EmailThread(threading.Thread):
     def __init__(self, subject, template_name, context, recipient_list):
@@ -148,10 +145,33 @@ def crear_requerimiento(request):
     return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento", 'form': form})
 
 # Vista para listar todos los requerimientos
-@login_required  # Requiere que el usuario esté autenticado
+# Vista para listar todos los requerimientos
+@login_required
 def listar_requerimientos(request):
-    requerimientos = Requerimiento.objects.all().prefetch_related('detalles')  # Obtener todos los requerimientos Prefetch the related details
-    return render(request, 'requerimientos/listar_requerimientos.html', {'title': "Listar requerimientos", 'requerimientos': requerimientos,'usuario': request.user})  # Renderizar la plantilla con la lista de requerimientos
+    # Leer parámetro de la URL (?estado=)
+    filtro = request.GET.get("estado")
+
+    # Si no hay filtro seleccionado -> predeterminado "ABIERTOS"
+    if filtro is None:  
+        filtro = "ABIERTOS"
+
+    # Lógica de filtrado
+    if filtro == "ABIERTOS":
+        # Mostrar EN TRAMITE o ACTIVO
+        requerimientos = Requerimiento.objects.filter(estado__in=["EN TRAMITE", "ACTIVO"])
+    elif filtro == "":
+        # Mostrar todos
+        requerimientos = Requerimiento.objects.all()
+    else:
+        # Mostrar exactamente el estado elegido
+        requerimientos = Requerimiento.objects.filter(estado=filtro)
+
+    return render(request, "requerimientos/listar_requerimientos.html", {
+        "title": "Listar requerimientos",
+        "requerimientos": requerimientos,
+        "usuario": request.user,
+        "filtro_actual": filtro,
+    })
 
 # Vista para agregar una novedad a un requerimiento
 @login_required  # Requiere que el usuario esté autenticado
