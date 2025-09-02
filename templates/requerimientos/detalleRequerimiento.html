@@ -4,11 +4,60 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/register.css' %}">
 
+<style>
+    .configuracion {
+        max-width: 600px;
+        /*margin: auto; */
+        }
+
+    .tabla-detalle th {
+        width: 150px;     /* Opcional: ajusta el ancho de las columnas de encabezado */
+    }
+</style>
+
 <h2>Detalle de Requerimiento: {{ requerimiento.id }}</h2>
-<p>{{ requerimiento.titulo }}</p>
-<p>{{ requerimiento.clasificacion }} - {{ requerimiento.sub_clasificacion }}</p>
-<p>Agencia: {{ requerimiento.agencia }}</p>
-<p>Estado: {{ requerimiento.estado }}</p>
+
+<br>
+<div class="configuracion">
+<table class="table table-bordered table-hover tabla-detalle">
+    <thead>
+        <tr>
+            <th>Titulo</th>
+            <td>{{ requerimiento.titulo }}</td>
+        </tr>
+        <tr>
+            <th>Clasificación</th>
+            <td>{{ requerimiento.clasificacion }}</td>
+        </tr>
+        <tr>
+            <th>Sub-Clasificación</th>
+            <td>{{ requerimiento.sub_clasificacion }}</td>
+        </tr>
+        <tr>
+            <th>Agencia</th>
+            <td>{{ requerimiento.agencia }}</td>
+        </tr>
+        <tr>
+            <th>Estado</th>
+            {% if requerimiento.estado == "ACTIVO" %}
+            <td><span class="badge bg-success">{{ requerimiento.estado }}</td>
+            {% elif requerimiento.estado == "CERRADO" %}
+            <td><span class="badge bg-danger">{{ requerimiento.estado }}</td>
+            {% elif requerimiento.estado == "EN TRAMITE" %}
+            <td><span class="badge bg-warning text-dark">{{ requerimiento.estado }}</td>
+            {% else %}
+            <td><span class="badge bg-info">{{ requerimiento.estado }}</td>
+            {% endif %}
+        </tr>
+        <tr>
+            <th>Usuario</th>
+            <td>{{ usuario.username }}</td>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+</div>
+
 <p>
     <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info">Agregar novedad</a>
     
