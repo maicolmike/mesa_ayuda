@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block sinNada %}
+<div class="container-fluid" style="padding-top: 35px; padding-left: 20px; padding-right: 20px;">
+    <div class="card shadow">
+        <div class="card-body">
+            {% include 'messages.html' %}
+            <h4 class="text-center"><b>Listado de requerimientos</b></h4>
+
+            <!-- FILTRO DE ESTADO -->
+            <div class="mb-3">
+                <label for="estadoFilter" class="form-label"><b>Filtrar por estado:</b></label>
+                <form method="get" style="display:inline;">
+                    <select id="estadoFilter" name="estado" 
+                            class="form-select d-inline-block w-auto" 
+                            onchange="this.form.submit()">
+                        <option value="ABIERTOS" {% if filtro_actual == "ABIERTOS" %}selected{% endif %}>Abiertos</option>
+                        <option value="ACTIVO" {% if filtro_actual == "ACTIVO" %}selected{% endif %}>Activos</option>
+                        <option value="EN TRAMITE" {% if filtro_actual == "EN TRAMITE" %}selected{% endif %}>En trámite</option>
+                        <option value="CERRADO" {% if filtro_actual == "CERRADO" %}selected{% endif %}>Cerrados</option>
+                        <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
+                    </select>
+                </form>
+            </div>
+            <!-- FIN FILTRO -->
+
+            <!-- Contenedor responsivo para tabla -->
+            <div class="table-responsive">
+                <table id="example1" class="table table-bordered table-hover align-middle">
+                    <thead class="table-secondary text-center">
+                        <tr>
+                            <th>Id</th>
+                            <th>Título</th>
+                            <th>Descripción</th>
+                            <th>Agencia</th>
+                            <th>Clasificación</th>
+                            <th>Sub Clasificación</th>
+                            <th>Estado</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th>Detalles</th>
+                            <th>Agregar novedad</th>
+                            <th>Cerrar caso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for requerimiento in requerimientos %}
+                        <tr>
+                            <td>{{ requerimiento.id }}</td>
+                            <td>{{ requerimiento.titulo }}</td>
+                            <td>
+                                {{ requerimiento.descripcion|truncatechars:210 }}
+                                {% if requerimiento.descripcion|length > 210 %}
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalVerMas{{ requerimiento.id }}">Ver más</a>
+                                {% endif %}
+                            </td>
+                            <td>{{ requerimiento.agencia }}</td>
+                            <td>{{ requerimiento.clasificacion }}</td>
+                            <td>{{ requerimiento.sub_clasificacion }}</td>
+                            {% if requerimiento.estado == "ACTIVO" %}
+                            <td><span class="badge bg-success">{{ requerimiento.estado }}</td>
+                            {% elif requerimiento.estado == "CERRADO" %}
+                            <td><span class="badge bg-danger">{{ requerimiento.estado }}</td>
+                            {% elif requerimiento.estado == "EN TRAMITE" %}
+                            <td><span class="badge bg-warning text-dark">{{ requerimiento.estado }}</td>
+                            {% else %}
+                            <td><span class="badge bg-info">{{ requerimiento.estado }}</td>
+                            {% endif %}
+                            <td>{{ requerimiento.usuario.username }}</td>
+                            <td>{{ requerimiento.fecha }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success btn-sm fa-solid fa-calendar-check"></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'agregar_novedad' requerimiento.id %}" class="btn btn-info btn-sm fa-solid fa-check"></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" class="btn btn-danger btn-sm fa-solid fa-xmark" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}"></a>
+                            </td>
+
+                            {% include 'requerimientos/modalDetalleRequerimiento.html' %}
+                            {% include 'requerimientos/modalAgregarNovedad.html' %}
+                            {% include 'requerimientos/modalEliminarRequerimiento.html' %}
+                            {% include 'requerimientos/modalVerMas.html' %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- FIN tabla responsiva -->
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -29,31 +29,25 @@
 
     <!-- Codigo para volver los div en tablas-->
     <link rel="stylesheet" href="{% static 'css/modalTabla.css' %}">
-
-
 </head>
 
 <body>
 
     {% include 'navbar.html' %}
-
     <br>
     <br>
+    
     {% block sinNada %}
     {% endblock %}
 
     <div class="container">
+        <br>
         
         {% block breadcrumb %}
         {% endblock %}
         
-        <div class="">
-            <br>
-
-            {% block content %}
-            {% endblock %}
-
-        </div>
+        {% block content %}
+        {% endblock %}
 
     </div> 
     
