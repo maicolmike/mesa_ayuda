@@ -335,7 +335,7 @@ def detalle_requerimiento(request, id):
         'usuario': request.user,
     })
 
-@login_required  # 🔒 Solo usuarios autenticados pueden acceder
+@login_required  #Solo usuarios autenticados pueden acceder
 def cerrar_requerimiento(request, id):
     # Busca el requerimiento por ID o devuelve error 404 si no existe
     requerimiento = get_object_or_404(Requerimiento, id=id)
@@ -376,7 +376,7 @@ def cerrar_requerimiento(request, id):
 
         # --- CASO 1: El que cierra es un ADMIN ---
         if request.user.is_superuser:
-            # 📩 Correo al CLIENTE informándole que su caso fue cerrado
+            #Correo al CLIENTE informándole que su caso fue cerrado
             context_cliente = {
                 'usuario': requerimiento.usuario,  # destinatario
                 'requerimiento': requerimiento,
@@ -388,7 +388,7 @@ def cerrar_requerimiento(request, id):
             }
             send_async_mail(subject, template_name, context_cliente, [requerimiento.usuario.email])
 
-            # 📩 Correo a los ADMINISTRADORES para que sepan quién cerró el caso
+            # Correo a los ADMINISTRADORES para que sepan quién cerró el caso
             context_admin = {
                 'usuario': request.user,  # quién cerró
                 'requerimiento': requerimiento,
@@ -407,7 +407,7 @@ def cerrar_requerimiento(request, id):
 
         # --- CASO 2: El que cierra es un CLIENTE ---
         else:
-            # 📩 Solo se notifica a los ADMINISTRADORES
+            # Solo se notifica a los ADMINISTRADORES
             # (para que ellos sepan que el cliente cerró su propio caso)
             context_admin = {
                 'usuario': request.user,  # cliente que cerró
