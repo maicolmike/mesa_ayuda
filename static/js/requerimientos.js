@@ -54,6 +54,8 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'etapas de credito', text: 'Etapas de credito' },
             { value: 'fecha de vencimiento de contrato', text: 'Fecha de vencimiento de contrato' },
             { value: 'ultima fecha de actualizacion de datos (asociados - terceros)', text: 'Ultima fecha de actualizacion de datos (asociados - terceros)' },
+            { value: 'creacion nomina por convenio', text: 'Creacion nomina por convenio' },
+            { value: 'creacion lugar de nacimiento - lugar de expedicion documento', text: 'Creacion lugar de nacimiento - lugar de expedicion documento' },
             
         ],'Solicitud de reportes de informacion': [
             { value: '', text: 'Seleccionar' },
