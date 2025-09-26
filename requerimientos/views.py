@@ -335,57 +335,103 @@ def detalle_requerimiento(request, id):
         'usuario': request.user,
     })
 
-@login_required
+@login_required  # 🔒 Solo usuarios autenticados pueden acceder
 def cerrar_requerimiento(request, id):
+    # Busca el requerimiento por ID o devuelve error 404 si no existe
     requerimiento = get_object_or_404(Requerimiento, id=id)
+
+    # --- Validación de permisos ---
+    # Solo puede cerrar: 
+    #   1. un superusuario (administrador) 
+    #   2. o el mismo usuario que creó el requerimiento
     if not (request.user.is_superuser or request.user == requerimiento.usuario):
         messages.error(request, "No tienes permiso para cerrar este requerimiento.")
         return redirect('listar_requerimientos')
 
+    # --- Verificamos si se hizo una petición POST ---
     if request.method == 'POST':
-        requerimiento = get_object_or_404(Requerimiento, id=id)
-        
+        # Si el requerimiento ya estaba cerrado, no hacemos nada
         if requerimiento.estado == 'CERRADO':
             messages.error(request, f"El requerimiento {requerimiento.id} ya está cerrado.")
             return redirect('listar_requerimientos')
 
+        # Cambiamos el estado a "CERRADO" y guardamos en BD
         requerimiento.estado = 'CERRADO'
         requerimiento.save()
 
+        # Creamos un registro en la tabla DetalleRequerimiento 
+        # (ejemplo: como un historial o bitácora del cierre)
         detalle = DetalleRequerimiento.objects.create(
             requerimiento=requerimiento,
-            comentario=request.POST.get('comentario', 'Sin comentarios'),
+            comentario=request.POST.get('comentario', 'Sin comentarios'),  # comentario opcional
             fecha=timezone.now(),
-            usuario=request.user,
+            usuario=request.user,  # quién cerró el requerimiento
         )
 
-        # Define el mensaje
-        mensaje = f"Estimado {requerimiento.usuario.nombres},"
-        mensajeNotificacion0 = "nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento."
-        mensajeNotificacion = "El requerimiento fue cerrado"
-        mensajeNotificacion2 = "Requerimiento cerrado exitosamente"
+        # =================================================
+        # Envío de notificaciones por correo electrónico
+        # =================================================
+        subject = f"Cierre del Requerimiento No. {requerimiento.id}"  # Asunto del correo
+        template_name = "emails/cerrar_requerimiento.html"  # Plantilla HTML usada para el correo
 
-        # Enviar correo electrónico
-        subject = f"Cierre del Requerimiento No. {requerimiento.id}"
-        template_name = "emails/cerrar_requerimiento.html"
-        context = {
-            'usuario': request.user,
-            'requerimiento': requerimiento,
-            'detalle': detalle,
-            'mensaje': mensaje,
-            'mensajeNotificacion0': mensajeNotificacion0,
-            'mensajeNotificacion': mensajeNotificacion,
-            'mensajeNotificacion2': mensajeNotificacion2,
-        }
+        # --- CASO 1: El que cierra es un ADMIN ---
+        if request.user.is_superuser:
+            # 📩 Correo al CLIENTE informándole que su caso fue cerrado
+            context_cliente = {
+                'usuario': requerimiento.usuario,  # destinatario
+                'requerimiento': requerimiento,
+                'detalle': detalle,
+                'mensaje': f"Estimado {requerimiento.usuario.nombres},",
+                'mensajeNotificacion0': "nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento.",
+                'mensajeNotificacion': "El requerimiento fue cerrado",
+                'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
+            }
+            send_async_mail(subject, template_name, context_cliente, [requerimiento.usuario.email])
 
-        # Definir la lista de destinatarios
-        recipient_list = [requerimiento.usuario.email]
-        
-        # Enviar el correo electrónico de manera asíncrona
-        send_async_mail(subject, template_name, context, recipient_list)
+            # 📩 Correo a los ADMINISTRADORES para que sepan quién cerró el caso
+            context_admin = {
+                'usuario': request.user,  # quién cerró
+                'requerimiento': requerimiento,
+                'detalle': detalle,
+                'mensaje': "Estimados colaboradores,",  # saludo genérico
+                'mensajeNotificacion0': "",
+                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username}.",
+                'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
+            }
+            recipient_list_admin = [
+                'soportesistemas@cootep.com.co',
+                'sistemas@cootep.com.co',
+                'auxsistemas@cootep.com.co',
+            ]
+            send_async_mail(subject, template_name, context_admin, recipient_list_admin)
 
+        # --- CASO 2: El que cierra es un CLIENTE ---
+        else:
+            # 📩 Solo se notifica a los ADMINISTRADORES
+            # (para que ellos sepan que el cliente cerró su propio caso)
+            context_admin = {
+                'usuario': request.user,  # cliente que cerró
+                'requerimiento': requerimiento,
+                'detalle': detalle,
+                'mensaje': "Estimados colaboradores,",  # saludo genérico
+                'mensajeNotificacion0': "",
+                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username}.",
+                'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
+            }
+            recipient_list_admin = [
+                'soportesistemas@cootep.com.co',
+                'sistemas@cootep.com.co',
+                'auxsistemas@cootep.com.co',
+            ]
+            send_async_mail(subject, template_name, context_admin, recipient_list_admin)
+
+        # =================================================
+        # Mensaje de confirmación en la interfaz web (Django messages)
+        # =================================================
         messages.success(request, f"Requerimiento {requerimiento.id} cerrado exitosamente.")
         return redirect('listar_requerimientos')
+
     else:
+        # Si alguien intenta cerrar el caso con GET u otro método → no se permite
         messages.error(request, "Método no permitido.")
         return redirect('listar_requerimientos')
