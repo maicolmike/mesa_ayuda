@@ -37,6 +37,7 @@
                     <th>Sub Clasificación</th>
                     <th>Estado</th>
                     <th>Usuario</th>
+                    <th>Nombres</th>
                     <th>Fecha</th>
                     <th>Detalles</th>
                     <th>Agregar novedad</th>
@@ -70,6 +71,7 @@
                     <td><span class="badge bg-info">{{ requerimiento.estado }}</td>
                     {% endif %}
                     <td>{{ requerimiento.usuario.username }}</td>
+                    <td>{{ requerimiento.usuario.nombres }}</td>
                     <td>{{ requerimiento.fecha }}</td>
                     <td class="text-center">
                         <a href="{% url 'detalle_requerimiento' requerimiento.id %}" class="btn btn-success btn-sm fa-solid fa-calendar-check"></a>

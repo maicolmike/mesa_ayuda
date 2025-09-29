@@ -86,3 +86,9 @@ class RequerimientoEditarForm(forms.ModelForm):
             'estado': forms.Select(attrs={'class': 'form-control', 'id': 'estado'}, choices=ESTADO_CHOICES),  # Widget select para el campo ESTADO
             'usuario': forms.Select(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Personalizar labels de usuarios
+        self.fields['usuario'].queryset = self.fields['usuario'].queryset.all()
+        self.fields['usuario'].label_from_instance = lambda obj: f"{obj.username} - {obj.nombres}"

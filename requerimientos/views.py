@@ -395,7 +395,7 @@ def cerrar_requerimiento(request, id):
                 'detalle': detalle,
                 'mensaje': "Estimados colaboradores,",  # saludo genérico
                 'mensajeNotificacion0': "",
-                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username}.",
+                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username} - {request.user.nombres}",
                 'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
             }
             recipient_list_admin = [
@@ -415,7 +415,7 @@ def cerrar_requerimiento(request, id):
                 'detalle': detalle,
                 'mensaje': "Estimados colaboradores,",  # saludo genérico
                 'mensajeNotificacion0': "",
-                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username}.",
+                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username} - {request.user.nombres}",
                 'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
             }
             recipient_list_admin = [
