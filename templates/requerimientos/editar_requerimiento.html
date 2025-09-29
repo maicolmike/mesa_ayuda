@@ -6,7 +6,7 @@
 <script src="{% static 'js/requerimientos.js' %}" defer></script>
 
 <div class="container mt-4">
-  <h3>Editar Requerimiento #{{ requerimiento.id }}</h3>
+  <h2>Editar Requerimiento: {{ requerimiento.id }}</h2>
   <form class="form-create" method="post">
     {% csrf_token %}
 
