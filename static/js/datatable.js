@@ -5,7 +5,7 @@ $(function () {
     "lengthChange": false, // Oculta el selector que permite cambiar el número de registros por página
     "autoWidth": true, // Ajusta automáticamente el ancho de las columnas
     "lengthMenu": [10, 25, 100], // Opciones disponibles para elegir cuántos registros mostrar por página
-    "pageLength": 5, // Cantidad de registros que se mostrarán por defecto al cargar la tabla
+    "pageLength": 10, // Cantidad de registros que se mostrarán por defecto al cargar la tabla
     "order": [[0, "desc"]],  // Ordenar la tabla por la PRIMERA columna (índice 0) en orden descendente
 
     // 🔹 Traducción de los textos al español

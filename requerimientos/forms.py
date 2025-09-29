@@ -65,3 +65,15 @@ class DetalleRequerimientoForm(forms.ModelForm):
             'comentario': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Comentario','style': 'resize: none;'}),  # Widget personalizado para el campo comentario
             'adjunto': forms.ClearableFileInput(attrs={'class': 'form-control'}),  # Widget para el campo adjunto
         }
+
+# Formulario para el modelo EditarRequerimiento
+class RequerimientoEditarForm(forms.ModelForm):
+    class Meta:
+        model = Requerimiento
+        fields = ['agencia', 'clasificacion', 'sub_clasificacion', 'usuario']
+        widgets = {
+            'agencia': forms.Select(attrs={'class': 'form-control', 'id': 'agencia'}, choices=AGENCIA_CHOICES),
+            'clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'clasificacion'}, choices=CLASIFICACION_CHOICES),  # Widget select para el campo clasificación
+            'sub_clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'sub_clasificacion'}),  # Widget select para el campo sub clasificación
+            'usuario': forms.Select(attrs={'class': 'form-control'}),
+        }

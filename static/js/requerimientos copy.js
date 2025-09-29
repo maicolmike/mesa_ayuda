@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Obtener referencias a los elementos del formulario
     const clasificacion = document.getElementById('clasificacion');
     const subClasificacion = document.getElementById('sub_clasificacion');
     const form = document.querySelector('form');
 
-    // Definir subclasificaciones por clasificación
+    // Definir las subclasificaciones disponibles para cada clasificación
     const subClasificaciones = {
         '': [],
         'Software': [
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'multiportal o nueva app red coopcentral', text: 'Multiportal o Nueva App Red Coopcentral' },
             { value: 'pasarela ACH colombian', text: 'Pasarela ACH colombian' },
             { value: 'workmanager', text: 'Workmanager' }, 
+            
         ],
         'Hardware': [
             { value: '', text: 'Seleccionar' },
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'instalaciones electricas', text: 'Instalaciones eléctricas' },
             { value: 'planta electrica', text: 'Planta eléctrica' },
             { value: 'UPS', text: 'UPS' },
+
         ],
         'Comunicaciones': [
             { value: '', text: 'Seleccionar' },
@@ -36,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'equipos de comunicacion', text: 'Equipos de comunicación' },
             { value: 'internet', text: 'Internet' },
             { value: 'puntos de red de datos', text: 'Puntos de red de datos' },
-        ],
-        'Transaccional': [
+            
+        ],'Transaccional': [
             { value: '', text: 'Seleccionar' },
             { value: 'cupo rotativo', text: 'Cupo rotativo' },
             { value: 'recaudos PSE', text: 'Recaudos PSE' },
@@ -45,16 +48,16 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'retiros', text: 'Retiros' },
             { value: 'tarjetas', text: 'Tarjetas' },
             { value: 'transferencias', text: 'Transferencias' },  
-        ],
-        'Solicitud de actualizacion de informacion': [
+
+        ],'Solicitud de actualizacion de informacion': [
             { value: '', text: 'Seleccionar' },
             { value: 'etapas de credito', text: 'Etapas de credito' },
             { value: 'fecha de vencimiento de contrato', text: 'Fecha de vencimiento de contrato' },
             { value: 'ultima fecha de actualizacion de datos (asociados - terceros)', text: 'Ultima fecha de actualizacion de datos (asociados - terceros)' },
             { value: 'creacion nomina por convenio', text: 'Creacion nomina por convenio' },
             { value: 'creacion lugar de nacimiento - lugar de expedicion documento', text: 'Creacion lugar de nacimiento - lugar de expedicion documento' },
-        ],
-        'Solicitud de reportes de informacion': [
+            
+        ],'Solicitud de reportes de informacion': [
             { value: '', text: 'Seleccionar' },
             { value: 'listado de asociados activos', text: 'Listado de asociados activos' },
             { value: 'listado de asociados actualizados a la fecha', text: 'Listado de asociados actualizados a la fecha' },
@@ -63,43 +66,36 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'listado de asociados retirados', text: 'Listado de asociados retirados' },
             { value: 'listado de asociados sin actualizar datos', text: 'Listado de asociados sin actualizar datos' },
             { value: 'listado de asociados sin cancelar aportes', text: 'Listado de asociados sin cancelar aportes' },
+            
+            
         ]
+        
     };
 
-    // 👉 Guardar el valor actual de sub_clasificacion (desde Django)
-    const currentSubClasificacion = subClasificacion.dataset.current;
+    // Manejar el evento de cambio en el campo de clasificación
+    clasificacion.addEventListener('change', function () {
+        const selected = this.value;  // Obtener el valor seleccionado
+        const options = subClasificaciones[selected] || [];  // Obtener las subclasificaciones correspondientes
+        
+        subClasificacion.innerHTML = '';  // Limpiar las opciones actuales
+        subClasificacion.disabled = false;  // Habilitar el campo de subclasificación
 
-
-    function cargarSubClasificaciones(selectedClasificacion, selectedSub) {
-        const options = subClasificaciones[selectedClasificacion] || [];
-        subClasificacion.innerHTML = '';
-
+        // Añadir las nuevas opciones de subclasificación
         options.forEach(option => {
             const opt = document.createElement('option');
             opt.value = option.value;
             opt.text = option.text;
-
-            // 👉 Marcar como seleccionado si coincide con el valor actual
-            if (option.value === selectedSub) {
-                opt.selected = true;
-            }
             subClasificacion.appendChild(opt);
         });
-    }
-
-    // Cargar subclasificaciones al iniciar (modo edición)
-    cargarSubClasificaciones(clasificacion.value, currentSubClasificacion);
-
-    // Cambiar subclasificaciones al cambiar clasificación
-    clasificacion.addEventListener('change', function () {
-        cargarSubClasificaciones(this.value, '');
     });
 
-    // Validar antes de enviar
+    // Manejar el evento de envío del formulario
     form.addEventListener('submit', function (event) {
+        // Verificar si el campo de subclasificación está vacío
         if (subClasificacion.value === '') {
-            event.preventDefault();
-            alert('Debe seleccionar una subclasificación.');
+            event.preventDefault(); // Prevenir el envío del formulario
+            alert('Debe seleccionar una subclasificación.'); // Mostrar alerta
+            //clasificacion.value = ''; // Resetear el campo de clasificación a "Seleccionar"
         }
     });
 });

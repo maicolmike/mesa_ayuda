@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from .models import Requerimiento, DetalleRequerimiento
-from .forms import RequerimientoForm, DetalleRequerimientoForm
+from .forms import RequerimientoForm, DetalleRequerimientoForm, RequerimientoEditarForm
 from django.contrib import messages
 import os
 from django.conf import settings
@@ -435,3 +435,28 @@ def cerrar_requerimiento(request, id):
         # Si alguien intenta cerrar el caso con GET u otro método → no se permite
         messages.error(request, "Método no permitido.")
         return redirect('listar_requerimientos')
+
+@login_required
+def editar_requerimiento(request, id):
+    requerimiento = get_object_or_404(Requerimiento, id=id)
+
+    # Solo admins pueden editar requerimientos (ajusta según necesidad)
+    if not request.user.is_superuser:
+        #return HttpResponseForbidden("No tienes permiso para editar requerimientos.")
+        messages.error(request, "No tienes permiso para cerrar este requerimiento.")
+        return redirect('listar_requerimientos')
+
+    if request.method == "POST":
+        form = RequerimientoEditarForm(request.POST, instance=requerimiento)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Requerimiento {requerimiento.id} editado correctamente.")
+            return redirect("listar_requerimientos")
+    else:
+        form = RequerimientoEditarForm(instance=requerimiento)
+
+    return render(request, "requerimientos/editar_requerimiento.html", {
+        "title": f"Editar requerimiento {requerimiento.id}",
+        "form": form,
+        "requerimiento": requerimiento,
+    })
