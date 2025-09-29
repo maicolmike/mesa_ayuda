@@ -25,6 +25,14 @@ AGENCIA_CHOICES = [
     ('SIBUNDOY', 'Sibundoy'),
 ]
 
+# Definición de opciones para el campo de ESTADO
+ESTADO_CHOICES = [
+    ('', ''),
+    ('ACTIVO', 'ACTIVO'),
+    ('EN TRAMITE', 'EN TRAMITE'),
+    ('CERRADO', 'CERRADO'),
+]
+
 # Formulario para el modelo Requerimiento
 class RequerimientoForm(forms.ModelForm):
     class Meta:
@@ -70,10 +78,11 @@ class DetalleRequerimientoForm(forms.ModelForm):
 class RequerimientoEditarForm(forms.ModelForm):
     class Meta:
         model = Requerimiento
-        fields = ['agencia', 'clasificacion', 'sub_clasificacion', 'usuario']
+        fields = ['agencia', 'clasificacion', 'sub_clasificacion', 'estado','usuario']
         widgets = {
             'agencia': forms.Select(attrs={'class': 'form-control', 'id': 'agencia'}, choices=AGENCIA_CHOICES),
             'clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'clasificacion'}, choices=CLASIFICACION_CHOICES),  # Widget select para el campo clasificación
             'sub_clasificacion': forms.Select(attrs={'class': 'form-control', 'id': 'sub_clasificacion'}),  # Widget select para el campo sub clasificación
+            'estado': forms.Select(attrs={'class': 'form-control', 'id': 'estado'}, choices=ESTADO_CHOICES),  # Widget select para el campo ESTADO
             'usuario': forms.Select(attrs={'class': 'form-control'}),
         }
