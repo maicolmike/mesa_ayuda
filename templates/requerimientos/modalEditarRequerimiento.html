@@ -1,0 +1,84 @@
+<!-- Modal Editar Requerimiento -->
+<div class="modal fade" id="modalEditar{{ requerimiento.id }}" tabindex="-1" aria-labelledby="modalEditarLabel{{ requerimiento.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Requerimiento #{{ requerimiento.id }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form action="{% url 'editar_requerimiento' requerimiento.id %}" method="post">
+        {% csrf_token %}
+        <div class="modal-body">
+
+          <!-- Agencia -->
+          <div class="mb-3">
+            <label class="form-label">Agencia:</label>
+            <select name="agencia" class="form-select">
+              {% for agencia in agencias %}
+              <option value="{{ agencia.id }}" {% if requerimiento.agencia.id == agencia.id %}selected{% endif %}>
+                {{ agencia.nombre }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Clasificación -->
+          <div class="mb-3">
+            <label class="form-label">Clasificación:</label>
+            <select name="clasificacion" class="form-select">
+              {% for clasificacion in clasificaciones %}
+              <option value="{{ clasificacion.id }}" {% if requerimiento.clasificacion.id == clasificacion.id %}selected{% endif %}>
+                {{ clasificacion.nombre }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Sub clasificación -->
+          <div class="mb-3">
+            <label class="form-label">Sub clasificación:</label>
+            <select name="sub_clasificacion" class="form-select">
+              {% for sub in sub_clasificaciones %}
+              <option value="{{ sub.id }}" {% if requerimiento.sub_clasificacion.id == sub.id %}selected{% endif %}>
+                {{ sub.nombre }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Estado -->
+          <div class="mb-3">
+            <label class="form-label">Estado:</label>
+            <select name="estado" class="form-select">
+              {% for key, value in requerimiento._meta.get_field('estado').choices %}
+              <option value="{{ key }}" {% if requerimiento.estado == key %}selected{% endif %}>
+                {{ value }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Usuario -->
+          <div class="mb-3">
+            <label class="form-label">Usuario:</label>
+            <select name="usuario" class="form-select">
+              {% for usuario in usuarios %}
+              <option value="{{ usuario.id }}" {% if requerimiento.usuario.id == usuario.id %}selected{% endif %}>
+                {{ usuario.username }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Guardar cambios</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

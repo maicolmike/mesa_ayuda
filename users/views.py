@@ -80,11 +80,21 @@ def register(request):
 #Listar usuarios
 @login_required(login_url='login')
 def usersList(request):
-    #return HttpResponse('Hola mundo')
+    agencias = [
+        "MOCOA",
+        "PUERTO ASIS",
+        "DORADA",
+        "HORMIGA",
+        "ORITO",
+        "VILLA GARZON",
+        "PUERTO LEGUIZAMO",
+        "SIBUNDOY"
+    ]
     lista_usuarios = User.objects.all()
     return render(request, 'users/listUsers.html',{ 
         'title': "Listado Usuarios",
         'lista_usuarios': lista_usuarios,
+        "agencias": agencias,
     })
 
 @login_required(login_url='login')    
