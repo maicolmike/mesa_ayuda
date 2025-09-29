@@ -14,7 +14,7 @@ CLASIFICACION_CHOICES = [
 
 # Definición de opciones para el campo de agencia
 AGENCIA_CHOICES = [
-    ('', ''),
+    ('', 'Seleccionar'),
     ('MOCOA', 'Mocoa'),
     ('PUERTO ASIS', 'Puerto Asis'),
     ('DORADA', 'Dorada'),
@@ -27,7 +27,7 @@ AGENCIA_CHOICES = [
 
 # Definición de opciones para el campo de ESTADO
 ESTADO_CHOICES = [
-    ('', ''),
+    ('', 'Seleccionar'),
     ('ACTIVO', 'ACTIVO'),
     ('EN TRAMITE', 'EN TRAMITE'),
     ('CERRADO', 'CERRADO'),

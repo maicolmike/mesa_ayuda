@@ -6,15 +6,17 @@
 <script src="{% static 'js/requerimientos.js' %}" defer></script>
 <link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
 
-<div class="container mt-4">
-  <h2>Editar Requerimiento: {{ requerimiento.id }}</h2>
-  <br>
+  <h2>Editar requerimiento</h2>
   <form class="form-create" method="post">
     {% csrf_token %}
 
     <div class="configuracion">
       <table class="table table-bordered table-hover tabla-detalle">
         <thead>
+          <tr>
+            <th>Id</th>
+            <td>{{ requerimiento.id }}</td>
+          </tr>
           <tr>
             <th>Titulo</th>
             <td>{{ requerimiento.titulo }}</td>
@@ -32,8 +34,7 @@
         {% include 'requerimientos/modalVerMas.html' %}
       </table>
     </div>
-    <br>
-
+  
     <div class="form-group">
       {{ form.agencia.label_tag }}
       {{ form.agencia }}
@@ -64,7 +65,7 @@
     <button type="submit" class="btn btn-success">Guardar cambios</button>
     <a href="{% url 'listar_requerimientos' %}" class="btn btn-danger">Cancelar</a>
   </form>
-</div>
+
 
 
 
