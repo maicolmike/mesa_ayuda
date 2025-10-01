@@ -6,12 +6,15 @@
 <link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
 
 <style>
-    td.adjunto {
-    max-width: 150px;   /* ancho máximo fijo */
-    white-space: nowrap; /* evita salto de línea */
-    overflow: hidden;    /* oculta el texto que sobra */
-    text-overflow: ellipsis; /* agrega ... al final */
+    td.adjunto a {
+    display: inline-block;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
 }
+
 </style>
 
 <h2>Detalle de requerimiento</h2>
