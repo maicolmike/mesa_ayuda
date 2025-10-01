@@ -4,6 +4,16 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/register.css' %}">
 <link rel="stylesheet" href="{% static 'css/configuracion.css' %}">
+
+<style>
+    td.adjunto {
+    max-width: 150px;   /* ancho máximo fijo */
+    white-space: nowrap; /* evita salto de línea */
+    overflow: hidden;    /* oculta el texto que sobra */
+    text-overflow: ellipsis; /* agrega ... al final */
+}
+</style>
+
 <h2>Detalle de requerimiento</h2>
 <div class="configuracion">
 <table class="table table-bordered table-hover tabla-detalle">
@@ -87,7 +97,7 @@
 
             </td>
 
-            <td>
+            <td class="adjunto">
                 {% if requerimiento.adjunto %}
                     <a href="{{ requerimiento.adjunto.url }}" download>{{ requerimiento.adjunto.name }}</a>
                 {% else %}
