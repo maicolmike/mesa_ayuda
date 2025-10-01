@@ -111,7 +111,7 @@
         <tr>
             <td>{{ detalle.fecha }}</td>
             <td>{{ detalle.comentario }}</td>
-            <td>
+            <td class="adjunto">
                 {% if detalle.adjunto %}
                     <a href="{{ detalle.adjunto.url }}" download>{{ detalle.adjunto.name }}</a>
                 {% else %}
