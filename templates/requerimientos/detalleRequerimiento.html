@@ -96,7 +96,7 @@
 
             <td class="adjunto">
                 {% if requerimiento.adjunto %}
-                    <a href="{{ requerimiento.adjunto.url }}" target="_blank" title="Ver adjunto">Adjunto disponible <i class="fas fa-paperclip"></i> </a>
+                    <a href="{{ requerimiento.adjunto.url }}" target="_blank" title="{{ requerimiento.adjunto }}">Adjunto disponible <i class="fas fa-paperclip"></i> </a>
                 {% else %}
                     No hay adjunto disponible
                 {% endif %}
@@ -111,7 +111,7 @@
             <td>{{ detalle.comentario }}</td>
             <td>
                 {% if detalle.adjunto %}
-                    <a href="{{ detalle.adjunto.url }}" target="_blank" title="Ver adjunto">Adjunto disponible <i class="fas fa-paperclip"></i></a>
+                    <a href="{{ detalle.adjunto.url }}" target="_blank" title="{{ detalle.adjunto }}">Adjunto disponible <i class="fas fa-paperclip"></i></a>
                 {% else %}
                     No hay adjunto disponible
                 {% endif %}
