@@ -66,10 +66,11 @@
     
 </p>
 
-<table id="example1" class="table table-bordered table-hover">
+<table id="example2" class="table table-bordered table-hover">
     <thead class="table-secondary">
         
         <tr>
+            <th>Id</th>
             <th>Fecha</th>
             <th>Descripción</th>
             <th>Adjunto</th>  
@@ -79,6 +80,7 @@
     </thead>
     <tbody>
         <tr>
+            <td>{{ requerimiento.id }}</td>
             <td>{{ requerimiento.fecha }}</td>
             <td>{{ requerimiento.descripcion}}
                 
@@ -104,6 +106,7 @@
         </tr>
         {% for detalle in detalles %}
         <tr>
+            <td>{{ detalle.id }}</td>
             <td>{{ detalle.fecha }}</td>
             <td>{{ detalle.comentario }}</td>
             <td>
