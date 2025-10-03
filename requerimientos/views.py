@@ -384,6 +384,8 @@ def cerrar_requerimiento(request, id):
                 'mensaje': f"Estimado {requerimiento.usuario.nombres},",
                 'mensajeNotificacion0': "nos complace informarle que estamos en proceso de notificarle sobre el estado y detalles de su requerimiento.",
                 'mensajeNotificacion': "El requerimiento fue cerrado",
+                'usuario_cierre':request.user.username,
+                'nombre_usuario':request.user.nombres,
                 'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
             }
             send_async_mail(subject, template_name, context_cliente, [requerimiento.usuario.email])
@@ -395,7 +397,9 @@ def cerrar_requerimiento(request, id):
                 'detalle': detalle,
                 'mensaje': "Estimados colaboradores,",  # saludo genérico
                 'mensajeNotificacion0': "",
-                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username} - {request.user.nombres}",
+                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado",
+                'usuario_cierre':request.user.username,
+                'nombre_usuario':request.user.nombres,
                 'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
             }
             recipient_list_admin = [
@@ -415,7 +419,9 @@ def cerrar_requerimiento(request, id):
                 'detalle': detalle,
                 'mensaje': "Estimados colaboradores,",  # saludo genérico
                 'mensajeNotificacion0': "",
-                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado por {request.user.username} - {request.user.nombres}",
+                'mensajeNotificacion': f"El requerimiento {requerimiento.id} fue cerrado",
+                'usuario_cierre':request.user.username,
+                'nombre_usuario':request.user.nombres,
                 'mensajeNotificacion2': "Requerimiento cerrado exitosamente",
             }
             recipient_list_admin = [
