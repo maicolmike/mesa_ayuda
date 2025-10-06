@@ -131,7 +131,7 @@ def crear_requerimiento(request):
                 'usuario': request.user,  # Contexto para la plantilla que incluye el usuario
                 'requerimiento': requerimiento,  # Contexto que incluye el requerimiento recién creado
             }
-            recipient_list_collaborators = ['soportesistemas@cootep.com.co', 'sistemas@cootep.com.co', 'auxsistemas@cootep.com.co']  # Destinatarios del correo para los colaboradores
+            recipient_list_collaborators = ['soportesistemas@cootep.com.co', 'oficialseguridad@cootep.com.co', 'auxsistemas@cootep.com.co']  # Destinatarios del correo para los colaboradores
             # Envía el correo electrónico con un saludo genérico "Estimados colaboradores"
             send_custom_email(subject_collaborators, template_name_collaborators, context_collaborators, recipient_list_collaborators, saludo_personalizado=False)
 
@@ -148,7 +148,7 @@ def crear_requerimiento(request):
 # Vista para listar todos los requerimientos
 @login_required
 def listar_requerimientos(request):
-    # Leer parámetro de la URL (?estado=)
+    # Leer parámetro de la URL (?estado=)s
     filtro = request.GET.get("estado")
 
     # Si no hay filtro seleccionado -> predeterminado "ABIERTOS"
@@ -276,7 +276,7 @@ def agregar_novedad(request, id):
                 # Si responde el cliente → notificar al equipo de sistemas
                 recipient_list = [
                     'soportesistemas@cootep.com.co',
-                    'sistemas@cootep.com.co',
+                    'oficialseguridad@cootep.com.co',
                     'auxsistemas@cootep.com.co',
                 ]
 
@@ -404,7 +404,7 @@ def cerrar_requerimiento(request, id):
             }
             recipient_list_admin = [
                 'soportesistemas@cootep.com.co',
-                'sistemas@cootep.com.co',
+                'oficialseguridad@cootep.com.co',
                 'auxsistemas@cootep.com.co',
             ]
             send_async_mail(subject, template_name, context_admin, recipient_list_admin)
@@ -426,7 +426,7 @@ def cerrar_requerimiento(request, id):
             }
             recipient_list_admin = [
                 'soportesistemas@cootep.com.co',
-                'sistemas@cootep.com.co',
+                'oficialseguridad@cootep.com.co',
                 'auxsistemas@cootep.com.co',
             ]
             send_async_mail(subject, template_name, context_admin, recipient_list_admin)
