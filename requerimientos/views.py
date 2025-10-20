@@ -276,7 +276,7 @@ def agregar_novedad(request, id):
                 # Si responde el cliente → notificar al equipo de sistemas
                 recipient_list = [
                     'soportesistemas@cootep.com.co',
-                    'oficialseguridad@cootep.com.co',
+                    'sistemas@cootep.com.co',
                     'auxsistemas@cootep.com.co',
                 ]
 
@@ -404,7 +404,7 @@ def cerrar_requerimiento(request, id):
             }
             recipient_list_admin = [
                 'soportesistemas@cootep.com.co',
-                'oficialseguridad@cootep.com.co',
+                'sistemas@cootep.com.co',
                 'auxsistemas@cootep.com.co',
             ]
             send_async_mail(subject, template_name, context_admin, recipient_list_admin)
@@ -426,7 +426,7 @@ def cerrar_requerimiento(request, id):
             }
             recipient_list_admin = [
                 'soportesistemas@cootep.com.co',
-                'oficialseguridad@cootep.com.co',
+                'sistemas@cootep.com.co',
                 'auxsistemas@cootep.com.co',
             ]
             send_async_mail(subject, template_name, context_admin, recipient_list_admin)
