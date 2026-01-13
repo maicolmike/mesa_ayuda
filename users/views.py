@@ -94,7 +94,7 @@ def usersList(request):
     return render(request, 'users/listUsers.html',{ 
         'title': "Listado Usuarios",
         'lista_usuarios': lista_usuarios,
-        "agencias": agencias,
+        #"agencias": agencias,
     })
 
 @login_required(login_url='login')    

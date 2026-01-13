@@ -1,0 +1,26 @@
+<div class="modal fade" id="modalClave" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <form method="post" action="{% url 'updateusuariosClave' %}">
+        {% csrf_token %}
+        <input type="hidden" name="id" id="clave_id">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Cambiar contraseña</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <input type="password" class="form-control" name="passnew" placeholder="Nueva contraseña" required>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary">Guardar</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
