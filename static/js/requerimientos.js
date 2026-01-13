@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { value: 'estabilizadores', text: 'Estabilizadores' },
             { value: 'impresoras y validadoras', text: 'Impresoras y validadoras' },
             { value: 'instalaciones electricas', text: 'Instalaciones eléctricas' },
+            { value: 'lector biometrico', text: 'Lector biometrico' },
             { value: 'planta electrica', text: 'Planta eléctrica' },
             { value: 'UPS', text: 'UPS' },
         ],
