@@ -158,7 +158,7 @@ def listar_requerimientos(request):
 
     if filtro == "ABIERTOS":
         requerimientos = requerimientos.filter(
-            estado__in=["EN TRAMITE", "ACTIVO", "PENDIENTE"]
+            estado__in=["ESPERANDO CLIENTE", "ACTIVO", "ESPERANDO SOPORTE"]
         )
 
     elif filtro == "":
@@ -226,8 +226,8 @@ def agregar_novedad(request, id):
 
                 # El estado debe pasar a "EN TRAMITE"
                 # Solo actualizamos si es diferente para evitar UPDATE innecesario
-                if requerimiento.estado != "EN TRAMITE":
-                    requerimiento.estado = "EN TRAMITE"
+                if requerimiento.estado != "ESPERANDO CLIENTE":
+                    requerimiento.estado = "ESPERANDO CLIENTE"
                     requerimiento.save(update_fields=['estado'])
 
                 # Mensajes para correo al cliente
@@ -254,8 +254,8 @@ def agregar_novedad(request, id):
                     # Si ya hubo respuesta de administrador
                     # el estado debe pasar a "PENDIENTE"
 
-                    if requerimiento.estado != "PENDIENTE":
-                        requerimiento.estado = "PENDIENTE"
+                    if requerimiento.estado != "ESPERANDO SOPORTE":
+                        requerimiento.estado = "ESPERANDO SOPORTE"
                         requerimiento.save(update_fields=['estado'])
 
                 else:

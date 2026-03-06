@@ -16,8 +16,8 @@
             <select id="estadoFilter" name="estado" class="form-select d-inline-block w-auto" onchange="this.form.submit()">
                 <option value="ABIERTOS" {% if filtro_actual == "ABIERTOS" %}selected{% endif %}>Abiertos</option>
                 <option value="ACTIVO" {% if filtro_actual == "ACTIVO" %}selected{% endif %}>Activos</option>
-                <option value="EN TRAMITE" {% if filtro_actual == "EN TRAMITE" %}selected{% endif %}>En trámite</option>
-                <option value="PENDIENTE" {% if filtro_actual == "PENDIENTE" %}selected{% endif %}>Pendientes</option>
+                <option value="ESPERANDO CLIENTE" {% if filtro_actual == "ESPERANDO CLIENTE" %}selected{% endif %}>Esperando cliente</option>
+                <option value="ESPERANDO SOPORTE" {% if filtro_actual == "ESPERANDO SOPORTE" %}selected{% endif %}>Esperando soporte</option>
                 <option value="CERRADO" {% if filtro_actual == "CERRADO" %}selected{% endif %}>Cerrados</option>
                 <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
             </select>
@@ -66,9 +66,9 @@
                     <td><span class="badge bg-success">{{ requerimiento.estado }}</td>
                     {% elif requerimiento.estado == "CERRADO" %}
                     <td><span class="badge bg-danger">{{ requerimiento.estado }}</td>
-                    {% elif requerimiento.estado == "EN TRAMITE" %}
+                    {% elif requerimiento.estado == "ESPERANDO CLIENTE" %}
                     <td><span class="badge bg-warning text-dark">{{ requerimiento.estado }}</td>
-                    {% elif requerimiento.estado == "PENDIENTE" %}
+                    {% elif requerimiento.estado == "ESPERANDO SOPORTE" %}
                     <td><span class="badge bg-primary">{{ requerimiento.estado }}</td>
                     {% else %}
                     <td><span class="badge bg-info">{{ requerimiento.estado }}</td>

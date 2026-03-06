@@ -39,9 +39,9 @@
             <td><span class="badge bg-success">{{ requerimiento.estado }}</td>
             {% elif requerimiento.estado == "CERRADO" %}
             <td><span class="badge bg-danger">{{ requerimiento.estado }}</td>
-            {% elif requerimiento.estado == "EN TRAMITE" %}
+            {% elif requerimiento.estado == "ESPERANDO CLIENTE" %}
             <td><span class="badge bg-warning text-dark">{{ requerimiento.estado }}</td>
-            {% elif requerimiento.estado == "PENDIENTE" %}
+            {% elif requerimiento.estado == "ESPERANDO SOPORTE" %}
             <td><span class="badge bg-primary">{{ requerimiento.estado }}</td>
             {% else %}
             <td><span class="badge bg-info">{{ requerimiento.estado }}</td>
