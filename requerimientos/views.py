@@ -131,7 +131,7 @@ def crear_requerimiento(request):
                 'usuario': request.user,  # Contexto para la plantilla que incluye el usuario
                 'requerimiento': requerimiento,  # Contexto que incluye el requerimiento recién creado
             }
-            recipient_list_collaborators = ['soportesistemas@cootep.com.co', 'oficialseguridad@cootep.com.co', 'auxsistemas@cootep.com.co']  # Destinatarios del correo para los colaboradores
+            recipient_list_collaborators = ['soportesistemas@cootep.com.co', 'sistemas@cootep.com.co', 'auxsistemas@cootep.com.co']  # Destinatarios del correo para los colaboradores
             # Envía el correo electrónico con un saludo genérico "Estimados colaboradores"
             send_custom_email(subject_collaborators, template_name_collaborators, context_collaborators, recipient_list_collaborators, saludo_personalizado=False)
 
@@ -145,7 +145,6 @@ def crear_requerimiento(request):
     return render(request, 'requerimientos/crear_requerimiento.html', {'title': "Crear requerimiento", 'form': form})
 
 # Vista para listar todos los requerimientos
-# Vista para listar todos los requerimientos
 @login_required
 def listar_requerimientos(request):
     # Leer parámetro de la URL (?estado=)s
@@ -158,7 +157,7 @@ def listar_requerimientos(request):
     # Lógica de filtrado
     if filtro == "ABIERTOS":
         # Mostrar EN TRAMITE o ACTIVO
-        requerimientos = Requerimiento.objects.filter(estado__in=["EN TRAMITE", "ACTIVO"])
+        requerimientos = Requerimiento.objects.filter(estado__in=["EN TRAMITE", "ACTIVO", "PENDIENTE"])
     elif filtro == "":
         # Mostrar todos
         requerimientos = Requerimiento.objects.all()
@@ -176,6 +175,7 @@ def listar_requerimientos(request):
 # Vista para agregar una novedad a un requerimiento
 @login_required  # Requiere que el usuario esté autenticado
 def agregar_novedad(request, id):
+
     # Obtener el requerimiento o devolver 404 si no existe
     requerimiento = get_object_or_404(Requerimiento, id=id)
 
@@ -195,8 +195,11 @@ def agregar_novedad(request, id):
 
     # --- Procesamiento del formulario ---
     if request.method == 'POST':
+
         detalle_form = DetalleRequerimientoForm(request.POST, request.FILES)
+
         if detalle_form.is_valid():
+
             # Crear el detalle (novedad) pero aún no lo guardamos en BD
             detalle = detalle_form.save(commit=False)
             detalle.requerimiento = requerimiento
@@ -209,21 +212,24 @@ def agregar_novedad(request, id):
             # =================================================
             # Manejo de ESTADO del requerimiento
             # =================================================
-            if request.user.is_superuser:
-                # Caso: el que responde es un superusuario
 
-                # Forzamos el estado a "EN TRÁMITE" de manera defensiva
-                # Solo lo actualizamos si es distinto (para no hacer UPDATE innecesario)
+            if request.user.is_superuser:
+                # Caso: el que responde es un superusuario (administrador)
+
+                # El estado debe pasar a "EN TRAMITE"
+                # Solo actualizamos si es diferente para evitar UPDATE innecesario
                 if requerimiento.estado != "EN TRAMITE":
                     requerimiento.estado = "EN TRAMITE"
-                    requerimiento.save()
+                    requerimiento.save(update_fields=['estado'])
 
                 # Mensajes para correo al cliente
                 mensaje = f"Estimado {requerimiento.usuario.nombres},"
+
                 mensajeNotificacion0 = (
                     "nos complace informarle que estamos en proceso de notificarle "
                     "sobre el estado y detalles de su requerimiento."
                 )
+
                 mensajeNotificacion = "Se brindó una solución al requerimiento"
                 mensajeNotificacion2 = "En espera que cliente confirme solución"
 
@@ -236,16 +242,17 @@ def agregar_novedad(request, id):
                 ).exists()
 
                 if hay_respuesta_superusuario:
-                    # Si ya hubo respuesta de superusuario, el requerimiento
-                    # debe estar en "EN TRÁMITE". Si por alguna razón no lo está,
-                    # lo corregimos (defensivo + eficiente)
-                    if requerimiento.estado != "EN TRAMITE":
-                        requerimiento.estado = "EN TRAMITE"
-                        requerimiento.save()
-                    # Si ya estaba en EN TRAMITE, no hacemos nada (ahorramos UPDATE)
+
+                    # Si ya hubo respuesta de administrador
+                    # el estado debe pasar a "PENDIENTE"
+
+                    if requerimiento.estado != "PENDIENTE":
+                        requerimiento.estado = "PENDIENTE"
+                        requerimiento.save(update_fields=['estado'])
+
                 else:
-                    # Si NUNCA ha respondido un superusuario,
-                    # dejamos el estado como está (normalmente ACTIVO)
+                    # Si nunca ha respondido un administrador
+                    # dejamos el estado como ACTIVO
                     pass
 
                 # Mensajes para correo a los colaboradores
@@ -256,8 +263,11 @@ def agregar_novedad(request, id):
             # =================================================
             # Envío de correo de notificación
             # =================================================
+
             subject = "Nueva novedad en el Requerimiento No. " + str(requerimiento.id)
+
             template_name = "emails/nueva_novedad.html"
+
             context = {
                 'usuario': request.user,
                 'requerimiento': requerimiento,
@@ -270,9 +280,12 @@ def agregar_novedad(request, id):
 
             # Lista de destinatarios según quién genera la novedad
             if request.user.is_superuser:
+
                 # Si responde un superusuario → notificar al cliente
                 recipient_list = [requerimiento.usuario.email]
+
             else:
+
                 # Si responde el cliente → notificar al equipo de sistemas
                 recipient_list = [
                     'soportesistemas@cootep.com.co',
@@ -285,6 +298,7 @@ def agregar_novedad(request, id):
 
             # Mensaje de éxito para el usuario
             messages.success(request, 'Novedad registrada con éxito')
+
             return redirect('listar_requerimientos')
 
     else:
@@ -298,7 +312,6 @@ def agregar_novedad(request, id):
         'detalles': detalles,
         'detalle_form': detalle_form
     })
-
 
 # Vista para mostrar los detalles de un requerimiento específico
 @login_required  # Requiere que el usuario esté autenticado

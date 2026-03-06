@@ -41,6 +41,8 @@
             <td><span class="badge bg-danger">{{ requerimiento.estado }}</td>
             {% elif requerimiento.estado == "EN TRAMITE" %}
             <td><span class="badge bg-warning text-dark">{{ requerimiento.estado }}</td>
+            {% elif requerimiento.estado == "PENDIENTE" %}
+            <td><span class="badge bg-primary">{{ requerimiento.estado }}</td>
             {% else %}
             <td><span class="badge bg-info">{{ requerimiento.estado }}</td>
             {% endif %}
