@@ -147,23 +147,31 @@ def crear_requerimiento(request):
 # Vista para listar todos los requerimientos
 @login_required
 def listar_requerimientos(request):
-    # Leer parámetro de la URL (?estado=)s
+
     filtro = request.GET.get("estado")
 
-    # Si no hay filtro seleccionado -> predeterminado "ABIERTOS"
-    if filtro is None:  
+    if filtro is None:
         filtro = "ABIERTOS"
 
-    # Lógica de filtrado
+    # Query base optimizada
+    requerimientos = Requerimiento.objects.select_related('usuario')
+
     if filtro == "ABIERTOS":
-        # Mostrar EN TRAMITE o ACTIVO
-        requerimientos = Requerimiento.objects.filter(estado__in=["EN TRAMITE", "ACTIVO", "PENDIENTE"])
+        requerimientos = requerimientos.filter(
+            estado__in=["EN TRAMITE", "ACTIVO", "PENDIENTE"]
+        )
+
     elif filtro == "":
-        # Mostrar todos
-        requerimientos = Requerimiento.objects.all()
+        # TODOS
+        requerimientos = requerimientos.all()
+
     else:
-        # Mostrar exactamente el estado elegido
-        requerimientos = Requerimiento.objects.filter(estado=filtro)
+        requerimientos = requerimientos.filter(
+            estado=filtro
+        )
+
+    # Ordenar al final para mejor rendimiento
+    requerimientos = requerimientos.order_by("-id")
 
     return render(request, "requerimientos/listar_requerimientos.html", {
         "title": "Listar requerimientos",

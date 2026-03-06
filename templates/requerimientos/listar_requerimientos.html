@@ -90,15 +90,14 @@
                     <td class="text-center">
                         <a href="#" class="btn btn-danger btn-sm fa-solid fa-xmark" data-bs-toggle="modal" data-bs-target="#modalCerrar{{ requerimiento.id }}" title="Cerrar caso"></a>
                     </td>
-            
 
-
-                    {% include 'requerimientos/modalDetalleRequerimiento.html' %}
-                    {% include 'requerimientos/modalAgregarNovedad.html' %}
                     {% include 'requerimientos/modalEliminarRequerimiento.html' %}
                     {% include 'requerimientos/modalVerMas.html' %}
                 </tr>
                 {% endfor %}
+                    {% include 'requerimientos/modalDetalleRequerimiento.html' %}
+                    {% include 'requerimientos/modalAgregarNovedad.html' %}
+                    
             </tbody>
         </table>
     </div>
