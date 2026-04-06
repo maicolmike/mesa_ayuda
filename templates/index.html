@@ -3,6 +3,97 @@
 
 {% block content %}
 
-<h4 class="text-center">{% include 'messages.html' %}</h4>
-<h1>App mesa de ayuda</h1>
+<div class="container mt-5">
+
+  <h2 class="text-center mb-4">📊 Dashboard de Requerimientos</h2>
+
+  <!-- 🔹 TARJETAS -->
+  <div class="row text-center">
+
+    <!-- TOTAL -->
+    <div class="col-md-4">
+      <div class="card bg-primary text-white shadow">
+        <div class="card-body">
+          <h5>Total Requerimientos</h5>
+          <h2>{{ total_requerimientos }}</h2>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 🔹 POR ESTADO -->
+  <div class="row mt-4">
+    {% for item in por_estado %}
+    <div class="col-md-3">
+      <div class="card bg-success text-white mb-3 shadow">
+        <div class="card-body text-center">
+          <h6>{{ item.estado }}</h6>
+          <h3>{{ item.total }}</h3>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- 🔹 GRÁFICA -->
+  <div class="card mt-4 shadow">
+    <div class="card-body">
+      <h5 class="text-center">Gráfica de Estados</h5>
+      <canvas id="grafico"></canvas>
+    </div>
+  </div>
+
+  <!-- 🔹 ÚLTIMOS REQUERIMIENTOS -->
+  <div class="card mt-4 shadow">
+    <div class="card-body">
+      <h5>Últimos requerimientos</h5>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Usuario</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for req in ultimos %}
+          <tr>
+            <td>{{ req.id }}</td>
+            <td>{{ req.titulo }}</td>
+            <td>{{ req.usuario }}</td>
+            <td>{{ req.estado }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- 🔹 CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const labels = [{% for item in por_estado %}'{{ item.estado }}',{% endfor %}];
+const data = [{% for item in por_estado %}{{ item.total }},{% endfor %}];
+
+const config = {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Requerimientos',
+            data: data
+        }]
+    }
+};
+
+new Chart(document.getElementById('grafico'), config);
+</script>
+
 {% endblock %}
