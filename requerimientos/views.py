@@ -10,7 +10,7 @@ from django.contrib import messages
 import os
 from django.conf import settings
 import time 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponse
 from django.utils import timezone
 #para el envio de correos
 import threading
@@ -18,7 +18,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
-from django.http import HttpResponseForbidden
+from openpyxl import Workbook
 
 # Clase que hereda de threading.Thread para enviar correos en segundo plano
 class EmailThread(threading.Thread):
@@ -487,3 +487,80 @@ def editar_requerimiento(request, id):
         "form": form,
         "requerimiento": requerimiento,
     })
+
+def exportar_requerimientos_excel(request):
+    """
+    Esta vista genera un archivo Excel con los datos
+    del modelo Requerimiento y DetalleRequerimiento
+    """
+
+    # Crear el libro de Excel
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Requerimientos"
+
+    # Encabezados (fila 1)
+    ws.append([
+        'ID',
+        'Fecha',
+        'Título',
+        'Descripción',
+        'Agencia',
+        'Clasificación',
+        'Sub Clasificación',
+        'Usuario',
+        'Estado',
+        'Comentarios (Detalle)',
+        'Fecha Comentario',
+        'Usuario Comentario'
+    ])
+
+    # Traer todos los requerimientos con sus detalles
+    requerimientos = Requerimiento.objects.all().prefetch_related('detalles')
+
+    # Recorrer los requerimientos
+    for req in requerimientos:
+        # Si tiene detalles
+        if req.detalles.exists():
+            for det in req.detalles.all():
+                ws.append([
+                    req.id,
+                    req.fecha.strftime("%Y-%m-%d %H:%M"),
+                    req.titulo,
+                    req.descripcion,
+                    req.agencia,
+                    req.clasificacion,
+                    req.sub_clasificacion,
+                    str(req.usuario),
+                    req.estado,
+                    det.comentario,
+                    det.fecha.strftime("%Y-%m-%d %H:%M"),
+                    str(det.usuario),
+                ])
+        else:
+            # Si no tiene detalles
+            ws.append([
+                req.id,
+                req.fecha.strftime("%Y-%m-%d %H:%M"),
+                req.titulo,
+                req.descripcion,
+                req.agencia,
+                req.clasificacion,
+                req.sub_clasificacion,
+                str(req.usuario),
+                req.estado,
+                '',
+                '',
+                ''
+            ])
+
+    # Crear respuesta HTTP para descargar
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="requerimientos.xlsx"'
+
+    # Guardar el archivo en la respuesta
+    wb.save(response)
+
+    return response

@@ -12,4 +12,5 @@ urlpatterns = [
     path('detalle_requerimiento/<int:id>/', views.detalle_requerimiento, name='detalle_requerimiento'),
     path('cerrar_requerimiento/<int:id>/', views.cerrar_requerimiento, name='cerrar_requerimiento'),
     path('editar_requerimiento/<int:id>/', views.editar_requerimiento, name='editar_requerimiento'),
+    path('exportar_excel/', views.exportar_requerimientos_excel, name='exportar_excel'),
 ]#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

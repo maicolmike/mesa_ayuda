@@ -21,6 +21,9 @@
         </li>
         {% if user.is_superuser == 1 %}
         <li class="nav-item">
+          <a class="nav-link" href="{% url 'exportar_excel' %}">Archivo plano</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">Crear usuario</a>
         </li>
         <li class="nav-item">
