@@ -19,6 +19,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from openpyxl import Workbook
+from openpyxl.styles import Font
 
 # Clase que hereda de threading.Thread para enviar correos en segundo plano
 class EmailThread(threading.Thread):
@@ -561,6 +562,56 @@ def exportar_requerimientos_excel(request):
     response['Content-Disposition'] = 'attachment; filename="requerimientos.xlsx"'
 
     # Guardar el archivo en la respuesta
+    wb.save(response)
+
+    return response
+
+
+def exportar_requerimientos_excel_simple(request):
+    """
+    Reporte SOLO de requerimientos (SIN detalles)
+    """
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Requerimientos"
+
+    # Encabezados
+    ws.append([
+        'ID',
+        'Fecha',
+        'Título',
+        'Descripción',
+        'Agencia',
+        'Clasificación',
+        'Sub Clasificación',
+        'Usuario',
+        'Estado'
+    ])
+
+    # Traer requerimientos
+    requerimientos = Requerimiento.objects.select_related('usuario').all()
+
+    # Recorrer
+    for req in requerimientos:
+        ws.append([
+            req.id,
+            req.fecha.strftime("%Y-%m-%d %H:%M"),
+            req.titulo,
+            req.descripcion,
+            req.agencia,
+            req.clasificacion,
+            req.sub_clasificacion,
+            str(req.usuario),
+            req.estado,
+        ])
+
+    # Respuesta
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="requerimientos_simple.xlsx"'
+
     wb.save(response)
 
     return response

@@ -20,9 +20,23 @@
           <a class="nav-link" href="{% url 'listar_requerimientos' %}">Consultar requerimiento</a>
         </li>
         {% if user.is_superuser == 1 %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'exportar_excel' %}">Archivo plano</a>
-        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Reportes
+          </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="{% url 'exportar_excel_simple' %}">
+              Reporte 1 - Solo Requerimientos
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'exportar_excel' %}">
+              Reporte 2 - Con Detalles
+            </a>
+          </li>
+        </ul>
+      </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">Crear usuario</a>
         </li>
