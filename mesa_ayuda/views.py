@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum, Case, When, IntegerField
 from django.contrib.auth import get_user_model
-from django.utils.dateparse import parse_date
+from datetime import datetime, timedelta  # 👈 usamos datetime real
 
 from requerimientos.models import Requerimiento
 
@@ -10,15 +10,9 @@ User = get_user_model()
 
 @login_required(login_url='login')
 def index(request):
-    """
-    Dashboard principal:
-    - Aplica filtros dinámicos
-    - Calcula KPIs optimizados
-    - Genera datos para gráficas
-    """
 
     # ================================
-    # 🔹 1. CAPTURA DE FILTROS (GET)
+    # 🔹 1. CAPTURA DE FILTROS
     # ================================
     fecha_inicio = request.GET.get('fecha_inicio')
     fecha_fin = request.GET.get('fecha_fin')
@@ -30,26 +24,33 @@ def index(request):
     requerimientos = Requerimiento.objects.all()
 
     # ================================
-    # 🔹 3. FILTROS DINÁMICOS
+    # 🔹 3. FILTRO POR FECHAS (CORREGIDO)
     # ================================
+
+    # 👉 Convertimos string a fecha real
     if fecha_inicio:
-        requerimientos = requerimientos.filter(
-            fecha__date__gte=parse_date(fecha_inicio)
-        )
+        try:
+            fecha_inicio_dt = datetime.strptime(fecha_inicio, "%Y-%m-%d")
+            requerimientos = requerimientos.filter(fecha__gte=fecha_inicio_dt)
+        except:
+            pass  # evita que rompa si viene mal la fecha
 
     if fecha_fin:
-        requerimientos = requerimientos.filter(
-            fecha__date__lte=parse_date(fecha_fin)
-        )
-
-    if usuario_id:
-        requerimientos = requerimientos.filter(
-            usuario_id=usuario_id
-        )
+        try:
+            # 👇 IMPORTANTE: sumamos 1 día para incluir TODO el día final
+            fecha_fin_dt = datetime.strptime(fecha_fin, "%Y-%m-%d") + timedelta(days=1)
+            requerimientos = requerimientos.filter(fecha__lt=fecha_fin_dt)
+        except:
+            pass
 
     # ================================
-    # 🔹 4. KPIs OPTIMIZADOS
-    # (UNA SOLA CONSULTA SQL)
+    # 🔹 4. FILTRO POR USUARIO
+    # ================================
+    if usuario_id:
+        requerimientos = requerimientos.filter(usuario_id=usuario_id)
+
+    # ================================
+    # 🔹 5. KPIs OPTIMIZADOS
     # ================================
     stats = requerimientos.aggregate(
         total=Count('id'),
@@ -79,41 +80,36 @@ def index(request):
         ),
     )
 
-    # ============================================
-    # 🔥 5. AGRUPACIÓN CON ORDEN PERSONALIZADO
-    # ============================================
-    # Aquí controlas EXACTAMENTE el orden de los estados
+    # ================================
+    # 🔹 6. ORDEN PERSONALIZADO
+    # ================================
     por_estado = requerimientos.values('estado').annotate(
         total=Count('id'),
 
-        # 🔹 Creamos un campo artificial llamado "orden"
+        # 👇 Campo artificial para ordenar como tú quieres
         orden=Case(
             When(estado='ACTIVO', then=1),
-
-            # 👇 AQUÍ decides el orden manualmente
             When(estado='ESPERANDO CLIENTE', then=2),
             When(estado='ESPERANDO SOPORTE', then=3),
             When(estado='CERRADO', then=4),
-
-            # Cualquier otro estado desconocido
             default=5,
             output_field=IntegerField()
         )
 
-    ).order_by('orden')  # 👈 IMPORTANTE: usamos el orden personalizado
+    ).order_by('orden')  # 👈 clave del orden
 
     # ================================
-    # 🔹 6. ÚLTIMOS REGISTROS
+    # 🔹 7. ÚLTIMOS REGISTROS
     # ================================
     ultimos = requerimientos.select_related('usuario').order_by('-id')[:5]
 
     # ================================
-    # 🔹 7. USUARIOS PARA FILTRO
+    # 🔹 8. USUARIOS
     # ================================
     usuarios = User.objects.all()
 
     # ================================
-    # 🔹 8. CONTEXTO
+    # 🔹 9. CONTEXTO
     # ================================
     context = {
         'total': stats['total'] or 0,
@@ -127,7 +123,7 @@ def index(request):
         'fecha_inicio': fecha_inicio,
         'fecha_fin': fecha_fin,
         'usuario_id': usuario_id,
-        'title': "Panel de Control Empresarial",
+        'title': 'Index',
     }
 
     return render(request, 'index.html', context)
