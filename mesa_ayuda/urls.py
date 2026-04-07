@@ -28,6 +28,7 @@ urlpatterns = [
     path('users/registro2',crear_usuario, name='crear_usuario'),
     path('users/editar/<int:user_id>/',editar_usuario, name='editar_usuario'),  
     path('users/listadoUsuarios2',UsersListView.as_view(), name='listarUsuarios'), # ESTE NO LO ESTOY UTILIZANDO
+    path('ajax/subclasificaciones/', views.obtener_subclasificaciones, name='ajax_subclasificaciones'),
 ]
 # para que reconozca los archivos media adjuntos
 if settings.DEBUG:

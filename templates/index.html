@@ -10,19 +10,19 @@
     <!-- 🔹 FILTROS -->
     <form method="GET" class="row mb-4">
 
-        <!-- Fecha inicio -->
+        <!-- 🔹 Fecha inicio -->
         <div class="col-md-3">
             <label>Fecha inicio</label>
             <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" class="form-control">
         </div>
 
-        <!-- Fecha fin -->
+        <!-- 🔹 Fecha fin -->
         <div class="col-md-3">
             <label>Fecha fin</label>
             <input type="date" name="fecha_fin" value="{{ fecha_fin }}" class="form-control">
         </div>
 
-        <!-- Usuario -->
+        <!-- 🔹 Usuario -->
         <div class="col-md-3">
             <label>Usuario</label>
             <select name="usuario" class="form-control">
@@ -35,10 +35,37 @@
             </select>
         </div>
 
-        <!-- Botón -->
+        <!-- 🔹 Clasificación -->
+        <div class="col-md-3">
+            <label>Clasificación</label>
+            <select name="clasificacion" class="form-control" id="clasificacion">
+                <option value="">Todas</option>
+                {% for c in clasificaciones %}
+                    <option value="{{ c }}" {% if clasificacion_sel == c %}selected{% endif %}>
+                        {{ c }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- 🔹 Subclasificación (DEPENDIENTE) -->
+        <div class="col-md-3">
+            <label>Subclasificación</label>
+            <select name="sub_clasificacion" class="form-control" id="sub_clasificacion">
+                <option value="">Todas</option>
+                {% for s in sub_clasificaciones %}
+                    <option value="{{ s }}" {% if sub_clasificacion_sel == s %}selected{% endif %}>
+                        {{ s }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- 🔹 Botón -->
         <div class="col-md-3 mt-4">
             <button class="btn btn-primary w-100">Filtrar</button>
         </div>
+
     </form>
 
     <!-- 🔹 TARJETAS -->
@@ -46,31 +73,46 @@
 
         <div class="col-md-2">
             <div class="card bg-info text-white shadow">
-                <div class="card-body"><h6>Total</h6><h2>{{ total }}</h2></div>
+                <div class="card-body">
+                    <h6>Total</h6>
+                    <h2>{{ total }}</h2>
+                </div>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="card bg-success text-white shadow">
-                <div class="card-body"><h6>Activos</h6><h2>{{ activos }}</h2></div>
+                <div class="card-body">
+                    <h6>Activos</h6>
+                    <h2>{{ activos }}</h2>
+                </div>
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="card bg-warning text-white shadow">
-                <div class="card-body"><h6>Esperando Cliente</h6><h2>{{ esperando_cliente }}</h2></div>
+                <div class="card-body">
+                    <h6>Esperando Cliente</h6>
+                    <h2>{{ esperando_cliente }}</h2>
+                </div>
             </div>
         </div>
 
         <div class="col-md-3">
             <div class="card bg-primary text-white shadow">
-                <div class="card-body"><h6>Esperando Soporte</h6><h2>{{ esperando_soporte }}</h2></div>
+                <div class="card-body">
+                    <h6>Esperando Soporte</h6>
+                    <h2>{{ esperando_soporte }}</h2>
+                </div>
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="card bg-danger text-white shadow">
-                <div class="card-body"><h6>Cerrados</h6><h2>{{ cerrados }}</h2></div>
+                <div class="card-body">
+                    <h6>Cerrados</h6>
+                    <h2>{{ cerrados }}</h2>
+                </div>
             </div>
         </div>
 
@@ -79,7 +121,7 @@
     <!-- 🔹 GRÁFICAS -->
     <div class="row mt-4">
 
-        <!-- BARRAS -->
+        <!-- 🔹 GRÁFICA BARRAS -->
         <div class="col-md-6 col-12 mb-4">
             <div class="card shadow h-100">
                 <div class="card-body">
@@ -89,7 +131,7 @@
             </div>
         </div>
 
-        <!-- PASTEL -->
+        <!-- 🔹 GRÁFICA PASTEL -->
         <div class="col-md-6 col-12 mb-4">
             <div class="card shadow h-100">
                 <div class="card-body">
@@ -104,12 +146,16 @@
     <!-- 🔹 TABLA -->
     <div class="card mt-4 shadow mb-5">
         <div class="card-body">
+
             <h5>Últimos requerimientos</h5>
 
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th><th>Título</th><th>Usuario</th><th>Estado</th>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
 
@@ -133,62 +179,112 @@
                 </tbody>
 
             </table>
+
         </div>
     </div>
 
 </div>
 
-<!-- 🔹 CHART -->
+<!-- 🔹 CHART.JS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 
-// 🔹 Datos desde Django (YA VIENEN ORDENADOS DESDE EL BACKEND)
-const labels = [{% for item in por_estado %}'{{ item.estado }}',{% endfor %}];
-const data = [{% for item in por_estado %}{{ item.total }},{% endfor %}];
+// ================================
+// 🔹 ESPERAR DOM (EVITA ERRORES JS)
+// ================================
+document.addEventListener('DOMContentLoaded', function() {
 
-// 🔹 Colores dinámicos
-const backgroundColors = labels.map(label => {
-    if (label === 'ACTIVO') return '#198754';
-    if (label === 'ESPERANDO CLIENTE') return '#ffc107';
-    if (label === 'ESPERANDO SOPORTE') return '#0d6efd';
-    if (label === 'CERRADO') return '#dc3545';
-    return '#0dcaf0';
-});
+    // ================================
+    // 🔹 DATOS DESDE DJANGO
+    // ================================
+    const labels = [{% for item in por_estado %}'{{ item.estado }}',{% endfor %}];
+    const data = [{% for item in por_estado %}{{ item.total }},{% endfor %}];
 
-// 🔹 GRÁFICA BARRAS
-new Chart(document.getElementById('graficoBarra'), {
-    type: 'bar',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Estados', // 👈 evita "undefined"
-            data: data,
-            backgroundColor: backgroundColors
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                display: false // opcional (puedes quitarla)
+    // ================================
+    // 🔹 COLORES DINÁMICOS
+    // ================================
+    const backgroundColors = labels.map(label => {
+        if (label === 'ACTIVO') return '#198754';
+        if (label === 'ESPERANDO CLIENTE') return '#ffc107';
+        if (label === 'ESPERANDO SOPORTE') return '#0d6efd';
+        if (label === 'CERRADO') return '#dc3545';
+        return '#0dcaf0';
+    });
+
+    // ================================
+    // 🔹 GRÁFICA DE BARRAS
+    // ================================
+    new Chart(document.getElementById('graficoBarra'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Estados',
+                data: data,
+                backgroundColor: backgroundColors
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
             }
         }
-    }
-});
+    });
 
-// 🔹 GRÁFICA PASTEL
-new Chart(document.getElementById('graficoPastel'), {
-    type: 'pie',
-    data: {
-        labels: labels,
-        datasets: [{
-            label: 'Estados', // 👈 también aquí
-            data: data,
-            backgroundColor: backgroundColors
-        }]
-    }
-});
+    // ================================
+    // 🔹 GRÁFICA DE PASTEL
+    // ================================
+    new Chart(document.getElementById('graficoPastel'), {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Estados',
+                data: data,
+                backgroundColor: backgroundColors
+            }]
+        }
+    });
 
+    // ================================
+    // 🔹 AJAX SUBCLASIFICACIÓN
+    // ================================
+    const clasificacionSelect = document.getElementById('clasificacion');
+    const subSelect = document.getElementById('sub_clasificacion');
+
+    clasificacionSelect.addEventListener('change', function() {
+
+        const clasificacion = this.value;
+
+        // 🔹 Estado de carga
+        subSelect.innerHTML = '<option value="">Cargando...</option>';
+
+        // 🔹 Llamado a Django
+        fetch(`/ajax/subclasificaciones/?clasificacion=${clasificacion}`)
+            .then(response => response.json())
+            .then(data => {
+
+                subSelect.innerHTML = '<option value="">Todas</option>';
+
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item;
+                    option.textContent = item;
+                    subSelect.appendChild(option);
+                });
+
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                subSelect.innerHTML = '<option value="">Error cargando</option>';
+            });
+
+    });
+
+});
 </script>
 
 {% endblock %}
