@@ -3,19 +3,26 @@
 
 {% block content %}
 <div class="container">
+
+    <!-- 🔹 TÍTULO -->
     <h2 class="text-center mb-4">📊 Dashboard De Requerimientos</h2>
 
+    <!-- 🔹 FILTROS -->
     <form method="GET" class="row mb-4">
+
+        <!-- Fecha inicio -->
         <div class="col-md-3">
             <label>Fecha inicio</label>
             <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" class="form-control">
         </div>
 
+        <!-- Fecha fin -->
         <div class="col-md-3">
             <label>Fecha fin</label>
             <input type="date" name="fecha_fin" value="{{ fecha_fin }}" class="form-control">
         </div>
 
+        <!-- Usuario -->
         <div class="col-md-3">
             <label>Usuario</label>
             <select name="usuario" class="form-control">
@@ -28,42 +35,53 @@
             </select>
         </div>
 
+        <!-- Botón -->
         <div class="col-md-3 mt-4">
             <button class="btn btn-primary w-100">Filtrar</button>
         </div>
     </form>
 
+    <!-- 🔹 TARJETAS -->
     <div class="row text-center">
+
         <div class="col-md-2">
             <div class="card bg-info text-white shadow">
                 <div class="card-body"><h6>Total</h6><h2>{{ total }}</h2></div>
             </div>
         </div>
+
         <div class="col-md-2">
             <div class="card bg-success text-white shadow">
                 <div class="card-body"><h6>Activos</h6><h2>{{ activos }}</h2></div>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="card bg-warning text-white shadow">
                 <div class="card-body"><h6>Esperando Cliente</h6><h2>{{ esperando_cliente }}</h2></div>
             </div>
         </div>
+
         <div class="col-md-3">
             <div class="card bg-primary text-white shadow">
                 <div class="card-body"><h6>Esperando Soporte</h6><h2>{{ esperando_soporte }}</h2></div>
             </div>
         </div>
+
         <div class="col-md-2">
             <div class="card bg-danger text-white shadow">
                 <div class="card-body"><h6>Cerrados</h6><h2>{{ cerrados }}</h2></div>
             </div>
         </div>
+
     </div>
 
+    <!-- 🔹 GRÁFICAS -->
     <div class="row mt-4">
-        <div class="col-md-6">
-            <div class="card shadow">
+
+        <!-- BARRAS -->
+        <div class="col-md-6 col-12 mb-4">
+            <div class="card shadow h-100">
                 <div class="card-body">
                     <h5 class="text-center">Gráfica de Estados</h5>
                     <canvas id="graficoBarra"></canvas>
@@ -71,25 +89,30 @@
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card shadow">
+        <!-- PASTEL -->
+        <div class="col-md-6 col-12 mb-4">
+            <div class="card shadow h-100">
                 <div class="card-body">
                     <h5 class="text-center">Distribución (Pastel)</h5>
                     <canvas id="graficoPastel"></canvas>
                 </div>
             </div>
         </div>
+
     </div>
 
+    <!-- 🔹 TABLA -->
     <div class="card mt-4 shadow mb-5">
         <div class="card-body">
             <h5>Últimos requerimientos</h5>
+
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th><th>Título</th><th>Usuario</th><th>Estado</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {% for req in ultimos %}
                     <tr>
@@ -108,70 +131,64 @@
                     </tr>
                     {% endfor %}
                 </tbody>
+
             </table>
         </div>
     </div>
+
 </div>
 
+<!-- 🔹 CHART -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-// Extraemos los datos de Django y los convertimos en arreglos de JS
+
+// 🔹 Datos desde Django (YA VIENEN ORDENADOS DESDE EL BACKEND)
 const labels = [{% for item in por_estado %}'{{ item.estado }}',{% endfor %}];
 const data = [{% for item in por_estado %}{{ item.total }},{% endfor %}];
 
-/**
- * Función para asignar colores dinámicamente según el nombre del estado.
- * Esto asegura que "ACTIVO" siempre sea verde, "CERRADO" rojo, etc.
- */
+// 🔹 Colores dinámicos
 const backgroundColors = labels.map(label => {
-    if (label === 'ACTIVO') return '#198754';            // bg-success
-    if (label === 'ESPERANDO CLIENTE') return '#ffc107'; // bg-warning
-    if (label === 'ESPERANDO SOPORTE') return '#0d6efd'; // bg-primary
-    if (label === 'CERRADO') return '#dc3545';           // bg-danger
-    return '#0dcaf0';                                    // bg-info (por defecto)
+    if (label === 'ACTIVO') return '#198754';
+    if (label === 'ESPERANDO CLIENTE') return '#ffc107';
+    if (label === 'ESPERANDO SOPORTE') return '#0d6efd';
+    if (label === 'CERRADO') return '#dc3545';
+    return '#0dcaf0';
 });
 
-// Configuración común para los bordes
-const borderColors = backgroundColors.map(color => color);
-
-// 🔹 GRÁFICO DE BARRAS
+// 🔹 GRÁFICA BARRAS
 new Chart(document.getElementById('graficoBarra'), {
     type: 'bar',
     data: {
         labels: labels,
         datasets: [{
-            label: 'Cantidad',
+            label: 'Estados', // 👈 evita "undefined"
             data: data,
-            backgroundColor: backgroundColors,
-            borderColor: borderColors,
-            borderWidth: 1
+            backgroundColor: backgroundColors
         }]
     },
-    options: { 
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
+    options: {
+        plugins: {
+            legend: {
+                display: false // opcional (puedes quitarla)
+            }
+        }
     }
 });
 
-// 🔹 GRÁFICO DE PASTEL (Ahora con los mismos colores)
+// 🔹 GRÁFICA PASTEL
 new Chart(document.getElementById('graficoPastel'), {
     type: 'pie',
     data: {
         labels: labels,
         datasets: [{
+            label: 'Estados', // 👈 también aquí
             data: data,
-            backgroundColor: backgroundColors,
-            borderColor: '#ffffff',
-            borderWidth: 2
+            backgroundColor: backgroundColors
         }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: 'bottom' }
-        }
     }
 });
+
 </script>
+
 {% endblock %}
