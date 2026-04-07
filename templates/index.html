@@ -5,73 +5,150 @@
 
 <div class="container mt-5">
 
-  <h2 class="text-center mb-4">📊 Dashboard de Requerimientos</h2>
+<h2 class="text-center mb-4">📊 Dashboard Empresarial</h2>
 
-  <!-- 🔹 TARJETAS -->
-  <div class="row text-center">
+<!-- 🔹 FILTROS -->
+<form method="GET" class="row mb-4">
 
-    <!-- TOTAL -->
-    <div class="col-md-4">
-      <div class="card bg-primary text-white shadow">
-        <div class="card-body">
-          <h5>Total Requerimientos</h5>
-          <h2>{{ total_requerimientos }}</h2>
-        </div>
+  <div class="col-md-3">
+    <label>Fecha inicio</label>
+    <input type="date" name="fecha_inicio" value="{{ fecha_inicio }}" class="form-control">
+  </div>
+
+  <div class="col-md-3">
+    <label>Fecha fin</label>
+    <input type="date" name="fecha_fin" value="{{ fecha_fin }}" class="form-control">
+  </div>
+
+  <div class="col-md-3">
+    <label>Usuario</label>
+    <select name="usuario" class="form-control">
+      <option value="">Todos</option>
+      {% for u in usuarios %}
+        <option value="{{ u.id }}" {% if usuario_id == u.id|stringformat:"s" %}selected{% endif %}>
+          {{ u.username }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="col-md-3 mt-4">
+    <button class="btn btn-primary w-100">Filtrar</button>
+  </div>
+
+</form>
+
+<!-- 🔹 KPIs -->
+<div class="row text-center">
+
+  <div class="col-md-2">
+    <div class="card bg-info text-white shadow">
+      <div class="card-body">
+        <h6>Total</h6>
+        <h2>{{ total }}</h2>
       </div>
     </div>
-
   </div>
 
-  <!-- 🔹 POR ESTADO -->
-  <div class="row mt-4">
-    {% for item in por_estado %}
-    <div class="col-md-3">
-      <div class="card bg-success text-white mb-3 shadow">
-        <div class="card-body text-center">
-          <h6>{{ item.estado }}</h6>
-          <h3>{{ item.total }}</h3>
-        </div>
+  <div class="col-md-2">
+    <div class="card bg-success text-white shadow">
+      <div class="card-body">
+        <h6>Activos</h6>
+        <h2>{{ activos }}</h2>
       </div>
     </div>
-    {% endfor %}
   </div>
 
-  <!-- 🔹 GRÁFICA -->
-  <div class="card mt-4 shadow">
+  <div class="col-md-3">
+  <div class="card bg-warning text-white shadow">
     <div class="card-body">
-      <h5 class="text-center">Gráfica de Estados</h5>
-      <canvas id="grafico"></canvas>
+      <h6>Esperando Cliente</h6>
+      <h2>{{ esperando_cliente }}</h2>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-3">
+  <div class="card bg-primary text-white shadow">
+    <div class="card-body">
+      <h6>Esperando Soporte</h6>
+      <h2>{{ esperando_soporte }}</h2>
+    </div>
+  </div>
+</div>
+
+  <div class="col-md-2">
+    <div class="card bg-danger text-white shadow">
+      <div class="card-body">
+        <h6>Cerrados</h6>
+        <h2>{{ cerrados }}</h2>
+      </div>
     </div>
   </div>
 
-  <!-- 🔹 ÚLTIMOS REQUERIMIENTOS -->
-  <div class="card mt-4 shadow">
-    <div class="card-body">
-      <h5>Últimos requerimientos</h5>
+</div>
 
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Usuario</th>
-            <th>Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for req in ultimos %}
-          <tr>
-            <td>{{ req.id }}</td>
-            <td>{{ req.titulo }}</td>
-            <td>{{ req.usuario }}</td>
-            <td>{{ req.estado }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+<!-- 🔹 GRÁFICAS -->
+<div class="row mt-4">
 
+  <!-- BARRAS -->
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body">
+        <h5 class="text-center">Gráfica de Estados</h5>
+        <canvas id="graficoBarra"></canvas>
+      </div>
     </div>
   </div>
+
+  <!-- PASTEL -->
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body">
+        <h5 class="text-center">Distribución (Pastel)</h5>
+        <canvas id="graficoPastel"></canvas>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- 🔹 ÚLTIMOS -->
+<div class="card mt-4 shadow">
+  <div class="card-body">
+    <h5>Últimos requerimientos</h5>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Usuario</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in ultimos %}
+        <tr>
+          <td>{{ req.id }}</td>
+          <td>{{ req.titulo }}</td>
+          <td>{{ req.usuario }}</td>
+          <td>
+            {% if req.estado == "CERRADO" %}
+              <span class="badge bg-danger">CERRADO</span>
+            {% elif req.estado == "ACTIVO" %}
+              <span class="badge bg-success">ACTIVO</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">{{ req.estado }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</div>
 
 </div>
 
@@ -82,7 +159,8 @@
 const labels = [{% for item in por_estado %}'{{ item.estado }}',{% endfor %}];
 const data = [{% for item in por_estado %}{{ item.total }},{% endfor %}];
 
-const config = {
+// 🔹 BARRAS
+new Chart(document.getElementById('graficoBarra'), {
     type: 'bar',
     data: {
         labels: labels,
@@ -91,9 +169,18 @@ const config = {
             data: data
         }]
     }
-};
+});
 
-new Chart(document.getElementById('grafico'), config);
+// 🔹 PASTEL
+new Chart(document.getElementById('graficoPastel'), {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data
+        }]
+    }
+});
 </script>
 
 {% endblock %}
