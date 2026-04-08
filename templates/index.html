@@ -215,6 +215,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
+    // codigo para select2
+    $('.select2').select2({
+    placeholder: "Buscar usuario...",
+    allowClear: true
+    });
+
     // 🔹 Datos desde Django
     const labels = [{% for item in por_estado %}'{{ item.estado }}',{% endfor %}];
     const data = [{% for item in por_estado %}{{ item.total }},{% endfor %}];
@@ -292,10 +298,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-$('.select2').select2({
-    placeholder: "Buscar usuario...",
-    allowClear: true
-});
 
 </script>
 
