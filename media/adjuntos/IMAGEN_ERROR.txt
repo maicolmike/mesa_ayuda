@@ -1,0 +1,70 @@
+ 
+Software del Sistema de Información de Autocontrol (SIAC)
+REPORTE ERRORES DE VALIDACION ABRIL, DE 2026
+
+RAZON SOCIAL: COOPERATIVA DE LOS TRABAJADORES DE LA EDUCACION Y EMPRESARIOS DEL PUTU
+NIT: 800-173-694-5
+
+CONSULTE LA AYUDA DEL SISTEMA TECLEANDO F1 SOBRE EL FORMATO O POR EL MENU AYUDA, AYUDA SIAC
+***************************************************************************************
+
+                    306 1 La fecha de vencimiento para un crédito no moroso no puede ser inferior a la fecha de corte menos un mes
+                    928 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1143 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1144 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1396 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1412 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1538 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1569 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1902 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1944 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1947 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    1953 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2022 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2026 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2225 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2292 1 El Valor del Saldo a capital debe ser mayor a cero(0)
+                    2292 2 El Valor del Saldo a capital debe ser mayor a cero(0)
+                    2292 3 La fecha de vencimiento para un crédito no moroso no puede ser inferior a la fecha de corte menos un mes
+                    2292 4 El saldo mas saldo de interes mas otros saldos mas contingencia intereses no es mayor a cero
+                    2631 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2634 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2649 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2653 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2694 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    2697 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3035 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3174 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3229 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3701 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3770 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3865 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3903 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3910 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3983 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    3987 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4168 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4171 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4233 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4240 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4267 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4348 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4375 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4377 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4425 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4446 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4469 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4471 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4473 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4521 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4809 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    4940 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    5028 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    5065 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+                    5141 1 El campo Linea de crédito no tiene un valor válido para ese monto de crédito
+Hora incial :12/30/1899 00:00:00
+Hora Final :04/08/2026 11:49:50
+Tiempo trascurrido :04/08/2026 11:49:50
+
+                    Total de registros: 1319
+                    Registros con error: 51
