@@ -590,7 +590,7 @@ def exportar_requerimientos_excel_simple(request):
     ])
 
     # Traer requerimientos
-    requerimientos = Requerimiento.objects.select_related('usuario').all()
+    requerimientos = Requerimiento.objects.select_related('usuario').all().order_by('id')
 
     # Recorrer
     for req in requerimientos:

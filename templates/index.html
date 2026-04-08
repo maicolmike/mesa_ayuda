@@ -177,6 +177,7 @@
                         <th>ID</th>
                         <th>Título</th>
                         <th>Usuario</th>
+                        <th>Nombres</th>
                         <th>Fecha</th>
                         <th>Estado</th>
                     </tr>
@@ -188,6 +189,7 @@
                         <td>{{ req.id }}</td>
                         <td>{{ req.titulo }}</td>
                         <td>{{ req.usuario }}</td>
+                        <td>{{ req.usuario.nombres }}</td>
                         <td>{{ req.fecha }}</td>
                         <td>
                             {% if req.estado == "CERRADO" %}
@@ -208,11 +210,6 @@
     </div>
 
 </div>
-
-<!-- ============================= -->
-<!-- 🔹 CHART JS -->
-<!-- ============================= -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
