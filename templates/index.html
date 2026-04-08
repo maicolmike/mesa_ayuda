@@ -177,6 +177,7 @@
                         <th>ID</th>
                         <th>Título</th>
                         <th>Usuario</th>
+                        <th>Fecha</th>
                         <th>Estado</th>
                     </tr>
                 </thead>
@@ -187,6 +188,7 @@
                         <td>{{ req.id }}</td>
                         <td>{{ req.titulo }}</td>
                         <td>{{ req.usuario }}</td>
+                        <td>{{ req.fecha }}</td>
                         <td>
                             {% if req.estado == "CERRADO" %}
                                 <span class="badge bg-danger">CERRADO</span>
