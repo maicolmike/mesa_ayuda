@@ -31,7 +31,7 @@
             <!-- Usuario -->
             <div class="col-md-4">
                 <label class="form-label">Usuario</label>
-                <select name="usuario" class="form-select">
+                <select name="usuario" class="form-select select2">
                     <option value="">Todos</option>
                     {% for u in usuarios %}
                         <option value="{{ u.id }}" {% if usuario_id == u.id|stringformat:"s" %}selected{% endif %}>
@@ -77,7 +77,7 @@
             <!-- Botón -->
             <div class="col-md-4 d-flex align-items-end">
                 <button class="btn btn-primary w-100">
-                    🔍 Filtrar
+                    Filtrar
                 </button>
             </div>
 
@@ -291,6 +291,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+
+$('.select2').select2({
+    placeholder: "Buscar usuario...",
+    allowClear: true
+});
+
 </script>
 
 {% endblock %}
