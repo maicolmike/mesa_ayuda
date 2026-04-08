@@ -98,7 +98,8 @@ def index(request):
     # ================================
     # 🔹 10. LISTAS PARA SELECT
     # ================================
-    usuarios = User.objects.all()
+    #usuarios = User.objects.all().order_by('username')
+    usuarios = User.objects.only('id', 'username', 'nombres').order_by('nombres')
 
     clasificaciones = Requerimiento.objects.values_list(
         'clasificacion', flat=True

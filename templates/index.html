@@ -2,6 +2,7 @@
 {% load static %}  
 
 {% block content %}
+<h4 class="text-center">{% include 'messages.html' %}</h4>
 <div class="container py-4"><!-- 🔹 Espaciado general -->
 
     <!-- 🔹 TÍTULO -->
@@ -34,7 +35,7 @@
                     <option value="">Todos</option>
                     {% for u in usuarios %}
                         <option value="{{ u.id }}" {% if usuario_id == u.id|stringformat:"s" %}selected{% endif %}>
-                            {{ u.username }}
+                            {{ u.nombres }} ({{ u.username }})
                         </option>
                     {% endfor %}
                 </select>
