@@ -20,6 +20,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils.html import strip_tags
 from openpyxl import Workbook
 from openpyxl.styles import Font
+from datetime import datetime
 
 # Clase que hereda de threading.Thread para enviar correos en segundo plano
 class EmailThread(threading.Thread):
@@ -489,7 +490,60 @@ def editar_requerimiento(request, id):
         "requerimiento": requerimiento,
     })
 
-def exportar_requerimientos_excel(request):
+def exportar_requerimientos_excel_simple(request):
+    """
+    Reporte SOLO de requerimientos (SIN detalles)
+    """
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Requerimientos"
+
+    # Encabezados
+    ws.append([
+        'ID',
+        'Fecha',
+        'Título',
+        'Descripción',
+        'Agencia',
+        'Clasificación',
+        'Sub Clasificación',
+        'Usuario',
+        'Nombre',
+        'Estado'
+    ])
+
+    # Traer requerimientos
+    requerimientos = Requerimiento.objects.select_related('usuario').all().order_by('id')
+
+    # Recorrer
+    for req in requerimientos:
+        ws.append([
+            req.id,
+            req.fecha.strftime("%Y-%m-%d %H:%M"),
+            req.titulo,
+            req.descripcion,
+            req.agencia,
+            req.clasificacion,
+            req.sub_clasificacion,
+            str(req.usuario),
+            req.usuario.nombres,
+            req.estado,
+        ])
+
+    # Respuesta
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    nombre_archivo = f"requerimientos_simple_{datetime.now().strftime('%Y%m%d')}.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{nombre_archivo}"'
+    #response['Content-Disposition'] = 'attachment; filename="requerimientos_simple.xlsx"'
+
+    wb.save(response)
+
+    return response
+
+def exportar_requerimientos_excel_detalles(request):
     """
     Esta vista genera un archivo Excel con los datos
     del modelo Requerimiento y DetalleRequerimiento
@@ -510,10 +564,12 @@ def exportar_requerimientos_excel(request):
         'Clasificación',
         'Sub Clasificación',
         'Usuario',
+        'Nombre',
         'Estado',
         'Comentarios (Detalle)',
         'Fecha Comentario',
         'Usuario Comentario'
+        'Nombre Comentario',
     ])
 
     # Traer todos los requerimientos con sus detalles
@@ -533,10 +589,12 @@ def exportar_requerimientos_excel(request):
                     req.clasificacion,
                     req.sub_clasificacion,
                     str(req.usuario),
+                    req.usuario.nombres,
                     req.estado,
                     det.comentario,
                     det.fecha.strftime("%Y-%m-%d %H:%M"),
                     str(det.usuario),
+                    det.usuario.nombres,
                 ])
         else:
             # Si no tiene detalles
@@ -552,6 +610,7 @@ def exportar_requerimientos_excel(request):
                 req.estado,
                 '',
                 '',
+                '',
                 ''
             ])
 
@@ -559,7 +618,11 @@ def exportar_requerimientos_excel(request):
     response = HttpResponse(
         content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-    response['Content-Disposition'] = 'attachment; filename="requerimientos.xlsx"'
+    #response['Content-Disposition'] = 'attachment; filename="requerimientos_detalles.xlsx"'
+    #nombre_archivo = f"requerimientos_detalles_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx"
+    nombre_archivo = f"requerimientos_detalles_{datetime.now().strftime('%Y%m%d')}.xlsx"
+    response['Content-Disposition'] = f'attachment; filename="{nombre_archivo}"'
+    
 
     # Guardar el archivo en la respuesta
     wb.save(response)
@@ -567,51 +630,3 @@ def exportar_requerimientos_excel(request):
     return response
 
 
-def exportar_requerimientos_excel_simple(request):
-    """
-    Reporte SOLO de requerimientos (SIN detalles)
-    """
-
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Requerimientos"
-
-    # Encabezados
-    ws.append([
-        'ID',
-        'Fecha',
-        'Título',
-        'Descripción',
-        'Agencia',
-        'Clasificación',
-        'Sub Clasificación',
-        'Usuario',
-        'Estado'
-    ])
-
-    # Traer requerimientos
-    requerimientos = Requerimiento.objects.select_related('usuario').all().order_by('id')
-
-    # Recorrer
-    for req in requerimientos:
-        ws.append([
-            req.id,
-            req.fecha.strftime("%Y-%m-%d %H:%M"),
-            req.titulo,
-            req.descripcion,
-            req.agencia,
-            req.clasificacion,
-            req.sub_clasificacion,
-            str(req.usuario),
-            req.estado,
-        ])
-
-    # Respuesta
-    response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    )
-    response['Content-Disposition'] = 'attachment; filename="requerimientos_simple.xlsx"'
-
-    wb.save(response)
-
-    return response
