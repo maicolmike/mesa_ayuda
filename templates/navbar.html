@@ -13,13 +13,16 @@
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'crear_requerimiento' %}">Crear requerimiento</a>
-        </li>
+        
         <li class="nav-item">
           <a class="nav-link" href="{% url 'listar_requerimientos' %}">Consultar requerimiento</a>
         </li>
         {% if user.is_superuser == 1 %}
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'crear_requerimiento' %}">Crear requerimiento</a>
+        </li>
+        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             Reportes
